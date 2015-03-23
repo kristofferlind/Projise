@@ -1,0 +1,13 @@
+#chat-panel {
+    width: 300px;
+    background-color: #eee;
+}
+
+#chat-panel.pane {
+    margin-right: -300px;
+    transition: all 300ms ease;
+}
+
+#chat-panel.pane-active {
+    margin-right: 0;
+}

@@ -11,7 +11,12 @@
   "mainOutput": "main",
   "dependencies": {
     "react-router": "^0.11.6",
-    "react": "~0.12.2"
+    "react": "~0.12.2",
+    "react-bootstrap": "^0.17.0",
+    "flux": "^2.0.1",
+    "superagent": "^1.1.0",
+    "events": "^1.0.2",
+    "object-assign": "^2.0.0"
   },
   "devDependencies": {
     "grunt": "~0.4.5",

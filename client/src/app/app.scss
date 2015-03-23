@@ -1,0 +1,18 @@
+body {
+    margin-top: 50px;
+    height: calc(100% - 50px);
+}
+
+html, #content, #wrapper, #flex-grid {
+    height: 100%;
+}
+
+#flex-grid {
+    overflow-x: hidden;
+    display: flex;
+    width: 100%;
+}
+
+#content-wrapper {
+    flex: 1;
+}
