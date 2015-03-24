@@ -1,7 +1,10 @@
 'use strict';
 
 var React = require('react/addons'),
-    ProjectBox = require('./project-box');
+    ProjectBox = require('./project-box'),
+    UserTable = require('../user/user-table'),
+    UserInvite = require('../user/user-invite'),
+    TeamTable = require('../team/team-table');
 
 var ManageProjectsPage = React.createClass({
     render: function() {
@@ -15,11 +18,13 @@ var ManageProjectsPage = React.createClass({
                     </div>
                     <div className="col-md-4">
                         <h2>Users</h2>
-                        users
+                        <UserInvite />
+                        <UserTable />
                     </div>
                     <div className="col-md-4">
                         <h2>Teams</h2>
-                        teams
+                        <p className="form-control-static">Go to manage teams to setup teams for easier management</p>
+                        <TeamTable />
                     </div>
                 </div>
             </main>

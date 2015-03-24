@@ -5,16 +5,16 @@ var React = require('react/addons'),
     Button = require('react-bootstrap').Button,
     Glyphicon = require('react-bootstrap').Glyphicon;
 
-var ProjectToolbar = React.createClass({
+var UserInvite = React.createClass({
     render: function() {
         return (
             <div className="row">
                 <div className="col-md-9">
-                    <Input type="text" placeholder="Search for.." />
+                    <Input type="email" placeholder="test@test.com" />
                 </div>
                 <div className="col-md-3">
                     <Button bsStyle="success">
-                        <Glyphicon glyph="plus" /> Create
+                        <Glyphicon glyph="plus" /> Invite
                     </Button>
                 </div>
             </div>
@@ -22,4 +22,4 @@ var ProjectToolbar = React.createClass({
     }
 });
 
-module.exports = ProjectToolbar;
+module.exports = UserInvite;

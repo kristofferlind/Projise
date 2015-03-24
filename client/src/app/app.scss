@@ -16,3 +16,12 @@ html, #content, #wrapper, #flex-grid {
 #content-wrapper {
     flex: 1;
 }
+
+a {
+    cursor: pointer;
+}
+
+.form-control-static {
+    margin-top: 12px;
+    margin-bottom: 12px;
+}

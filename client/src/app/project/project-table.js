@@ -11,7 +11,7 @@ var ProjectTable = React.createClass({
                 <tr>
                     <td>Name</td>
                     <td>Description</td>
-                    <td width="140">actions</td>
+                    <td width="140">Actions</td>
                 </tr>
                 <ProjectRow />
                 <ProjectRow />
