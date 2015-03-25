@@ -7,7 +7,8 @@ var React = require('react/addons'),
     NavPanel = require('./navigation/nav-panel'),
     Button = require('react-bootstrap').Button,
     Glyphicon = require('react-bootstrap').Glyphicon,
-    AuthenticationService = require('./authentication.service');
+    AuthenticationService = require('./authentication.service'),
+    NotificationList = require('../components/notifications/notification-list');
 
 // CSS
 require('./app.scss');
@@ -27,7 +28,7 @@ var AppMaster = React.createClass({
     },
     componentWillMount: function() {
         AuthenticationService.onChange = this.onAuthentication;
-        // AuthenticationService.login();
+        AuthenticationService.login();
     },
     toggleChat: function() {
         this.setState({
@@ -65,6 +66,7 @@ var AppMaster = React.createClass({
                     </section>
                     <ChatPanel open={this.state.showChatPanel} />
                 </div>
+                <NotificationList />
             </div>
         );
     }

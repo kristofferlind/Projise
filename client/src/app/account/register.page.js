@@ -4,7 +4,8 @@ var React = require('react/addons'),
     Input = require('react-bootstrap').Input,
     Button = require('react-bootstrap').Button,
     AuthenticationService = require('../authentication.service'),
-    Link = require('react-router').Link;
+    Link = require('react-router').Link,
+    Notify = require('../../components/notifications/notification.service');
 
 require('./account.scss');
 
@@ -24,15 +25,7 @@ var RegisterPage = React.createClass({
 
         AuthenticationService.register(email, password, confirmPassword, function(wasRegistered) {
             if (wasRegistered) {
-                //notify
-                //redirect to login
-                this.setState({
-                    message: 'Registration successful, proceed to login.'
-                });
-            } else {
-                this.setState({
-                    message: 'Registration failed, try again.'
-                });
+                Notify.success('Registration successful, redirecting to login.');
             }
         });
     },

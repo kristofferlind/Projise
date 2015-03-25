@@ -1,6 +1,8 @@
 'use strict';
 
-var APIService = require('./api.service');
+var APIService = require('./api.service'),
+    TokenService = require('./token.service'),
+    Notify = require('../components/notifications/notification.service');
 
 var AuthenticationService = {
     register: function(email, password, confirmPassword, callback) {
@@ -13,20 +15,27 @@ var AuthenticationService = {
         });
     },
     login: function(username, password, callback) {
-        if (localStorage.token) {
+        if (AuthenticationService.getToken()) {
             callback(true);
             return;
         }
-        APIService.login(username, password, function(err, data) {
-            if (err) {
-                callback(false);
-            } else {
-                // console.log(data);
-                var token = data.access_token;
-                localStorage.token = token;
-                callback(true);
+        if (username && password) {
+            APIService.login(username, password, function(err, data) {
+                if (err) {
+                    callback(false);
+                } else {
+                    TokenService.setToken(data.access_token, data.expires_in);
+                    callback(true);
+                }
+            });
+        } else {
+            if (!username) {
+                Notify.warning('You need to provide a username.');
             }
-        });
+            if (!password) {
+                Notify.warning('You need to provide a password.');
+            }
+        }
     },
     logout: function(callback) {
         delete localStorage.token;
@@ -35,10 +44,10 @@ var AuthenticationService = {
         }
     },
     isLoggedIn: function() {
-        return !!localStorage.token;
+        return !!AuthenticationService.getToken();
     },
     getToken: function() {
-        return localStorage.token;
+        return TokenService.getToken();
     },
     onChange: function() {}
 };

@@ -2,7 +2,8 @@
 
 var config = require('../config/config'),
     request = require('superagent'),
-    APIEndpoints = config.APIEndpoints;
+    APIEndpoints = config.APIEndpoints,
+    Notify = require('../components/notifications/notification.service');
 
 var getToken = function() {
         return localStorage.token;
@@ -10,9 +11,28 @@ var getToken = function() {
     removeToken = function() {
         delete localStorage.token;
     },
+    presentError = function(model, modelErrors) {
+        if (modelErrors) {
+            console.log(model, modelErrors);
+            modelErrors.forEach(function(error) {
+                Notify.danger(error);
+            });
+        }
+    },
+    presentErrors = function(response) {
+        if (response.body && response.body.modelState) {
+            var models = response.body.modelState;
+            if (models) {
+                for (var model in models) {
+                    presentError(model, models[model]);
+                }
+            }
+        }
+    },
     handleErrors = function(error, response) {
         console.log('error: ', error);
         console.log('response: ', response);
+        presentErrors(response);
     };
 
 var APIService = {
