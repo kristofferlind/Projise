@@ -6,20 +6,30 @@ var React = require('react/addons'),
     ChatPanel = require('./chat/chat-panel'),
     NavPanel = require('./navigation/nav-panel'),
     Button = require('react-bootstrap').Button,
-    Glyphicon = require('react-bootstrap').Glyphicon;
+    Glyphicon = require('react-bootstrap').Glyphicon,
+    AuthenticationService = require('./authentication.service');
 
 // CSS
 require('./app.scss');
 
-var AppLayout = React.createClass({
+var AppMaster = React.createClass({
     getInitialState: function() {
         return {
             showChatPanel: false,
-            showNavPanel: false
+            showNavPanel: false,
+            isLoggedIn: AuthenticationService.isLoggedIn
         };
     },
+    onAuthentication: function(isLoggedIn) {
+        this.setState({
+            isLoggedIn: isLoggedIn
+        });
+    },
+    componentWillMount: function() {
+        AuthenticationService.onChange = this.onAuthentication;
+        // AuthenticationService.login();
+    },
     toggleChat: function() {
-        console.log(this.state.showChatPanel);
         this.setState({
             showChatPanel: !this.state.showChatPanel
         });
@@ -60,4 +70,4 @@ var AppLayout = React.createClass({
     }
 });
 
-module.exports = AppLayout;
+module.exports = AppMaster;

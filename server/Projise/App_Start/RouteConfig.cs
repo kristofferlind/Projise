@@ -16,11 +16,18 @@ namespace Projise
             routes.MapRoute("manifest", "manifest", new { controller = "Home", action = "Manifest" });
             routes.MapRoute("emptymanifest", "emptymanifest", new { controller = "Home", action = "Manifest" });
 
+            routes.MapMvcAttributeRoutes();
+
+            routes.MapRoute(
+                name: "Login",
+                url: "login",
+                defaults: new { controller = "Account", action = "APILogin"}
+            );
+
             routes.MapRoute(
                 name: "Default",
                 url: "{controller}/{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
-                //defaults: new { controller = "Dashboard", action = "Index", id = UrlParameter.Optional }
             );
         }
     }

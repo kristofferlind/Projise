@@ -65,7 +65,25 @@ namespace Projise.Controllers
             }
         }
 
-        //
+        //TODO: Putting an api call here is a bit weird
+        [HttpPost]
+        [AllowAnonymous]
+        public async Task<ActionResult> APILogin(LoginViewModel model)
+        {
+            var result = await SignInHelper.PasswordSignIn(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
+            if (result == Projise.Models.SignInStatus.Success)
+            {
+                return Json(result);
+            }
+            else
+            {
+                var response = new HttpStatusCodeResult(401, "Invalid credentials");
+                return response;
+            }
+        }
+
+
         // POST: /Account/Login
         [HttpPost]
         [AllowAnonymous]

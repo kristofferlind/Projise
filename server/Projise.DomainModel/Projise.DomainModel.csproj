@@ -133,11 +133,6 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ProjiseService.cs" />
-    <Compile Include="DataModels\ProjiseContext.cs" />
-    <Compile Include="DataModels\CalendarEvent.cs" />
-    <Compile Include="DataModels\CalendarEventRepository.cs" />
-    <Compile Include="DataModels\Contact.cs" />
     <Compile Include="Entities\Document.cs" />
     <Compile Include="Entities\Idea.cs" />
     <Compile Include="Entities\IEntity.cs" />
@@ -165,8 +160,6 @@
     <Compile Include="Repositories\UserRepository.cs" />
     <Compile Include="ServiceBase.cs" />
     <Compile Include="TeamService.cs" />
-    <Compile Include="Webservices\GoogleCalendar.cs" />
-    <Compile Include="Webservices\GoogleContacts.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -140,15 +140,6 @@ namespace Projise.Models
         }
     }
 
-    //public class EmailService : IIdentityMessageService
-    //{
-    //    public Task SendAsync(IdentityMessage message)
-    //    {
-    //        // Plug in your email service here to send an email.
-    //        return Task.FromResult(0);
-    //    }
-    //}
-
     //http://www.asp.net/mvc/overview/security/create-an-aspnet-mvc-5-web-app-with-email-confirmation-and-password-reset
     public class EmailService : IIdentityMessageService
     {
@@ -285,8 +276,6 @@ namespace Projise.Models
                 await UserManager.ResetAccessFailedCountAsync(user.Id);
                 await SignInAsync(user, isPersistent, rememberBrowser);
 
-                SetCsrfCookie();
-
                 return SignInStatus.Success;
             }
             // If the token is incorrect, record the failure which also may cause the user to be locked out
@@ -320,8 +309,6 @@ namespace Projise.Models
             }
             await SignInAsync(user, isPersistent, false);
 
-            SetCsrfCookie();
-
             return SignInStatus.Success;
 
         }
@@ -351,19 +338,6 @@ namespace Projise.Models
                 }
             }
             return SignInStatus.Failure;
-        }
-
-        private void SetCsrfCookie()
-        {
-            //var cookie1 = HttpContext.Current.Response.Cookies.Get(".AspNet.ApplicationCookie");
-            //var cookie2 = HttpContext.Current.Request.Cookies;
-            
-
-            //var authCookie = HttpContext.Current.Response.Cookies.Get(".AspNet.ApplicationCookie");
-
-            //var csrfToken = new CSRFToken().GenerateCsrfTokenFromAuthToken(authCookie.Value);
-            //var csrfCookie = new HttpCookie("XSRF-TOKEN", csrfToken) { HttpOnly = false };
-            //HttpContext.Current.Response.Cookies.Add(csrfCookie);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
+using Microsoft.Owin.Cors;
 using Newtonsoft.Json;
 using Owin;
 using Projise.App_Infrastructure;
@@ -42,9 +43,13 @@ namespace Projise
 
         public void Configuration(IAppBuilder app)
         {
+            app.UseCors(CorsOptions.AllowAll);
             ConfigureAuth(app);
             app.MapSignalR();
             GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => JsonSerializerFactory.Value);
+
+            //TODO: make this a bit more strict for production..
+
 
             //var mongoconf = new MongoScaleoutConfiguration("Mongo");
 
