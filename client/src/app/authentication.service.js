@@ -15,10 +15,6 @@ var AuthenticationService = {
         });
     },
     login: function(username, password, callback) {
-        if (AuthenticationService.getToken()) {
-            callback(true);
-            return;
-        }
         if (username && password) {
             APIService.login(username, password, function(err, data) {
                 if (err) {
@@ -48,8 +44,7 @@ var AuthenticationService = {
     },
     getToken: function() {
         return TokenService.getToken();
-    },
-    onChange: function() {}
+    }
 };
 
 module.exports = AuthenticationService;

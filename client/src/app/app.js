@@ -10,6 +10,7 @@ var AppMaster = require('./app.master');
 
 //Public pages
 var LoginPage = require('./account/login.page');
+var LogoutPage = require('./account/logout.page');
 var RegisterPage = require('./account/register.page');
 
 //Private pages
@@ -24,6 +25,7 @@ var Routes = (
     <Route handler={AppMaster}>
         <Route name="register" handler={RegisterPage} />
         <Route name="login" handler={LoginPage} />
+        <Route name="logout" handler={LogoutPage} />
         <Route name="manage-projects" handler={ManageProjectsPage} />
         <Route name="project-overview" handler={ProjectOverviewPage} />
         <Route name="plan-project" handler={PlanProjectPage} />

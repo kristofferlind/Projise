@@ -6,6 +6,11 @@ var React = require('react/addons'),
 
 var ProjectTable = React.createClass({
     render: function() {
+        var projects = this.props.projects.map(function(project) {
+            return (
+                <ProjectRow key={project._id} project={project} />
+            );
+        });
         return (
             <Table hover>
                 <tr>
@@ -13,12 +18,7 @@ var ProjectTable = React.createClass({
                     <td>Description</td>
                     <td width="140">Actions</td>
                 </tr>
-                <ProjectRow />
-                <ProjectRow />
-                <ProjectRow />
-                <ProjectRow />
-                <ProjectRow />
-                <ProjectRow />
+                {projects}
             </Table>
         );
     }

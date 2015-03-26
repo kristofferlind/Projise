@@ -14,6 +14,10 @@ var config = {
         DOCUMENTS: api + '/documents',
         USERS: api + '/users',
         TEAMS: api + '/teams',
+        ACTIVATE_PROJECT: api + '/users/me/activate/project'
+    },
+    Actions: {
+        CHANGE: 'CHANGE'
     }
 };
 

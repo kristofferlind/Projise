@@ -12,7 +12,7 @@ var TokenService = {
     },
     setToken: function(token, toExpiration) {
         var now = new Date(),
-            expirationDate = new Date(now.getTime() + toExpiration);
+            expirationDate = new Date(now.getTime() + (toExpiration * 1000));
 
         localStorage.token = token;
         localStorage.tokenExpiration = expirationDate;

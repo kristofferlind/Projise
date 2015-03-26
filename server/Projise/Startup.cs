@@ -43,16 +43,15 @@ namespace Projise
 
         public void Configuration(IAppBuilder app)
         {
+            //TODO: make this a bit more strict for production..
             app.UseCors(CorsOptions.AllowAll);
             ConfigureAuth(app);
             app.MapSignalR();
             GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => JsonSerializerFactory.Value);
 
-            //TODO: make this a bit more strict for production..
 
-
+            //config for mongodb backplane, should probably use redis instead though
             //var mongoconf = new MongoScaleoutConfiguration("Mongo");
-
             //GlobalHost.DependencyResolver.UseMongoDb(mongoconf);
         }
     }

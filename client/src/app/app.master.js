@@ -8,7 +8,8 @@ var React = require('react/addons'),
     Button = require('react-bootstrap').Button,
     Glyphicon = require('react-bootstrap').Glyphicon,
     AuthenticationService = require('./authentication.service'),
-    NotificationList = require('../components/notifications/notification-list');
+    NotificationList = require('../components/notifications/notification-list'),
+    Link = Router.Link;
 
 // CSS
 require('./app.scss');
@@ -17,18 +18,8 @@ var AppMaster = React.createClass({
     getInitialState: function() {
         return {
             showChatPanel: false,
-            showNavPanel: false,
-            isLoggedIn: AuthenticationService.isLoggedIn
+            showNavPanel: false
         };
-    },
-    onAuthentication: function(isLoggedIn) {
-        this.setState({
-            isLoggedIn: isLoggedIn
-        });
-    },
-    componentWillMount: function() {
-        AuthenticationService.onChange = this.onAuthentication;
-        AuthenticationService.login();
     },
     toggleChat: function() {
         this.setState({
@@ -55,6 +46,7 @@ var AppMaster = React.createClass({
                             <a className="navbar-brand" href="#">Projise</a>
                         </div>
                     <a className="pull-right navbar-brand" onClick={this.toggleChat}><i className="fa fa-users"></i> Chat</a>
+                    <Link className="pull-right navbar-brand" to="logout">Log out</Link>
                     </div>
                 </header>
                 <div id="flex-grid">

@@ -15,8 +15,9 @@ using Microsoft.AspNet.SignalR;
 
 namespace Projise.App_Infrastructure
 {
+
     [System.Web.Http.Authorize]
-    [CheckCSRF]
+    //[CheckCSRF] - cant do it this way, was a rather bad solution anyway, figure out something better
     public class ApiControllerBase : ApiController
     {
         private ApplicationUserManager userManager;

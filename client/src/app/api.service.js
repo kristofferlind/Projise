@@ -3,7 +3,9 @@
 var config = require('../config/config'),
     request = require('superagent'),
     APIEndpoints = config.APIEndpoints,
-    Notify = require('../components/notifications/notification.service');
+    Notify = require('../components/notifications/notification.service'),
+    TokenService = require('./token.service'),
+    ProjectActions = require('./project/project.actions');
 
 var getToken = function() {
         return localStorage.token;
@@ -20,7 +22,7 @@ var getToken = function() {
         }
     },
     presentErrors = function(response) {
-        if (response.body && response.body.modelState) {
+        if (response && response.body && response.body.modelState) {
             var models = response.body.modelState;
             if (models) {
                 for (var model in models) {
@@ -36,6 +38,7 @@ var getToken = function() {
     };
 
 var APIService = {
+    //Specific requests
     login: function(username, password, callback) {
         //endpoint doesn't support json, need to do a form post
         request.post(APIEndpoints.LOGIN)
@@ -52,6 +55,7 @@ var APIService = {
                 callback(null, response.body);
             });
     },
+    //TODO: make this a common post
     register: function(email, password, confirmPassword, callback) {
         request.post(APIEndpoints.REGISTER)
             .send({Email: email, Password: password, ConfirmPassword: confirmPassword})
@@ -63,7 +67,55 @@ var APIService = {
                 }
                 callback(null, response.body);
             });
-    }
+    },
+    //Common requests
+    get: function(url, callback) {
+        request.get(url)
+            .set('Authorization', 'Bearer ' + TokenService.getToken())
+            .end(function(error, response) {
+                if (error || response.error) {
+                    handleErrors(error, response);
+                    return;
+                }
+                callback(response.body);
+            });
+    },
+    post: function(url, item, callback) {
+        request.post(url)
+            .send(item)
+            .set('Authorization', 'Bearer ' + TokenService.getToken())
+            .end(function(error, response) {
+                if (error || response.error) {
+                    handleErrors(error, response);
+                    return;
+                }
+                callback(response.body);
+            });
+    },
+    put: function(url, item, callback) {
+        request.put(url)
+            .send(item)
+            .set('Authorization', 'Bearer ' + TokenService.getToken())
+            .end(function(error, response) {
+                if (error || response.error) {
+                    handleErrors(error, response);
+                    return;
+                }
+                callback(response.body);
+            });
+    },
+    delete: function(url, item, callback) {
+        request.del(url)
+            .send(item)
+            .set('Authorization', 'Bearer ' + TokenService.getToken())
+            .end(function(error, response) {
+                if (error || response.error) {
+                    handleErrors(error, response);
+                    return;
+                }
+                callback(response.body);
+            });
+    },
 };
 
 module.exports = APIService;
