@@ -6,19 +6,25 @@ var React = require('react/addons'),
 
 var ProjectTable = React.createClass({
     render: function() {
+        var component = this;
         var projects = this.props.projects.map(function(project) {
+            var isActiveProject = component.props.activeProject === project;
             return (
-                <ProjectRow key={project._id} project={project} />
+                <ProjectRow key={project._id} active={isActiveProject} project={project} />
             );
         });
         return (
             <Table hover>
-                <tr>
-                    <td>Name</td>
-                    <td>Description</td>
-                    <td width="140">Actions</td>
-                </tr>
-                {projects}
+                <thead>
+                    <tr>
+                        <td>Name</td>
+                        <td>Description</td>
+                        <td width="140">Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {projects}
+                </tbody>
             </Table>
         );
     }

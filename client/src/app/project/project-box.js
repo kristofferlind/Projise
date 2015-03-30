@@ -11,7 +11,7 @@ var ProjectBox = React.createClass({
         return (
             <section>
                 <ProjectToolbar />
-                <ProjectTable projects={this.props.projects} />
+                <ProjectTable activeProject={this.props.activeProject} projects={this.props.projects} />
             </section>
         );
     }

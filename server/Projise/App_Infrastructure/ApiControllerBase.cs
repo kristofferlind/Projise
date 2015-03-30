@@ -58,7 +58,7 @@ namespace Projise.App_Infrastructure
                         //AccessToken = context.Request.Cookies.Where(c => c.Key == ".AspNet.ApplicationCookie").SingleOrDefault().Value,
                         //GoogleProviderKey = applicationUser.Logins.Where(l => l.LoginProvider == "Google").SingleOrDefault().ProviderKey
                         //GoogleAccessToken = applicationUser.Claims.FirstOrDefault(c => c.Type == "urn:tokens:googleplus:accesstoken").Value
-                        GoogleAccessToken = applicationUser.GoogleAccessToken
+                        //GoogleAccessToken = applicationUser.GoogleAccessToken
                     };
                 }
 

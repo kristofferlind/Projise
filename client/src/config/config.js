@@ -15,10 +15,13 @@ var config = {
         DOCUMENTS: api + '/documents',
         USERS: api + '/users',
         TEAMS: api + '/teams',
-        ACTIVATE_PROJECT: api + '/users/me/activate/project'
+        ACTIVATE_PROJECT: api + '/users/me/activate/project',
+        ME: api + '/users/me'
     },
     Actions: {
-        CHANGE: 'CHANGE'
+        CHANGE: 'CHANGE',
+        USER_RECEIVED: 'USER_RECEIVED',
+        USER_SAVED: 'user-saved'
     },
     Urls: {
         SERVER: server,

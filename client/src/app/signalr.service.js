@@ -12,8 +12,8 @@ var dispatch = function(eventName, data) {
 };
 
 var onChange = function(operation, type, item, operationId) {
-    //Example event: 'signalr-project-save'
-    var eventName = 'signalr-' + type + '-' + operation;
+    //Example events: 'project-saved', 'project-removed'
+    var eventName = type + '-' + operation + 'd';
     var data = item;
 
     dispatch(eventName, data);

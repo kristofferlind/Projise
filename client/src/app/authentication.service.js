@@ -2,7 +2,8 @@
 
 var APIService = require('./api.service'),
     TokenService = require('./token.service'),
-    Notify = require('../components/notifications/notification.service');
+    Notify = require('../components/notifications/notification.service'),
+    SessionActions = require('./account/session.actions');
 
 //TODO: move this someplace else, the authenticationservice is a really weird place to put signalr init
 var SignalRService = require('./signalr.service');
@@ -24,6 +25,10 @@ var AuthenticationService = {
                     callback(false);
                 } else {
                     TokenService.setToken(data.access_token, data.expires_in);
+
+                    APIService.getCurrentUser(function(data) {
+                        SessionActions.userReceived(data);
+                    });
 
                     //TODO: signalr, move
                     SignalRService.connect();
@@ -56,6 +61,9 @@ var AuthenticationService = {
 
 //TODO: signalr, move
 if (AuthenticationService.isLoggedIn()) {
+    APIService.getCurrentUser(function(data) {
+        SessionActions.userReceived(data);
+    });
     SignalRService.connect();
 }
 

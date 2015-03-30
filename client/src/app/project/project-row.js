@@ -30,23 +30,41 @@ var ProjectRow = React.createClass({
         ProjectInteractions.delete(this.props.project);
     },
     render: function() {
+        var component = this;
         var project = this.props.project;
-        return (
-            <tr>
-                <td>{project.name}</td>
-                <td>{project.description}</td>
-                <td>
+        var isActive = this.props.active;
+
+        var showButtons = function() {
+            if (!isActive) {
+                return (
                     <ButtonGroup>
-                        <Button onClick={this.handleActivate} bsStyle="success">
+                        <Button onClick={component.handleActivate} bsStyle="success">
                             <Glyphicon glyph="ok" />
                         </Button>
-                        <Button onClick={this.handleEdit} bsStyle="warning">
+                        <Button onClick={component.handleEdit} bsStyle="warning">
                             <Glyphicon glyph="pencil" />
                         </Button>
-                        <Button onClick={this.handleDelete} bsStyle="danger">
+                        <Button onClick={component.handleDelete} bsStyle="danger">
                             <Glyphicon glyph="trash" />
                         </Button>
                     </ButtonGroup>
+                );
+            }
+        };
+
+        var getClass = function() {
+            if (isActive) {
+                return 'success';
+            }
+            return '';
+        };
+
+        return (
+            <tr className={getClass()}>
+                <td>{project.name}</td>
+                <td>{project.description}</td>
+                <td>
+                    {showButtons()}
                 </td>
             </tr>
         );

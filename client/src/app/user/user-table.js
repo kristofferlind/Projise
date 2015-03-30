@@ -6,17 +6,23 @@ var React = require('react/addons'),
 
 var UserTable = React.createClass({
     render: function() {
+        var users = this.props.users.map(function(user) {
+            return (
+                <UserRow key={user._id} user={user} />
+            );
+        });
+
         return (
             <Table hover>
-                <tr>
-                    <td>Email</td>
-                    <td width="50">Actions</td>
-                </tr>
-                <UserRow />
-                <UserRow />
-                <UserRow />
-                <UserRow />
-                <UserRow />
+                <thead>
+                    <tr>
+                        <td>Email</td>
+                        <td width="50">Actions</td>
+                    </tr>
+                </thead>
+                <tbody>
+                    {users}
+                </tbody>
             </Table>
         );
     }

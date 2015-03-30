@@ -32,6 +32,18 @@ var ProjectInteractions = {
     activate: function(project) {
         dispatch(Interactions.ACTIVATE_PROJECT, project);
         ProjectService.activate(project);
+    },
+    inviteUser: function(user) {
+        dispatch(Interactions.INVITE_USER, user);
+        ProjectService.inviteUser(user);
+    },
+    removeUser: function(user) {
+        dispatch(Interactions.REMOVE_USER, user);
+        ProjectService.removeUser(user);
+    },
+    addTeam: function(team) {
+        dispatch(Interactions.ADD_TEAM, team);
+        ProjectService.addTeam(team);
     }
 };
 

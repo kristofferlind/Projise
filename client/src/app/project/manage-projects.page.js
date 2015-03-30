@@ -13,7 +13,8 @@ var ManageProjectsPage = React.createClass({
     mixins: [RequireAuthentication],
     getInitialState: function() {
         return {
-            projects: ProjectStore.getAll()
+            projects: ProjectStore.getAll(),
+            activeProject: ProjectStore.getActiveProject()
         };
     },
     componentDidMount: function() {
@@ -25,22 +26,25 @@ var ManageProjectsPage = React.createClass({
     },
     onChange: function() {
         this.setState({
-            projects: ProjectStore.getAll()
+            projects: ProjectStore.getAll(),
+            activeProject: ProjectStore.getActiveProject()
         });
     },
     render: function() {
+        var users = this.state.activeProject && this.state.activeProject.users || [];
+
         return (
             <main>
                 <h1>Manage projects</h1>
                 <div className="row">
                     <div className="col-md-4">
                         <h2>Projects</h2>
-                        <ProjectBox projects={this.state.projects} />
+                        <ProjectBox projects={this.state.projects} activeProject={this.state.activeProject} />
                     </div>
                     <div className="col-md-4">
                         <h2>Users</h2>
                         <UserInvite />
-                        <UserTable />
+                        <UserTable users={users} />
                     </div>
                     <div className="col-md-4">
                         <h2>Teams</h2>

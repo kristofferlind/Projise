@@ -68,6 +68,17 @@ var APIService = {
                 callback(null, response.body);
             });
     },
+    getCurrentUser: function(callback) {
+        request.get(APIEndpoints.ME)
+            .set('Authorization', 'Bearer ' + TokenService.getToken())
+            .end(function(error, response) {
+                if (error || response.error) {
+                    handleErrors(error, response);
+                    return;
+                }
+                callback(response.body);
+            });
+    },
     //Common requests
     get: function(url, callback) {
         request.get(url)

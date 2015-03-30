@@ -1,7 +1,6 @@
 'use strict';
 
 var AppDispatcher = require('../app-dispatcher'),
-    APIService = require('../api.service'),
     config = require('./project.config'),
     Actions = config.Actions;
 
@@ -17,16 +16,25 @@ var ProjectActions = {
         dispatch(Actions.PROJECTS_RECEIVED, projects);
     },
     created: function(project) {
-        dispatch(Actions.PROJECT_CREATED, project);
+        dispatch(Actions.PROJECT_SAVED, project);
     },
     updated: function(project) {
-        dispatch(Actions.PROJECT_UPDATED, project);
+        dispatch(Actions.PROJECT_SAVED, project);
     },
     deleted: function(project) {
-        dispatch(Actions.PROJECT_DELETED, project);
+        dispatch(Actions.PROJECT_REMOVED, project);
     },
     activated: function(project) {
         dispatch(Actions.PROJECT_ACTIVATED, project);
+    },
+    invitedUser: function(project) {
+        dispatch(Actions.PROJECT_SAVED, project);
+    },
+    removedUser: function(project) {
+        dispatch(Actions.PROJECT_SAVED, project);
+    },
+    addedTeam: function(project) {
+        dispatch(Actions.PROJECT_SAVED, project);
     }
 };
 

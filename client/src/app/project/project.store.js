@@ -7,13 +7,28 @@ var config = require('../../config/config'),
     assign = require('object-assign'),
     Interactions = projectConfig.Interactions,
     ProjectActions = projectConfig.Actions,
-    Actions = config.Actions;
+    Actions = config.Actions,
+    SignalRService = require('../signalr.service');
 
-var _projects = [];
+var _projects = [],
+    _activeProjectId = '';
 
 var ProjectStore = assign({}, EventEmitter.prototype, {
     getAll: function() {
-        return _projects;
+        var projects = [];
+
+        //Convert back to array for easier use in components
+        for (var projectId in _projects) {
+            projects.push(_projects[projectId]);
+        }
+
+        return projects;
+    },
+    getActiveProject: function() {
+        if (!_activeProjectId) {
+            return {};
+        }
+        return _projects[_activeProjectId];
     },
     addChangeListener: function(callback) {
         ProjectStore.on(Actions.CHANGE, callback);
@@ -27,29 +42,12 @@ var emitChange = function(data) {
     ProjectStore.emit(Actions.CHANGE);
 };
 
-var findIndex = function(project) {
-    var projectIds = _projects.map(function(project) {
-        return project._id;
-    });
-    return projectIds.indexOf(project._id);
-};
-
 var save = function(project) {
     if (!project) {
         return;
     }
 
-    //Try to find project
-    var projectIndex = findIndex(project._id);
-
-    //Was it found?
-    if (projectIndex > -1) {
-        //..update
-        _projects[projectIndex] = project;
-    } else {
-        //..add
-        _projects.push(project);
-    }
+    _projects[project._id] = project;
     emitChange();
 };
 
@@ -58,33 +56,41 @@ var remove = function(project) {
         return;
     }
 
-    //Try to find project
-    var projectIndex = findIndex(project);
+    delete _projects[project._id];
+    emitChange();
+};
 
-    //Was it found?
-    if (projectIndex > -1) {
-        //..remove
-        _projects.splice(projectIndex, 1);
-        emitChange();
+var setProjects = function(projects) {
+    if (!projects) {
+        return;
     }
+    projects.forEach(function(project) {
+        _projects[project._id] = project;
+    });
+    emitChange();
+};
+
+var setActiveProject = function(user) {
+    if (!user) {
+        return;
+    }
+
+    _activeProjectId = user.activeProject;
+
+    //Need to switch channel when changing active project
+    SignalRService.disconnect();
+    SignalRService.connect();
+    emitChange();
 };
 
 AppDispatcher.register(function(payload) {
     console.log(payload.eventName, payload.data);
     switch(payload.eventName) {
         case ProjectActions.PROJECTS_RECEIVED:
-            _projects = payload.data;
+            // _projects = payload.data;
+            setProjects(payload.data);
             emitChange();
             break;
-        // case ProjectActions.PROJECT_CREATED:
-        //     add(payload.data);
-        //     break;
-        // case ProjectActions.PROJECT_UPDATED:
-        //     update(payload.data);
-        //     break;
-        // case ProjectActions.PROJECT_DELETED:
-        //     remove(payload.data);
-        //     break;
         case ProjectActions.PROJECT_ACTIVATED:
             //set active project here?
             break;
@@ -93,6 +99,12 @@ AppDispatcher.register(function(payload) {
             break;
         case ProjectActions.PROJECT_REMOVED:
             remove(payload.data);
+            break;
+        case Actions.USER_RECEIVED:
+            setActiveProject(payload.data);
+            break;
+        case Actions.USER_SAVED:
+            setActiveProject(payload.data);
             break;
     }
 
