@@ -4,6 +4,7 @@ var server = 'http://localhost:48272',
     api = server + '/api';
 
 var config = {
+    DEBUG: true,
     APIEndpoints: {
         LOGIN: server + '/Token',
         REGISTER: server + '/register',
@@ -18,6 +19,11 @@ var config = {
     },
     Actions: {
         CHANGE: 'CHANGE'
+    },
+    Urls: {
+        SERVER: server,
+        API: api,
+        SIGNALR: server +'/signalr'
     }
 };
 

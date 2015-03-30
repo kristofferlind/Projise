@@ -6,7 +6,9 @@ var config = {
         PROJECT_CREATED: 'PROJECT_CREATED',
         PROJECT_UPDATED: 'PROJECT_UPDATED',
         PROJECT_DELETED: 'PROJECT_DELETED',
-        PROJECT_ACTIVATED: 'PROJECT_ACTIVATED'
+        PROJECT_ACTIVATED: 'PROJECT_ACTIVATED',
+        PROJECT_SAVED: 'signalr-project-save',
+        PROJECT_REMOVED: 'signalr-project-remove'
     },
     Interactions: {
         LOAD_PROJECTS: 'LOAD_PROJECTS',

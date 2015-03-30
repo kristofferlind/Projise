@@ -34,25 +34,39 @@ var findIndex = function(project) {
     return projectIds.indexOf(project._id);
 };
 
-var update = function(project) {
-    var projectIndex = findIndex(project);
-    if (projectIndex > -1) {
-        _projects[projectIndex] = project;
-        emitChange();
+var save = function(project) {
+    if (!project) {
+        return;
     }
+
+    //Try to find project
+    var projectIndex = findIndex(project._id);
+
+    //Was it found?
+    if (projectIndex > -1) {
+        //..update
+        _projects[projectIndex] = project;
+    } else {
+        //..add
+        _projects.push(project);
+    }
+    emitChange();
 };
 
 var remove = function(project) {
+    if (!project) {
+        return;
+    }
+
+    //Try to find project
     var projectIndex = findIndex(project);
+
+    //Was it found?
     if (projectIndex > -1) {
+        //..remove
         _projects.splice(projectIndex, 1);
         emitChange();
     }
-};
-
-var add = function(project) {
-    _projects.push(project);
-    emitChange();
 };
 
 AppDispatcher.register(function(payload) {
@@ -62,17 +76,23 @@ AppDispatcher.register(function(payload) {
             _projects = payload.data;
             emitChange();
             break;
-        case ProjectActions.PROJECT_CREATED:
-            add(payload.data);
-            break;
-        case ProjectActions.PROJECT_UPDATED:
-            update(payload.data);
-            break;
-        case ProjectActions.PROJECT_DELETED:
-            remove(payload.data);
-            break;
+        // case ProjectActions.PROJECT_CREATED:
+        //     add(payload.data);
+        //     break;
+        // case ProjectActions.PROJECT_UPDATED:
+        //     update(payload.data);
+        //     break;
+        // case ProjectActions.PROJECT_DELETED:
+        //     remove(payload.data);
+        //     break;
         case ProjectActions.PROJECT_ACTIVATED:
             //set active project here?
+            break;
+        case ProjectActions.PROJECT_SAVED:
+            save(payload.data);
+            break;
+        case ProjectActions.PROJECT_REMOVED:
+            remove(payload.data);
             break;
     }
 

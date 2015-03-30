@@ -9,7 +9,8 @@ var React = require('react/addons'),
     Glyphicon = require('react-bootstrap').Glyphicon,
     AuthenticationService = require('./authentication.service'),
     NotificationList = require('../components/notifications/notification-list'),
-    Link = Router.Link;
+    Link = Router.Link,
+    AuthenticationService = require('./authentication.service');
 
 // CSS
 require('./app.scss');
