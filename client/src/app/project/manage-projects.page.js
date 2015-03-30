@@ -6,9 +6,11 @@ var React = require('react/addons'),
     UserInvite = require('../user/user-invite'),
     TeamTable = require('../team/team-table'),
     ProjectStore = require('./project.store'),
-    ProjectInteractions = require('./project.interactions');
+    ProjectInteractions = require('./project.interactions'),
+    RequireAuthentication = require('../require-authentication');
 
 var ManageProjectsPage = React.createClass({
+    mixins: [RequireAuthentication],
     getInitialState: function() {
         return {
             projects: ProjectStore.getAll()

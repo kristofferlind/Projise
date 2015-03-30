@@ -5,11 +5,13 @@ var React = require('react/addons'),
     Nav = require('react-bootstrap').Nav,
     Navbar = require('react-bootstrap').Navbar,
     Accordion = require('react-bootstrap').Accordion,
-    Panel = require('react-bootstrap').Panel;
+    Panel = require('react-bootstrap').Panel,
+    RequireAuthentication = require('../require-authentication');
 
 require('./nav-panel.scss');
 
 var NavPanel = React.createClass({
+    mixins: [RequireAuthentication],
     render: function() {
         var component = this;
         var getClassName = function() {
