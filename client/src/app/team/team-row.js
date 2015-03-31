@@ -2,16 +2,21 @@
 
 var React = require('react/addons'),
     Button = require('react-bootstrap').Button,
-    Glyphicon = require('react-bootstrap').Glyphicon;
+    Glyphicon = require('react-bootstrap').Glyphicon,
+    ProjectInteractions = require('../project/project.interactions');
 
 var TeamRow = React.createClass({
+    handleAddTeam: function() {
+        ProjectInteractions.addTeam(this.props.team);
+    },
     render: function() {
+        var team = this.props.team;
         return (
             <tr>
-                <td>Team 1</td>
-                <td>Fullstack dev team</td>
+                <td>{team.name}</td>
+                <td>{team.description}</td>
                 <td>
-                    <Button bsStyle="success">
+                    <Button onClick={this.handleAddTeam} bsStyle="success">
                         <Glyphicon glyph="plus" />
                     </Button>
                 </td>

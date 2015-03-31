@@ -7,31 +7,43 @@ var React = require('react/addons'),
     TeamTable = require('../team/team-table'),
     ProjectStore = require('./project.store'),
     ProjectInteractions = require('./project.interactions'),
-    RequireAuthentication = require('../require-authentication');
+    RequireAuthentication = require('../require-authentication'),
+    TeamInteractions = require('../team/team.interactions'),
+    TeamStore = require('../team/team.store');
 
 var ManageProjectsPage = React.createClass({
     mixins: [RequireAuthentication],
     getInitialState: function() {
         return {
             projects: ProjectStore.getAll(),
-            activeProject: ProjectStore.getActiveProject()
+            activeProject: ProjectStore.getActiveProject(),
+            teams: TeamStore.getAll()
         };
     },
     componentDidMount: function() {
-        ProjectStore.addChangeListener(this.onChange);
+        ProjectStore.addChangeListener(this.onProjectChange);
         ProjectInteractions.loadAll();
+        TeamStore.addChangeListener(this.onTeamChange);
+        TeamInteractions.loadAll();
     },
     componentWillUnmount: function() {
-        ProjectStore.removeChangeListener(this.onChange);
+        ProjectStore.removeChangeListener(this.onProjectChange);
+        TeamStore.removeChangeListener(this.onTeamChange);
     },
-    onChange: function() {
+    onProjectChange: function() {
         this.setState({
             projects: ProjectStore.getAll(),
             activeProject: ProjectStore.getActiveProject()
         });
     },
+    onTeamChange: function() {
+        this.setState({
+            teams: TeamStore.getAll()
+        });
+    },
     render: function() {
         var users = this.state.activeProject && this.state.activeProject.users || [];
+        var teams = this.state.teams;
 
         return (
             <main>
@@ -49,7 +61,7 @@ var ManageProjectsPage = React.createClass({
                     <div className="col-md-4">
                         <h2>Teams</h2>
                         <p className="form-control-static">Go to manage teams to setup teams for easier management</p>
-                        <TeamTable />
+                        <TeamTable teams={teams} />
                     </div>
                 </div>
             </main>
