@@ -41,6 +41,12 @@ var ManageProjectsPage = React.createClass({
             teams: TeamStore.getAll()
         });
     },
+    handleInvite: function(email) {
+        ProjectInteractions.inviteUser(email);
+    },
+    removeUser: function(user) {
+        ProjectInteractions.removeUser(user);
+    },
     render: function() {
         var users = this.state.activeProject && this.state.activeProject.users || [];
         var teams = this.state.teams;
@@ -55,8 +61,8 @@ var ManageProjectsPage = React.createClass({
                     </div>
                     <div className="col-md-4">
                         <h2>Users</h2>
-                        <UserInvite />
-                        <UserTable users={users} />
+                        <UserInvite invite={this.handleInvite} />
+                        <UserTable onRemove={this.removeUser} users={users} />
                     </div>
                     <div className="col-md-4">
                         <h2>Teams</h2>

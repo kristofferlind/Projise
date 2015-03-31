@@ -23,8 +23,8 @@ var EditProjectModal = React.createClass({
             <Modal bsStyle="primary" title="Edit project" onRequestHide={this.props.onToggle}>
                 <div className="modal-body">
                     <form onSubmit={this.updateProject}>
-                        <Input type="text" placeholder="Name" value={project.name} ref="name" label="Name" />
-                        <Input type="textarea" placeholder="Description" value={project.description} ref="description" label="Description" />
+                        <Input type="text" placeholder="Name" defaultValue={project.name} ref="name" label="Name" />
+                        <Input type="textarea" placeholder="Description" defaultValue={project.description} ref="description" label="Description" />
                         <Input type="submit" value="Edit" />
                     </form>
                 </div>

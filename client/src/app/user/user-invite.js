@@ -3,13 +3,12 @@
 var React = require('react/addons'),
     Input = require('react-bootstrap').Input,
     Button = require('react-bootstrap').Button,
-    ProjectInteractions = require('../project/project.interactions'),
     Glyphicon = require('react-bootstrap').Glyphicon;
 
 var UserInvite = React.createClass({
     handleInvite: function() {
         var email = this.refs.email.getValue();
-        ProjectInteractions.inviteUser(email);
+        this.props.invite(email);
     },
     render: function() {
         return (

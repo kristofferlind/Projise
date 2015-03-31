@@ -16,6 +16,7 @@ var config = {
         USERS: api + '/users',
         TEAMS: api + '/teams',
         ACTIVATE_PROJECT: api + '/users/me/activate/project',
+        ACTIVATE_TEAM: api + '/users/me/activate/team',
         ME: api + '/users/me'
     },
     Actions: {

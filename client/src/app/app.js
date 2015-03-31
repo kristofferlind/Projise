@@ -15,6 +15,7 @@ var RegisterPage = require('./account/register.page');
 
 //Private pages
 var ManageProjectsPage = require('./project/manage-projects.page');
+var ManageTeamsPage = require('./team/manage-teams.page');
 var ProjectOverviewPage = require('./project/project-overview.page');
 var PlanProjectPage = require('./project/plan-project.page');
 var PlanSprintPage = require('./sprint/plan-sprint.page');
@@ -27,6 +28,7 @@ var Routes = (
         <Route name="login" handler={LoginPage} />
         <Route name="logout" handler={LogoutPage} />
         <Route name="manage-projects" handler={ManageProjectsPage} />
+        <Route name="manage-teams" handler={ManageTeamsPage} />
         <Route name="project-overview" handler={ProjectOverviewPage} />
         <Route name="plan-project" handler={PlanProjectPage} />
         <Route name="plan-sprint" handler={PlanSprintPage} />

@@ -25,10 +25,11 @@ var NavPanel = React.createClass({
             <section id="nav-panel" className={getClassName()}>
                 <Nav className="sidebar-nav">
                     <NavItem eventKey={1} href="#/manage-projects">Manage projects</NavItem>
-                    <NavItem eventKey={1} href="#/">Project overview</NavItem>
-                    <NavItem eventKey={2} href="#/plan-project">Plan project</NavItem>
-                    <NavItem eventKey={3} href="#/plan-sprint">Plan sprint</NavItem>
-                    <NavItem eventKey={3} href="#/my-story">My story</NavItem>
+                    <NavItem eventKey={2} href="#/manage-teams">Manage teams</NavItem>
+                    <NavItem eventKey={3} href="#/">Project overview</NavItem>
+                    <NavItem eventKey={4} href="#/plan-project">Plan project</NavItem>
+                    <NavItem eventKey={5} href="#/plan-sprint">Plan sprint</NavItem>
+                    <NavItem eventKey={6} href="#/my-story">My story</NavItem>
                 </Nav>
             </section>
         );

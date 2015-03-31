@@ -6,9 +6,10 @@ var React = require('react/addons'),
 
 var UserTable = React.createClass({
     render: function() {
+        var component = this;
         var users = this.props.users.map(function(user) {
             return (
-                <UserRow key={user._id} user={user} />
+                <UserRow onRemove={component.props.onRemove} key={user._id} user={user} />
             );
         });
 
