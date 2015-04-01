@@ -28,6 +28,14 @@ var StoryInteractions = {
     delete: function(story) {
         dispatch(Interactions.DELETE_STORY, story);
         StoryService.delete(story);
+    },
+    addToSprint: function(story) {
+        dispatch(Interactions.ADD_TO_SPRINT, story);
+        StoryService.addToSprint(story);
+    },
+    removeFromSprint: function(story) {
+        dispatch(Interactions.REMOVE_FROM_SPRINT, story);
+        StoryService.removeFromSprint(story);
     }
 };
 

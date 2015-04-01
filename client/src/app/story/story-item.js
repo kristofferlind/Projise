@@ -6,7 +6,8 @@ var React = require('react/addons'),
     ButtonGroup = require('react-bootstrap').ButtonGroup,
     Glyphicon = require('react-bootstrap').Glyphicon,
     EditStoryModal = require('./edit-story-modal'),
-    StoryInteractions = require('./story.interactions');
+    StoryInteractions = require('./story.interactions'),
+    Draggable = require('../../components/dragAndDrop/draggable');
 
 require('./story.scss');
 
@@ -44,20 +45,22 @@ var StoryItem = React.createClass({
         }
 
         return (
-            <div className={statusClass}>
-                <div className="pull-right">
-                    <ButtonGroup>
-                        <Button onClick={this.handleEdit} bsSize="small" bsStyle="primary">
-                            <Glyphicon glyph="cog" />
-                        </Button>
-                        <Button onClick={this.handleDelete} bsSize="small" bsStyle="danger">
-                            <Glyphicon glyph="trash" />
-                        </Button>
-                    </ButtonGroup>
+            <Draggable itemType={this.props.itemType} itemData={story}>
+                <div className={statusClass}>
+                    <div className="pull-right">
+                        <ButtonGroup>
+                            <Button onClick={this.handleEdit} bsSize="small" bsStyle="primary">
+                                <Glyphicon glyph="cog" />
+                            </Button>
+                            <Button onClick={this.handleDelete} bsSize="small" bsStyle="danger">
+                                <Glyphicon glyph="trash" />
+                            </Button>
+                        </ButtonGroup>
+                    </div>
+                    <h4>{story.name}</h4>
+                    <b>Description:</b> <span>{story.description}</span>
                 </div>
-                <h4>{story.name}</h4>
-                <b>Description:</b> <span>{story.description}</span>
-            </div>
+            </Draggable>
         );
     },
     renderOverlay: function() {

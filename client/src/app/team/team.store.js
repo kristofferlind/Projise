@@ -80,7 +80,6 @@ var setActiveTeam = function(user) {
 };
 
 AppDispatcher.register(function(payload) {
-    console.log(payload.eventName, payload.data);
     switch(payload.eventName) {
         case TeamActions.TEAMS_RECEIVED:
             // _teams = payload.data;
