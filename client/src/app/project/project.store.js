@@ -84,15 +84,10 @@ var setActiveProject = function(user) {
 };
 
 AppDispatcher.register(function(payload) {
-    console.log(payload.eventName, payload.data);
     switch(payload.eventName) {
         case ProjectActions.PROJECTS_RECEIVED:
-            // _projects = payload.data;
             setProjects(payload.data);
             emitChange();
-            break;
-        case ProjectActions.PROJECT_ACTIVATED:
-            //set active project here?
             break;
         case ProjectActions.PROJECT_SAVED:
             save(payload.data);
