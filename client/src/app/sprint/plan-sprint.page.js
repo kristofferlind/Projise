@@ -4,8 +4,7 @@ var React = require('react/addons'),
     RequireAuthentication = require('../require-authentication'),
     StoryStore = require('../story/story.store'),
     StoryInteractions = require('../story/story.interactions'),
-    StoryToolbar = require('../story/story-toolbar'),
-    StoryList = require('../story/story-list'),
+    StoryBox = require('../story/story-box'),
     SprintInteractions = require('./sprint.interactions');
 
 
@@ -41,13 +40,11 @@ var PlanProjectPage = React.createClass({
                 <div className="row">
                     <div className="col-md-4">
                         <h2>Product backlog</h2>
-                        <StoryToolbar />
-                        <StoryList stories={stories} />
+                        <StoryBox acceptType='sb-story' itemType='pb-story'  stories={stories} showCreate='true' />
                     </div>
                     <div className="col-md-4">
                         <h2>Sprint backlog</h2>
-                        <StoryToolbar />
-                        <StoryList stories={sprintStories} isSprintBacklog='true' />
+                        <StoryBox acceptType='pb-story' itemType='sb-story' stories={sprintStories} isSprintBacklog='true' />
                     </div>
                     <div className="col-md-4">
                         <h2>Help?</h2>

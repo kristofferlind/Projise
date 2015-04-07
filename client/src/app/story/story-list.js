@@ -7,35 +7,45 @@ var React = require('react/addons'),
 
 var StoryList = React.createClass({
     handleDrop: function(story) {
+        if (this.props.onDrop) {
+            this.props.onDrop(story);
+            return;
+        }
+
         if (this.props.isSprintBacklog) {
             this.addStoryToSprint(story);
-        } else {
-            this.removeStoryFromSprint(story);
+            return;
         }
+
+        this.removeStoryFromSprint(story);
     },
     addStoryToSprint: function(story) {
         StoryInteractions.addToSprint(story);
     },
     removeStoryFromSprint: function(story) {
-        console.log('remove');
         StoryInteractions.removeFromSprint(story);
     },
     render: function() {
         var stories, acceptType, itemType,
             component = this;
 
-        if (component.props.isSprintBacklog) {
-            acceptType='pb-story';
-            itemType='sb-story';
+        if (component.props.acceptType && component.props.itemType) {
+            acceptType = component.props.acceptType;
+            itemType = component.props.itemType;
         } else {
-            acceptType='sb-story';
-            itemType='pb-story';
+            if (component.props.isSprintBacklog) {
+                acceptType='pb-story';
+                itemType='sb-story';
+            } else {
+                acceptType='sb-story';
+                itemType='pb-story';
+            }
         }
 
         if (component.props.stories.length > 0) {
             stories = component.props.stories.map(function(story) {
                 return (
-                    <StoryItem key={story._id} story={story} itemType={itemType} />
+                    <StoryItem showActions={!component.props.isSprintBacklog} key={story._id} story={story} itemType={itemType} />
                 );
             });
         } else {
@@ -44,7 +54,7 @@ var StoryList = React.createClass({
 
         return (
             <Dropzone acceptType={acceptType} onDrop={this.handleDrop}>
-                <div>
+                <div className='story-list scroll-column'>
                     {stories}
                 </div>
             </Dropzone>

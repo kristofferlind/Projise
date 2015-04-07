@@ -16,6 +16,8 @@ var onChange = function(operation, type, item, operationId) {
     var eventName = type + '-' + operation + 'd';
     var data = item;
 
+    console.log(eventName);
+
     dispatch(eventName, data);
 };
 

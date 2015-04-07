@@ -12,7 +12,7 @@ var SprintList = React.createClass({
         });
 
         return (
-            <div>
+            <div className='scroll-column'>
                 {sprints}
             </div>
         );

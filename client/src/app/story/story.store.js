@@ -13,6 +13,10 @@ var config = require('../../config/config'),
 
 var _stories = [];
 
+var sortByPriority = function(storyA, storyB) {
+    return storyB.priority - storyA.priority;
+};
+
 var getAll = function() {
     var stories = [];
 
@@ -20,6 +24,8 @@ var getAll = function() {
     for (var storyId in _stories) {
         stories.push(_stories[storyId]);
     }
+
+    stories.sort(sortByPriority);
 
     return stories;
 };

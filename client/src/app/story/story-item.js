@@ -30,6 +30,7 @@ var StoryItem = React.createClass({
         StoryInteractions.delete(this.props.story);
     },
     render: function() {
+        var component = this;
         var story = this.props.story;
         var statusClass = 'story-item ';
         switch (story.status) {
@@ -44,21 +45,35 @@ var StoryItem = React.createClass({
                 break;
         }
 
+        var actions = '';
+        if (this.props.showActions) {
+            actions = (
+                <div className="pull-right">
+                    <ButtonGroup>
+                        <Button onClick={component.handleEdit} bsSize="small" bsStyle="primary">
+                            <Glyphicon glyph="cog" />
+                        </Button>
+                        <Button onClick={component.handleDelete} bsSize="small" bsStyle="danger">
+                            <Glyphicon glyph="trash" />
+                        </Button>
+                    </ButtonGroup>
+                </div>
+            );
+        }
+
         return (
             <Draggable itemType={this.props.itemType} itemData={story}>
                 <div className={statusClass}>
-                    <div className="pull-right">
-                        <ButtonGroup>
-                            <Button onClick={this.handleEdit} bsSize="small" bsStyle="primary">
-                                <Glyphicon glyph="cog" />
-                            </Button>
-                            <Button onClick={this.handleDelete} bsSize="small" bsStyle="danger">
-                                <Glyphicon glyph="trash" />
-                            </Button>
-                        </ButtonGroup>
-                    </div>
-                    <h4>{story.name}</h4>
-                    <b>Description:</b> <span>{story.description}</span>
+                        <div className='story-item-points'>
+                            {story.points}
+                        </div>
+                        <div className='story-item-body'>
+                            {actions}
+
+                            <h4>{story.name}</h4>
+                            <b>Description:</b> <span>{story.description}</span>
+                        </div>
+
                 </div>
             </Draggable>
         );

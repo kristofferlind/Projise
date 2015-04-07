@@ -332,7 +332,6 @@
     <Compile Include="Models\ProjectReportViewModel.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Providers\ApplicationOAuthProvider.cs" />
-    <Compile Include="Providers\AuthenticationTokenProvider.cs" />
     <Compile Include="Providers\QueryStringOAuthBearerProvider.cs" />
     <Compile Include="Results\ChallengeResult.cs" />
     <Compile Include="Startup.cs" />

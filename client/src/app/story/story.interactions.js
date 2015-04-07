@@ -36,6 +36,18 @@ var StoryInteractions = {
     removeFromSprint: function(story) {
         dispatch(Interactions.REMOVE_FROM_SPRINT, story);
         StoryService.removeFromSprint(story);
+    },
+    start: function(story) {
+        dispatch(Interactions.WORK_ON_STORY, story);
+        StoryService.start(story);
+    },
+    cancel: function(story) {
+        dispatch(Interactions.CANCEL_STORY, story);
+        StoryService.cancel(story);
+    },
+    complete: function(story) {
+        dispatch(Interactions.COMPLETE_STORY, story);
+        StoryService.complete(story);
     }
 };
 

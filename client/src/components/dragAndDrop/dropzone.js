@@ -4,14 +4,16 @@ var React = require('react/addons');
 
 var Dropzone = React.createClass({
     handleDragOver: function(event) {
-        event.preventDefault();
+        // var payload = JSON.parse(event.dataTransfer.getData('text'));
+        // if (payload && payload.type === this.props.acceptType) {
+            event.preventDefault();
+        // }
     },
-    handleDrop: function() {
-        event.preventDefault();
-
+    handleDrop: function(event) {
         var payload = JSON.parse(event.dataTransfer.getData('text'));
 
         if (payload.type === this.props.acceptType) {
+            event.preventDefault();
             this.props.onDrop(payload.data);
         }
     },

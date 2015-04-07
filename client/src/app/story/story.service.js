@@ -5,7 +5,8 @@ var config = require('../../config/config'),
     APIService = require('../api.service'),
     StoryActions = require('./story.actions'),
     SessionStore = require('../account/session.store'),
-    SprintStore = require('../sprint/sprint.store');
+    SprintStore = require('../sprint/sprint.store'),
+    StoryStatus = config.StoryStatus;
 
 var StoryService = {
     getAll: function() {
@@ -41,6 +42,38 @@ var StoryService = {
         var url = APIEndpoints.STORIES + '/' + story._id;
         story.sprintId = null;
         delete story.sprintId;
+        APIService.put(url, story, function(data) {
+            StoryActions.updated(data);
+        });
+    },
+    start: function(story) {
+        var url = APIEndpoints.STORIES + '/' + story._id,
+            user = SessionStore.getCurrentUser();
+
+        story.status = StoryStatus.IN_PROGRESS;
+        story.userId = user._id;
+
+
+        APIService.put(url, story, function(data) {
+            StoryActions.updated(data);
+        });
+    },
+    cancel: function(story) {
+        var url = APIEndpoints.STORIES + '/' + story._id;
+
+        story.status = StoryStatus.NOT_STARTED;
+        story.userId = null;
+
+        APIService.put(url, story, function(data) {
+            StoryActions.updated(data);
+        });
+    },
+    complete: function(story) {
+        var url = APIEndpoints.STORIES + '/' + story._id;
+
+        story.status = StoryStatus.COMPLETED;
+        story.userId = null;
+
         APIService.put(url, story, function(data) {
             StoryActions.updated(data);
         });

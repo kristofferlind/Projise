@@ -8,8 +8,7 @@ var React = require('react/addons'),
     SprintInteractions = require('../sprint/sprint.interactions'),
     StoryStore = require('../story/story.store'),
     StoryInteractions = require('../story/story.interactions'),
-    StoryToolbar = require('../story/story-toolbar'),
-    StoryList = require('../story/story-list');
+    StoryBox = require('../story/story-box');
 
 
 var PlanProjectPage = React.createClass({
@@ -54,8 +53,7 @@ var PlanProjectPage = React.createClass({
                     </div>
                     <div className="col-md-4">
                         <h2>Product backlog</h2>
-                        <StoryToolbar />
-                        <StoryList stories={stories} />
+                        <StoryBox stories={stories} showCreate='true' />
                     </div>
                     <div className="col-md-4">
                         <h2>Help?</h2>
