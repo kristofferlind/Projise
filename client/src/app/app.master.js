@@ -46,7 +46,7 @@ var AppMaster = React.createClass({
                         <div className="navbar-header">
                             <a className="navbar-brand" href="#">Projise</a>
                         </div>
-                    <a className="pull-right navbar-brand" onClick={this.toggleChat}><i className="fa fa-users"></i> Chat</a>
+                    <a className="pull-right navbar-brand" onClick={this.toggleChat}><i className="fa fa-comments"></i> Chat</a>
                     <Link className="pull-right navbar-brand" to="logout">Log out</Link>
                     </div>
                 </header>

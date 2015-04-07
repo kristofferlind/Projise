@@ -46,3 +46,27 @@ a {
     border-radius: 10px;
     background-color: #fff;
 }
+
+::-webkit-scrollbar {
+    width: 5px;
+}
+
+::-webkit-scrollbar-thumb {
+    background-color: #555;
+    border-radius: 0;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background-color: #777;
+}
+
+::-webkit-scrollbar-track {
+    background-color: #999;
+}
+
+.scroll-column {
+    height: calc(100vh - 232px);
+    padding-top: 1px;
+    overflow-y: auto;
+    overflow-x: hidden;
+}

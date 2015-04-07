@@ -11,3 +11,43 @@
 #chat-panel.pane-active {
     margin-right: 0;
 }
+
+.chat-messages {
+    position: relative;
+    height: calc(100vh - 141px);
+    overflow-y: scroll;
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.chat-form textarea {
+    width: 300px;
+    height: 90px;
+    margin: 0;
+    padding: 0;
+}
+
+.chat-message {
+    -ms-word-wrap: break-word;
+    word-wrap: break-word;
+    margin-top: 8px;
+}
+
+.chat-message .userimage {
+    float: left;
+    margin-left: 4px;
+    height: 25px;
+}
+
+.chat-form .form-group {
+    margin: 0;
+}
+
+.chat-form input[submit] {
+    margin: 0;
+}
+
+.chat-form textarea {
+    margin: 0;
+}

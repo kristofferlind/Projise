@@ -17,7 +17,8 @@ var config = {
         TEAMS: api + '/teams',
         ACTIVATE_PROJECT: api + '/users/me/activate/project',
         ACTIVATE_TEAM: api + '/users/me/activate/team',
-        ME: api + '/users/me'
+        ME: api + '/users/me',
+        MESSAGES: api + '/messages'
     },
     Actions: {
         CHANGE: 'CHANGE',
@@ -28,6 +29,11 @@ var config = {
         SERVER: server,
         API: api,
         SIGNALR: server +'/signalr'
+    },
+    StoryStatus: {
+        NOT_STARTED: 'not started',
+        IN_PROGRESS: 'in progress',
+        COMPLETED: 'completed'
     }
 };
 
