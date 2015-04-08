@@ -116,3 +116,5 @@ Projise/App_Start/Startup.Auth.cs
 Projise/Web.config
 Projise/Web.Debug.config
 Projise/Web.Release.config
+dist
+temp

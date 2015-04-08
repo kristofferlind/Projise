@@ -20,6 +20,7 @@ var ProjectOverviewPage = require('./project/project-overview.page');
 var PlanProjectPage = require('./project/plan-project.page');
 var PlanSprintPage = require('./sprint/plan-sprint.page');
 var MyStoryPage = require('./story/my-story.page');
+var ManageDocumentsPage = require('./document/manage-documents.page');
 
 //Routing
 var Routes = (
@@ -29,6 +30,7 @@ var Routes = (
         <Route name="logout" handler={LogoutPage} />
         <Route name="manage-projects" handler={ManageProjectsPage} />
         <Route name="manage-teams" handler={ManageTeamsPage} />
+        <Route name="manage-documents" handler={ManageDocumentsPage} />
         <Route name="project-overview" handler={ProjectOverviewPage} />
         <Route name="plan-project" handler={PlanProjectPage} />
         <Route name="plan-sprint" handler={PlanSprintPage} />

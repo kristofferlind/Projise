@@ -16,7 +16,8 @@
     "flux": "^2.0.1",
     "superagent": "^1.1.0",
     "events": "^1.0.2",
-    "object-assign": "^2.0.0"
+    "object-assign": "^2.0.0",
+    "marked": "^0.3.3"
   },
   "devDependencies": {
     "grunt": "~0.4.5",
