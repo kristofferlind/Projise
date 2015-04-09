@@ -112,9 +112,5 @@ Projise/App_Data/projise_log.ldf
 Projise/App_Data/projise.mdf
 Projise/Properties/PublishProfiles/projise - FTP.pubxml
 Projise/Properties/PublishProfiles/projise - Web Deploy.pubxml
-Projise/App_Start/Startup.Auth.cs
-Projise/Web.config
-Projise/Web.Debug.config
-Projise/Web.Release.config
 dist
 temp
