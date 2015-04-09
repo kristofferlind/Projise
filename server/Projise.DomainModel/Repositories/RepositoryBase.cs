@@ -5,6 +5,7 @@ using Projise.DomainModel.Entities;
 using Projise.DomainModel.Events;
 using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -18,7 +19,7 @@ namespace Projise.DomainModel.Repositories
 
         public RepositoryBase()
         {
-            var client = new MongoClient(System.Configuration.ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString);
+            var client = new MongoClient(GetMongoDbConnectionString());
             database = client.GetServer().GetDatabase("NETProjise");
             var collectionName = typeof(T).Name.ToLower() + "s";
             collection = database.GetCollection<T>(collectionName);
@@ -74,6 +75,11 @@ namespace Projise.DomainModel.Repositories
                 Update = Update<T>.Replace(collectionItem)
             });
             Sync(new SyncEventArgs<IEntity>("save", collectionItem));
+        }
+        private string GetMongoDbConnectionString()
+        {
+            return ConfigurationManager.AppSettings.Get("MONGOLAB_URI") ??
+                System.Configuration.ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString;
         }
     }
 }
