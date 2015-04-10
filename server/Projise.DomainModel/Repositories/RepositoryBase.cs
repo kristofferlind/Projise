@@ -20,7 +20,7 @@ namespace Projise.DomainModel.Repositories
         public RepositoryBase()
         {
             var client = new MongoClient(GetMongoDbConnectionString());
-            database = client.GetServer().GetDatabase("NETProjise");
+            database = client.GetServer().GetDatabase(ConfigurationManager.AppSettings.Get("mongoDatabaseName"));
             var collectionName = typeof(T).Name.ToLower() + "s";
             collection = database.GetCollection<T>(collectionName);
         }
@@ -79,7 +79,7 @@ namespace Projise.DomainModel.Repositories
         private string GetMongoDbConnectionString()
         {
             return ConfigurationManager.AppSettings.Get("MONGOLAB_URI") ??
-                System.Configuration.ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString;
+                ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString;
         }
     }
 }
