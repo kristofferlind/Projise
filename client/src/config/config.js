@@ -1,6 +1,7 @@
 'use strict';
 
-var server = 'http://localhost:48272',
+var server = 'http://projise.apphb.com',
+// var server = 'http://localhost:48272',
     api = server + '/api';
 
 var config = {
