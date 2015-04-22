@@ -14,8 +14,8 @@ namespace Projise.DomainModel.Repositories
         event EventHandler<SyncEventArgs<IEntity>> OnChange;
         IEnumerable<T> All();
         T FindById(ObjectId id);
-        void Add(T collectionItem);
+        T Add(T collectionItem);
         void Remove(T collectionItem);
-        void Update(T collectionItem);
+        T Update(T collectionItem);
     }
 }

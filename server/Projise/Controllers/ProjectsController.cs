@@ -46,18 +46,18 @@ namespace Projise.Controllers
 
         // POST: api/Project
         [ValidateModel]
-        public void Post([FromBody]Project project)
+        public Project Post([FromBody]Project project)
         {
-            projectRepository.Add(project);
+            return projectRepository.Add(project);
         }
 
         // PUT: api/Project/5
         [ValidateModel]
-        public void Put(string id, [FromBody]Project project)
+        public Project Put(string id, [FromBody]Project project)
         {
             var projectId = ObjectId.Parse(id);
             project.Id = projectId;
-            projectService.Update(project);
+            return projectService.Update(project);
         }
 
         // DELETE: api/Project/5
@@ -71,29 +71,29 @@ namespace Projise.Controllers
         [HttpPut]
         [Route("api/projects/{id}/users")]
         [ValidateModel]
-        public void AddUser(string id, [FromBody]User user)
+        public Project AddUser(string id, [FromBody]User user)
         {
             var projectId = ObjectId.Parse(id);
             var email = user.Email;
-            projectService.AddUser(projectId, email);
+            return projectService.AddUser(projectId, email);
         }
 
         [HttpPut]
         [Route("api/projects/{pId}/users/{tId}")]
-        public void AddTeam(string pId, string tId)
+        public Project AddTeam(string pId, string tId)
         {
             var projectId = ObjectId.Parse(pId);
             var teamId = ObjectId.Parse(tId);
-            projectService.AddTeam(projectId, teamId);
+            return projectService.AddTeam(projectId, teamId);
         }
 
         [HttpDelete]
         [Route("api/projects/{pId}/users/{uId}")]
-        public void RemoveUser(string pId, string uId)
+        public Project RemoveUser(string pId, string uId)
         {
             var projectId = ObjectId.Parse(pId);
             var userId = ObjectId.Parse(uId);
-            projectService.RemoveUser(projectId, userId);
+            return projectService.RemoveUser(projectId, userId);
         }
     }
 }

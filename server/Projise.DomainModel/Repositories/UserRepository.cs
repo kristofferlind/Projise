@@ -33,7 +33,7 @@ namespace Projise.DomainModel.Repositories
             }
         }
 
-        public void Update(UserWithSessionVars user)
+        public UserWithSessionVars Update(UserWithSessionVars user)
         {
             collection.FindAndModify(new FindAndModifyArgs
             {
@@ -43,15 +43,17 @@ namespace Projise.DomainModel.Repositories
                                                     .Set(e => e.GoogleAccessToken, user.GoogleAccessToken)
             });
             Sync(new SyncEventArgs<UserWithSessionVars>("save", user));
+            return user;
         }
 
-        public void SetGoogleToken(UserWithSessionVars user)
+        public UserWithSessionVars SetGoogleToken(UserWithSessionVars user)
         {
             collection.FindAndModify(new FindAndModifyArgs
             {
                 Query = Query<UserWithSessionVars>.EQ(e => e.Id, user.Id),
                 Update = Update<UserWithSessionVars>.Set(e => e.GoogleAccessToken, user.GoogleAccessToken)
             });
+            return user;
         }
 
         public User FindByEmail(string email)   //internal?

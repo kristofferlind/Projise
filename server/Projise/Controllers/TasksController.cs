@@ -33,16 +33,16 @@ namespace Projise.Controllers
 
         // POST: api/Tasks
         [ValidateModel]
-        public void Post([FromBody]Task task)
+        public Task Post([FromBody]Task task)
         {
-            taskRepository.Add(task);
+            return taskRepository.Add(task);
         }
 
         // PUT: api/Tasks/5
         [ValidateModel]
-        public void Put([FromBody]Task task)
+        public Task Put([FromBody]Task task)
         {
-            taskRepository.Update(task);
+            return taskRepository.Update(task);
         }
 
         // DELETE: api/Tasks/5

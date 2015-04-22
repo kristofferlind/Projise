@@ -28,26 +28,20 @@ namespace Projise.Controllers
             return sprintRepository.All();
         }
 
-        //// GET: api/Sprint/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
         // POST: api/Sprint
         [ValidateModel]
-        public void Post([FromBody]Sprint sprint)
+        public Sprint Post([FromBody]Sprint sprint)
         {
             sprint.ProjectId = SessionUser.ActiveProject;
-            sprintRepository.Add(sprint);
+            return sprintRepository.Add(sprint);
         }
 
         // PUT: api/Sprint/5
         [ValidateModel]
-        public void Put([FromBody]Sprint sprint)
+        public Sprint Put([FromBody]Sprint sprint)
         {
             sprint.ProjectId = SessionUser.ActiveProject;
-            sprintRepository.Update(sprint);
+            return sprintRepository.Update(sprint);
         }
 
         // DELETE: api/Sprint/5

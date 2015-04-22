@@ -48,9 +48,9 @@ namespace Projise.DomainModel
             return teamRepository.FindById(id);
         }
 
-        public void Add(Team collectionItem, ObjectId parentId)
+        public Team Add(Team collectionItem, ObjectId parentId)
         {
-            teamRepository.Add(collectionItem);
+            return teamRepository.Add(collectionItem);
         }
 
         public void Remove(Team collectionItem)
@@ -58,20 +58,20 @@ namespace Projise.DomainModel
             teamRepository.Remove(collectionItem);
         }
 
-        public void Update(Team collectionItem)
+        public Team Update(Team collectionItem)
         {
-            teamRepository.Update(collectionItem);
+            return teamRepository.Update(collectionItem);
         }
 
-        public void AddUser(ObjectId teamId, string userEmail)
+        public Team AddUser(ObjectId teamId, string userEmail)
         {
             var user = userRepository.FindByEmail(userEmail);
-            teamRepository.AddUser(teamId, user);
+            return teamRepository.AddUser(teamId, user);
         }
 
-        public void RemoveUser(ObjectId teamId, ObjectId userId)
+        public Team RemoveUser(ObjectId teamId, ObjectId userId)
         {
-            teamRepository.RemoveUser(teamId, userId);
+            return teamRepository.RemoveUser(teamId, userId);
         }
     }
 }

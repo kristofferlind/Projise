@@ -32,9 +32,9 @@ namespace Projise.DomainModel
             return projectRepository.FindById(id);
         }
 
-        public void Add(Project collectionItem, ObjectId parentId)
+        public Project Add(Project collectionItem, ObjectId parentId)
         {
-            projectRepository.Add(collectionItem);
+            return projectRepository.Add(collectionItem);
         }
 
         public void Remove(Project collectionItem)
@@ -42,12 +42,12 @@ namespace Projise.DomainModel
             projectRepository.Remove(collectionItem);
         }
 
-        public void Update(Project collectionItem)
+        public Project Update(Project collectionItem)
         {
-            projectRepository.Update(collectionItem);
+            return projectRepository.Update(collectionItem);
         }
 
-        public void AddUser(ObjectId projectId, string email)
+        public Project AddUser(ObjectId projectId, string email)
         {
             var user = userRepository.FindByEmail(email);
 
@@ -55,31 +55,20 @@ namespace Projise.DomainModel
             {
                 throw new ArgumentException("No such user found.");
             }
-            //var project = projectRepository.FindById(projectId);
-            //project.Users.Add(user);
-            //project.Users = project.Users.Distinct().ToList();
-            //projectRepository.Update(project);
 
-            projectRepository.AddUser(projectId, user);     //Distinct, men specificerad..
+            return projectRepository.AddUser(projectId, user);
         }
 
-        public void AddTeam(ObjectId projectId, ObjectId teamId)
+        public Project AddTeam(ObjectId projectId, ObjectId teamId)
         {
             var team = teamRepository.FindById(teamId);
-            //var project = projectRepository.FindById(projectId);
-            //project.Users.AddRange(team.Users);
-            //project.Users = project.Users.Distinct().ToList();
-            //projectRepository.Update(project);
 
-            projectRepository.AddTeam(projectId, team);
+            return projectRepository.AddTeam(projectId, team);
         }
 
-        public void RemoveUser(ObjectId projectId, ObjectId userId)
+        public Project RemoveUser(ObjectId projectId, ObjectId userId)
         {
-            //var project = projectRepository.FindById(projectId);
-            //project.Users.RemoveAll(u => u.Id == userId);
-            //projectRepository.Update(project);
-            projectRepository.RemoveUser(projectId, userId);
+            return projectRepository.RemoveUser(projectId, userId);
         }
     }
 }

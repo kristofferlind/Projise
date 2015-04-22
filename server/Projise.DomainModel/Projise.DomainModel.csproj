@@ -158,7 +158,6 @@
     <Compile Include="Repositories\TaskRepository.cs" />
     <Compile Include="Repositories\TeamRepository.cs" />
     <Compile Include="Repositories\UserRepository.cs" />
-    <Compile Include="ServiceBase.cs" />
     <Compile Include="TeamService.cs" />
   </ItemGroup>
   <ItemGroup>

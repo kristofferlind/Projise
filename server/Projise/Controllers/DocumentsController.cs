@@ -37,17 +37,17 @@ namespace Projise.Controllers
 
         // POST: api/Documents
         [ValidateModel]
-        public void Post([FromBody]Document document)
+        public Document Post([FromBody]Document document)
         {
             document.ProjectId = SessionUser.ActiveProject;
-            documentRepository.Add(document);
+            return documentRepository.Add(document);
         }
 
         // PUT: api/Documents/5
         [ValidateModel]
-        public void Put([FromBody]Document document)
+        public Document Put([FromBody]Document document)
         {
-            documentRepository.Update(document);
+            return documentRepository.Update(document);
         }
 
         // DELETE: api/Documents/5

@@ -27,30 +27,14 @@ namespace Projise.Controllers
             return messageRepository.All();
         }
 
-        //// GET: api/Message/5
-        //public string Get(int id)
-        //{
-        //    return "value";
-        //}
-
         // POST: api/Message
         [ValidateModel]
-        public void Post([FromBody]Message message)
+        public Message Post([FromBody]Message message)
         {
             message.ProjectId = SessionUser.ActiveProject;
             message.User = AppUser;
             message.Date = DateTime.Now;
-            messageRepository.Add(message);
+            return messageRepository.Add(message);
         }
-
-        //// PUT: api/Message/5
-        //public void Put(int id, [FromBody]string value)
-        //{
-        //}
-
-        //// DELETE: api/Message/5
-        //public void Delete(int id)
-        //{
-        //}
     }
 }

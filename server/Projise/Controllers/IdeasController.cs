@@ -36,17 +36,17 @@ namespace Projise.Controllers
 
         // POST: api/Ideas
         [ValidateModel]
-        public void Post([FromBody]Idea idea)
+        public Idea Post([FromBody]Idea idea)
         {
             idea.ProjectId = SessionUser.ActiveProject;
-            ideaRepository.Add(idea);
+            return ideaRepository.Add(idea);
         }
 
         // PUT: api/Ideas/5
         [ValidateModel]
-        public void Put(string id, [FromBody]Idea idea)
+        public Idea Put(string id, [FromBody]Idea idea)
         {
-            ideaRepository.Update(idea);
+            return ideaRepository.Update(idea);
         }
 
         // DELETE: api/Ideas/5
@@ -58,18 +58,18 @@ namespace Projise.Controllers
 
         [HttpPut]
         [Route("api/ideas/{id}/up")]
-        public void VoteUp(string id)
+        public Idea VoteUp(string id)
         {
             var ideaId = ObjectId.Parse(id);
-            ideaRepository.VoteUp(ideaId, SessionUser.Id);
+            return ideaRepository.VoteUp(ideaId, SessionUser.Id);
         }
 
         [HttpPut]
         [Route("api/ideas/{id}/down")]
-        public void VoteDown(string id)
+        public Idea VoteDown(string id)
         {
             var ideaId = ObjectId.Parse(id);
-            ideaRepository.VoteDown(ideaId, SessionUser.Id);
+            return ideaRepository.VoteDown(ideaId, SessionUser.Id);
         }
     }
 }

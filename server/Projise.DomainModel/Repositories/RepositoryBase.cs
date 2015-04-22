@@ -47,10 +47,11 @@ namespace Projise.DomainModel.Repositories
             return collection.FindOneByIdAs<T>(id);
         }
 
-        public virtual void Add(T collectionItem)
+        public virtual T Add(T collectionItem)
         {
             collection.Insert<T>(collectionItem);
             Sync(new SyncEventArgs<IEntity>("save", collectionItem));
+            return collectionItem;
         }
 
         //Ta bort?
@@ -67,7 +68,7 @@ namespace Projise.DomainModel.Repositories
             Sync(new SyncEventArgs<IEntity>("remove", collectionItem));
         }
 
-        public virtual void Update(T collectionItem)
+        public virtual T Update(T collectionItem)
         {
             collection.FindAndModify(new FindAndModifyArgs
             {
@@ -75,6 +76,7 @@ namespace Projise.DomainModel.Repositories
                 Update = Update<T>.Replace(collectionItem)
             });
             Sync(new SyncEventArgs<IEntity>("save", collectionItem));
+            return collectionItem;
         }
         private string GetMongoDbConnectionString()
         {

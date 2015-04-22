@@ -24,7 +24,7 @@ namespace Projise.DomainModel.Repositories
             return collection.FindAs<Team>(Query<Team>.Where(t => t.Users.Any(u => u.Id == user.Id))).AsQueryable<Team>();
         }
 
-        public override void Update(Team team)
+        public override Team Update(Team team)
         {
             collection.FindAndModify(new FindAndModifyArgs
             {
@@ -33,9 +33,10 @@ namespace Projise.DomainModel.Repositories
                                         .Set(t => t.Description, team.Description)
             });
             Sync(new SyncEventArgs<IEntity>("save", team));
+            return team;
         }
 
-        public override void Add(Team collectionItem)
+        public override Team Add(Team collectionItem)
         {
             if (collectionItem.Users == null)
             {
@@ -45,9 +46,10 @@ namespace Projise.DomainModel.Repositories
             collectionItem.Users.Add(user);
             collection.Insert<Team>(collectionItem);
             Sync(new SyncEventArgs<IEntity>("save", collectionItem));
+            return collectionItem;
         }
 
-        public void AddUser(ObjectId teamId, User user)
+        public Team AddUser(ObjectId teamId, User user)
         {
             collection.FindAndModify(new FindAndModifyArgs
             {
@@ -56,9 +58,10 @@ namespace Projise.DomainModel.Repositories
             });
             var team = FindById(teamId);
             Sync(new SyncEventArgs<IEntity>("save", team));
+            return team;
         }
 
-        public void RemoveUser(ObjectId teamId, ObjectId userId)
+        public Team RemoveUser(ObjectId teamId, ObjectId userId)
         {
             collection.FindAndModify(new FindAndModifyArgs
             {
@@ -68,6 +71,7 @@ namespace Projise.DomainModel.Repositories
 
             var team = FindById(teamId);
             Sync(new SyncEventArgs<IEntity>("save", team));
+            return team;
         }
     }
 }

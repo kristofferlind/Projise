@@ -23,20 +23,5 @@ namespace Projise.DomainModel.Repositories
         {
             return collection.FindAs<Document>(Query<Document>.Where(d => d.ProjectId == user.ActiveProject)).AsQueryable<Document>();
         }
-
-        //public override DocumentWithData FindById(ObjectId id)
-        //{
-        //    return collection.FindOneByIdAs<DocumentWithData>(id);
-        //}
-
-        //public void Update(DocumentWithData collectionItem)
-        //{
-        //    collection.FindAndModify(new FindAndModifyArgs
-        //    {
-        //        Query = Query<DocumentWithData>.Where(e => e.Id == collectionItem.Id),
-        //        Update = Update<DocumentWithData>.Replace(collectionItem)
-        //    });
-        //    Sync(new SyncEventArgs<DocumentWithData>("save", collectionItem));
-        //}
     }
 }

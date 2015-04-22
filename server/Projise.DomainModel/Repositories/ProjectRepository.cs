@@ -30,7 +30,7 @@ namespace Projise.DomainModel.Repositories
             return collection.FindAs<Project>(Query<Project>.Where(p => p.Users.Any(u => u.Id == user.Id))).AsQueryable<Project>();
         }
 
-        public override void Update(Project project)
+        public override Project Update(Project project)
         {
             collection.FindAndModify(new FindAndModifyArgs
             {
@@ -39,17 +39,19 @@ namespace Projise.DomainModel.Repositories
                                         .Set(p => p.Description, project.Description)
             });
             Sync(new SyncEventArgs<IEntity>("save", project));
+            return project;
         }
 
-        public override void Add(Project collectionItem)
+        public override Project Add(Project collectionItem)
         {
             collectionItem.Users.Clear();
             collectionItem.Users.Add(user);
             collection.Insert<Project>(collectionItem);
             Sync(new SyncEventArgs<IEntity>("save", collectionItem));
+            return collectionItem;
         }
 
-        public void AddUser(ObjectId projectId, User user)
+        public Project AddUser(ObjectId projectId, User user)
         {
             collection.FindAndModify(new FindAndModifyArgs
             {
@@ -58,9 +60,10 @@ namespace Projise.DomainModel.Repositories
             });
             var project = FindById(projectId);
             Sync(new SyncEventArgs<IEntity>("save", project));
+            return project;
         }
 
-        public void AddTeam(ObjectId projectId, Team team)
+        public Project AddTeam(ObjectId projectId, Team team)
         {
             collection.FindAndModify(new FindAndModifyArgs
             {
@@ -69,9 +72,10 @@ namespace Projise.DomainModel.Repositories
             });
             var project = FindById(projectId);
             Sync(new SyncEventArgs<IEntity>("save", project));
+            return project;
         }
 
-        public void RemoveUser(ObjectId projectId, ObjectId userId)
+        public Project RemoveUser(ObjectId projectId, ObjectId userId)
         {
             collection.FindAndModify(new FindAndModifyArgs
             {
@@ -81,6 +85,7 @@ namespace Projise.DomainModel.Repositories
 
             var project = FindById(projectId);
             Sync(new SyncEventArgs<IEntity>("save", project));
+            return project;
         }
     }
 }

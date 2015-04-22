@@ -37,17 +37,17 @@ namespace Projise.Controllers
 
         // POST: api/Stories
         [ValidateModel]
-        public void Post([FromBody]Story story)
+        public Story Post([FromBody]Story story)
         {
             story.ProjectId = SessionUser.ActiveProject;
-            storyRepository.Add(story);
+            return storyRepository.Add(story);
         }
 
         // PUT: api/Stories/5
         [ValidateModel]
-        public void Put([FromBody]Story story)
+        public Story Put([FromBody]Story story)
         {
-            storyRepository.Update(story);
+            return storyRepository.Update(story);
         }
 
         // DELETE: api/Stories/5

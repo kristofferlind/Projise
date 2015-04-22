@@ -45,16 +45,16 @@ namespace Projise.Controllers
 
         // POST: api/Team
         [ValidateModel]
-        public void Post([FromBody]Team team)
+        public Team Post([FromBody]Team team)
         {
-            teamRepository.Add(team);
+            return teamRepository.Add(team);
         }
 
         // PUT: api/Team/5
         [ValidateModel]
-        public void Put(string id, [FromBody]Team team)
+        public Team Put(string id, [FromBody]Team team)
         {
-            teamRepository.Update(team);
+            return teamRepository.Update(team);
         }
 
         // DELETE: api/Team/5
@@ -67,21 +67,21 @@ namespace Projise.Controllers
         [HttpPut]
         [Route("api/teams/users/")]
         [ValidateModel]
-        public void AddUser([FromBody]User user)
+        public Team AddUser([FromBody]User user)
         {
             if (SessionUser.ActiveTeam == new ObjectId("000000000000000000000000"))
             {
                 throw new ArgumentNullException("Active team needed to add member.");
             }
-            teamService.AddUser(SessionUser.ActiveTeam, user.Email);
+            return teamService.AddUser(SessionUser.ActiveTeam, user.Email);
         }
 
         [HttpDelete]
         [Route("api/teams/users/{id}")]
-        public void RemoveUser(string id)
+        public Team RemoveUser(string id)
         {
             var userId = ObjectId.Parse(id);
-            teamService.RemoveUser(SessionUser.ActiveTeam, userId);
+            return teamService.RemoveUser(SessionUser.ActiveTeam, userId);
         }
     }
 }

@@ -44,22 +44,22 @@ namespace Projise.Controllers
         [HttpPut]
         [Route("api/users/me/activate/team/{id}")]
         [ValidateModel]
-        public void ActivateTeam(string id)
+        public UserWithSessionVars ActivateTeam(string id)
         {
             var teamId = ObjectId.Parse(id);
             SessionUser.ActiveTeam = teamId;
-            userRepository.Update(SessionUser);
+            return userRepository.Update(SessionUser);
         }
 
         [HttpPut]
         [Route("api/users/me/activate/project/{id}")]
         [ValidateModel]
-        public void ActivateProject(string id)
+        public UserWithSessionVars ActivateProject(string id)
         {
             var projectId = ObjectId.Parse(id);
             //TODO: check that user is part of project
             SessionUser.ActiveProject = projectId;
-            userRepository.Update(SessionUser);
+            return userRepository.Update(SessionUser);
         }
     }
 }

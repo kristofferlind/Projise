@@ -11,8 +11,8 @@ namespace Projise.DomainModel
     {
         IEnumerable<T> All();
         T FindById(ObjectId id);
-        void Add(T collectionItem, ObjectId parentId);
+        T Add(T collectionItem, ObjectId parentId);
         void Remove(T collectionItem);
-        void Update(T collectionItem);
+        T Update(T collectionItem);
     }
 }

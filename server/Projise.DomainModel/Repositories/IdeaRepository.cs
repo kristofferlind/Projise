@@ -23,7 +23,7 @@ namespace Projise.DomainModel.Repositories
             return collection.FindAs<Idea>(Query<Idea>.Where(i => i.ProjectId == user.ActiveProject)).AsQueryable<Idea>();
         }
 
-        public void VoteUp(ObjectId id, ObjectId userId)
+        public Idea VoteUp(ObjectId id, ObjectId userId)
         {
             collection.FindAndModify(new FindAndModifyArgs
             {
@@ -33,9 +33,10 @@ namespace Projise.DomainModel.Repositories
             });
             var idea = FindById(id);
             Sync(new SyncEventArgs<IEntity>("save", idea));
+            return idea;
         }
 
-        public void VoteDown(ObjectId id, ObjectId userId)
+        public Idea VoteDown(ObjectId id, ObjectId userId)
         {
             collection.FindAndModify(new FindAndModifyArgs
             {
@@ -45,6 +46,7 @@ namespace Projise.DomainModel.Repositories
             });
             var idea = FindById(id);
             Sync(new SyncEventArgs<IEntity>("save", idea));
+            return idea;
         }
     }
 }
