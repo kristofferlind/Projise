@@ -19,3 +19,7 @@ It's also possible to use an online backend, switch in client/config/config.js
 * Navigate to client folder
 * `npm install`
 * `grunt serve:dist`
+
+
+###ModalTrigger
+custom-ModalTrigger is a bugfix for react-bootstrap, will fork and use an own repo if it's not resolved. For now this change has to be done manually.
