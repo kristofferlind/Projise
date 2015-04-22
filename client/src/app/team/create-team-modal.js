@@ -22,7 +22,7 @@ var CreateTeamModal = React.createClass({
             <Modal bsStyle="primary" title="Create team" onRequestHide={this.props.onToggle}>
                 <div className="modal-body">
                     <form onSubmit={this.createTeam}>
-                        <Input type="text" placeholder="Name" ref="name" label="Name" />
+                        <Input type="text" placeholder="Name" ref="name" label="Name" autoFocus />
                         <Input type="textarea" placeholder="Description" ref="description" label="Description" />
                         <Input type="submit" value="Create" />
                     </form>

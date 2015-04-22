@@ -9,11 +9,12 @@ var React = require('react/addons'),
 var EditTeamModal = React.createClass({
     updateTeam: function(e) {
         e.preventDefault();
-        var team = {
-            _id: this.props.team._id,
-            name: this.refs.name.getValue(),
-            description: this.refs.description.getValue()
-        };
+
+        var team = this.props.team;
+
+        team.name = this.refs.name.getValue();
+        team.description = this.refs.description.getValue();
+
         TeamInteractions.update(team);
         this.props.onToggle();
     },
@@ -23,7 +24,7 @@ var EditTeamModal = React.createClass({
             <Modal bsStyle="primary" title="Edit team" onRequestHide={this.props.onToggle}>
                 <div className="modal-body">
                     <form onSubmit={this.updateTeam}>
-                        <Input type="text" placeholder="Name" defaultValue={team.name} ref="name" label="Name" />
+                        <Input type="text" placeholder="Name" defaultValue={team.name} ref="name" label="Name" autoFocus />
                         <Input type="textarea" placeholder="Description" defaultValue={team.description} ref="description" label="Description" />
                         <Input type="submit" value="Edit" />
                     </form>

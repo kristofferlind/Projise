@@ -22,7 +22,7 @@ var EditDocumentModal = React.createClass({
             <Modal bsStyle="primary" title="Edit document" onRequestHide={this.props.onToggle}>
                 <div className="modal-body">
                     <form onSubmit={this.updateDocument}>
-                        <Input type="text" placeholder="Name" defaultValue={document.name} ref="name" label="Name" />
+                        <Input type="text" placeholder="Name" defaultValue={document.name} ref="name" label="Name" autoFocus />
                         <Input type="textarea" placeholder="Description" defaultValue={document.description} ref="description" label="Description" />
                         <Input type="submit" value="Edit" />
                     </form>

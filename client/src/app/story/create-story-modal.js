@@ -24,7 +24,7 @@ var CreateStoryModal = React.createClass({
             <Modal bsStyle="primary" title="Create story" onRequestHide={this.props.onToggle}>
                 <div className="modal-body">
                     <form onSubmit={this.createStory}>
-                        <Input type="text" placeholder="Name" ref="name" label="Name" />
+                        <Input type="text" placeholder="Name" ref="name" label="Name" autoFocus />
                         <Input type="textarea" placeholder="Description" ref="description" label="Description" />
                         <Input type="range" defaultValue="5" min="1" max="100" ref="points" label="Points" />
                         <Input type="range" defaultValue="5" min="1" max="100" ref="priority" label="Priority" />

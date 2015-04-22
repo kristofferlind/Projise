@@ -23,7 +23,7 @@ var CreateSprintModal = React.createClass({
             <Modal bsStyle="primary" title="Create sprint" onRequestHide={this.props.onToggle}>
                 <div className="modal-body">
                     <form onSubmit={this.createSprint}>
-                        <Input type="text" placeholder="Name" ref="name" label="Name" />
+                        <Input type="text" placeholder="Name" ref="name" label="Name" autoFocus />
                         <Input type="textarea" placeholder="Goal" ref="goal" label="Goal" />
                         <Input type="date" ref="start" label="Start" />
                         <Input type="date" ref="end" label="End" />

@@ -22,7 +22,7 @@ var CreateProjectModal = React.createClass({
             <Modal bsStyle="primary" title="Create project" onRequestHide={this.props.onToggle}>
                 <div className="modal-body">
                     <form onSubmit={this.createProject}>
-                        <Input type="text" placeholder="Name" ref="name" label="Name" />
+                        <Input type="text" placeholder="Name" ref="name" label="Name" autoFocus />
                         <Input type="textarea" placeholder="Description" ref="description" label="Description" />
                         <Input type="submit" value="Create" />
                     </form>

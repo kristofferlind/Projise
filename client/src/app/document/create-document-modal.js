@@ -21,7 +21,7 @@ var CreateDocumentModal = React.createClass({
             <Modal bsStyle="primary" title="Create document" onRequestHide={this.props.onToggle}>
                 <div className="modal-body">
                     <form onSubmit={this.createDocument}>
-                        <Input type="text" placeholder="Name" ref="name" label="Name" />
+                        <Input type="text" placeholder="Name" ref="name" label="Name" autoFocus />
                         <Input type="textarea" placeholder="Description" ref="description" label="Description" />
                         <Input type="submit" value="Create" />
                     </form>

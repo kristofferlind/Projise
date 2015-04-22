@@ -9,14 +9,13 @@ var React = require('react/addons'),
 var EditStoryModal = React.createClass({
     updateStory: function(e) {
         e.preventDefault();
-        var story = {
-            _id: this.props.story._id,
-            name: this.refs.name.getValue(),
-            description: this.refs.description.getValue(),
-            points: this.refs.points.getValue(),
-            priority: this.refs.priority.getValue(),
-            status: this.props.story.status
-        };
+        var story = this.props.story;
+
+        story.name = this.refs.name.getValue();
+        story.description = this.refs.description.getValue();
+        story.points = this.refs.points.getValue();
+        story.priority = this.refs.priority.getValue();
+
         StoryInteractions.update(story);
         this.props.onToggle();
     },
@@ -26,7 +25,7 @@ var EditStoryModal = React.createClass({
             <Modal bsStyle="primary" title="Edit story" onRequestHide={this.props.onToggle}>
                 <div className="modal-body">
                     <form onSubmit={this.updateStory}>
-                        <Input type="text" defaultValue={story.name} placeholder="Name" ref="name" label="Name" />
+                        <Input type="text" defaultValue={story.name} placeholder="Name" ref="name" label="Name" autoFocus />
                         <Input type="textarea" defaultValue={story.description} placeholder="Description" ref="description" label="Description" />
                         <Input type="range" defaultValue={story.points} min="1" max="100" ref="points" label="Points" />
                         <Input type="range" defaultValue={story.priority} min="1" max="100" ref="priority" label="Priority" />

@@ -45,11 +45,13 @@ var LoginPage = React.createClass({
         return (
             <div className="backdrop">
                 <section className="box login-box">
-                    <Input type="email" placeholder="user@example.com" label="Email" ref="email" />
+                    <form onSubmit={this.handleLogin}>
+                    <Input type="email" placeholder="user@example.com" label="Email" ref="email" autoFocus />
                     <Input type="password" placeholder="password" label="Password" ref="password" />
                     <p>Not a member? <Link to="register">Register</Link></p>
-                    <Button onClick={this.handleLogin}>Login</Button>
+                    <Button type="submit" onClick={this.handleLogin}>Login</Button>
                     {errors}
+                    </form>
                 </section>
             </div>
         );
