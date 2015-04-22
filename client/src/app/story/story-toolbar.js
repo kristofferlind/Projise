@@ -7,7 +7,9 @@ var React = require('react/addons'),
     OverlayMixin = require('react-bootstrap').OverlayMixin,
     CreateStoryModal = require('./create-story-modal'),
     Form = require('react-bootstrap').Form,
-    ButtonGroup = require('react-bootstrap').ButtonGroup;
+    ButtonGroup = require('react-bootstrap').ButtonGroup,
+    OverlayTrigger = require('react-bootstrap').OverlayTrigger,
+    Tooltip = require('react-bootstrap').Tooltip;
 
 var StoryToolbar = React.createClass({
     mixins: [OverlayMixin],
@@ -77,18 +79,26 @@ var StoryToolbar = React.createClass({
                 </div>
                 <div>
                     <ButtonGroup>
-                        <Button bsSize='small' active={isActive('completed')} onClick={this.showCompleted} bsStyle="success">
-                            <i className="fa fa-check"></i>
-                        </Button>
-                        <Button bsSize='small' active={isActive('inProgress')} onClick={this.showInProgress} bsStyle="info">
-                            <i className="fa fa-cogs"></i>
-                        </Button>
-                        <Button bsSize='small' active={isActive('notStarted')} onClick={this.showNotStarted} bsStyle="danger">
-                            <i className="fa fa-ban"></i>
-                        </Button>
-                       <Button bsSize='small' onClick={this.showAll} bsStyle="primary">
-                            <i className="fa fa-asterisk"></i>
-                        </Button>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Toggle completed</Tooltip>}>
+                            <Button bsSize='small' active={isActive('completed')} onClick={this.showCompleted} bsStyle="success">
+                                <i className="fa fa-check"></i>
+                            </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Toggle in progress</Tooltip>}>
+                            <Button bsSize='small' active={isActive('inProgress')} onClick={this.showInProgress} bsStyle="info">
+                                <i className="fa fa-cogs"></i>
+                            </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Toggle not started</Tooltip>}>
+                            <Button bsSize='small' active={isActive('notStarted')} onClick={this.showNotStarted} bsStyle="danger">
+                                <i className="fa fa-ban"></i>
+                            </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Show all</Tooltip>}>
+                           <Button bsSize='small' onClick={this.showAll} bsStyle="primary">
+                                <i className="fa fa-asterisk"></i>
+                            </Button>
+                        </OverlayTrigger>
                     </ButtonGroup>
                 </div>
                 {showCreate()}

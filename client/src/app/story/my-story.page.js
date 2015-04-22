@@ -1,7 +1,6 @@
 'use strict';
 
 var React = require('react/addons'),
-    RequireAuthentication = require('../require-authentication'),
     StoryStore = require('../story/story.store'),
     StoryInteractions = require('../story/story.interactions'),
     StoryToolbar = require('../story/story-toolbar'),
@@ -11,11 +10,12 @@ var React = require('react/addons'),
     Draggable = require('../../components/dragAndDrop/draggable'),
     StoryItem = require('../story/story-item'),
     SessionStore = require('../account/session.store.js'),
-    StoryBox = require('./story-box');
+    StoryBox = require('./story-box'),
+    RequireActiveSprint = require('../sprint/require-active-sprint');
 
 
 var MyStoryPage = React.createClass({
-    mixins: [RequireAuthentication],
+    mixins: [RequireActiveSprint],
     getInitialState: function() {
         return {
             stories: StoryStore.getAll(),
@@ -57,7 +57,12 @@ var MyStoryPage = React.createClass({
 
                 return story.status === 'completed';
             }),
-            myStory = '';
+            myStory = '',
+            backlogOptions = {
+                completed: false,
+                inProgress: false,
+                notStarted: true
+            };
 
         if (activeStory) {
             myStory = <StoryItem itemType='my-story' story={activeStory} />;
@@ -76,7 +81,7 @@ var MyStoryPage = React.createClass({
                 <div className="row">
                     <div className="col-md-4">
                         <h2>Sprint backlog</h2>
-                        <StoryBox onDrop={this.cancelStory} acceptType='my-story' itemType='sb-story' stories={sprintStories} isSprintBacklog='true' />
+                        <StoryBox filterOptions={backlogOptions} onDrop={this.cancelStory} acceptType='my-story' itemType='sb-story' stories={sprintStories} isSprintBacklog='true' />
                     </div>
                     <div className="col-md-4">
                         <h2>My story</h2>

@@ -6,7 +6,11 @@ var React = require('react/addons'),
     ButtonGroup = require('react-bootstrap').ButtonGroup,
     Glyphicon = require('react-bootstrap').Glyphicon,
     EditSprintModal = require('./edit-sprint-modal'),
-    SprintInteractions = require('./sprint.interactions');
+    SprintInteractions = require('./sprint.interactions'),
+    Confirm = require('../../components/confirm/confirm-dialog'),
+    ModalTrigger = require('react-bootstrap').ModalTrigger,
+    OverlayTrigger = require('react-bootstrap').OverlayTrigger,
+    Tooltip = require('react-bootstrap').Tooltip;
 
 require('./sprint.scss');
 
@@ -72,12 +76,18 @@ var SprintItem = React.createClass({
             <div className={getStatus()}>
                 <div className="pull-right">
                     <ButtonGroup>
-                        <Button onClick={this.handleEdit} bsSize="small" bsStyle="primary">
-                            <Glyphicon glyph="cog" />
-                        </Button>
-                        <Button onClick={this.handleDelete} bsSize="small" bsStyle="danger">
-                            <Glyphicon glyph="trash" />
-                        </Button>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Edit sprint</Tooltip>}>
+                            <Button onClick={this.handleEdit} bsSize="small" bsStyle="primary">
+                                <Glyphicon glyph="cog" />
+                            </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Delete sprint</Tooltip>}>
+                            <ModalTrigger modal={<Confirm bsStyle='danger' onConfirm={this.handleDelete} message='Are you sure you want to delete this sprint?' action='Delete' />}>
+                                <Button bsSize="small" bsStyle="danger">
+                                    <Glyphicon glyph="trash" />
+                                </Button>
+                            </ModalTrigger>
+                        </OverlayTrigger>
                     </ButtonGroup>
                 </div>
                 <h4>{sprint.name} <small>({start} - {end})</small> </h4>

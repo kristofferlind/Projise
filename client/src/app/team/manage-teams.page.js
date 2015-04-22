@@ -6,8 +6,7 @@ var React = require('react/addons'),
     RequireAuthentication = require('../require-authentication'),
     TeamInteractions = require('./team.interactions'),
     TeamStore = require('./team.store'),
-    ManageTeamTable = require('./manage-team-table'),
-    TeamToolbar = require('./team-toolbar');
+    ManageTeamBox = require('./manage-team-box');
 
 
 var ManageTeamsPage = React.createClass({
@@ -48,8 +47,7 @@ var ManageTeamsPage = React.createClass({
                 <div className="row">
                     <div className="col-md-4">
                         <h2>My teams</h2>
-                        <TeamToolbar />
-                        <ManageTeamTable teams={teams} activeTeam={activeTeam} />
+                        <ManageTeamBox teams={teams} activeTeam={activeTeam} />
                     </div>
                     <div className="col-md-4">
                         <h2>Members</h2>

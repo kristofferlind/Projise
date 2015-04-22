@@ -30,6 +30,12 @@ var ProjectStore = assign({}, EventEmitter.prototype, {
         }
         return _projects[_activeProjectId];
     },
+    getActiveProjectId: function() {
+        if (_activeProjectId) {
+            return _activeProjectId;
+        }
+        return null;
+    },
     addChangeListener: function(callback) {
         ProjectStore.on(Actions.CHANGE, callback);
     },

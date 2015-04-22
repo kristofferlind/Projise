@@ -1,15 +1,15 @@
 'use strict';
 
 var React = require('react/addons'),
-    RequireAuthentication = require('../require-authentication'),
     StoryStore = require('../story/story.store'),
     StoryInteractions = require('../story/story.interactions'),
     StoryBox = require('../story/story-box'),
-    SprintInteractions = require('./sprint.interactions');
+    SprintInteractions = require('./sprint.interactions'),
+    RequireActiveSprint = require('../sprint/require-active-sprint');
 
 
 var PlanProjectPage = React.createClass({
-    mixins: [RequireAuthentication],
+    mixins: [RequireActiveSprint],
     getInitialState: function() {
         return {
             stories: StoryStore.getAll(),
@@ -32,7 +32,17 @@ var PlanProjectPage = React.createClass({
     },
     render: function() {
         var stories = this.state.stories,
-            sprintStories = this.state.sprintStories;
+            sprintStories = this.state.sprintStories,
+            productBacklogOptions = {
+                completed: false,
+                inProgress: false,
+                notStarted: true
+            },
+            sprintBacklogOptions = {
+                completed: false,
+                inProgress: true,
+                notStarted: true
+            };
 
         return (
             <main>
@@ -40,11 +50,11 @@ var PlanProjectPage = React.createClass({
                 <div className="row">
                     <div className="col-md-4">
                         <h2>Product backlog</h2>
-                        <StoryBox acceptType='sb-story' itemType='pb-story'  stories={stories} showCreate='true' />
+                        <StoryBox filterOptions={productBacklogOptions} acceptType='sb-story' itemType='pb-story'  stories={stories} showCreate='true' />
                     </div>
                     <div className="col-md-4">
                         <h2>Sprint backlog</h2>
-                        <StoryBox acceptType='pb-story' itemType='sb-story' stories={sprintStories} isSprintBacklog='true' />
+                        <StoryBox filterOptions={sprintBacklogOptions} acceptType='pb-story' itemType='sb-story' stories={sprintStories} isSprintBacklog='true' />
                     </div>
                     <div className="col-md-4">
                         <h2>Help?</h2>

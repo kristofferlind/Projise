@@ -26,7 +26,7 @@ var NavPanel = React.createClass({
                 <Nav className="sidebar-nav">
                     <NavItem eventKey={1} href="#/manage-projects"><i className="fa fa-2x fa-archive"></i> Manage projects</NavItem>
                     <NavItem eventKey={2} href="#/manage-teams"><i className="fa fa-2x fa-users"></i> Manage teams</NavItem>
-                    <NavItem eventKey={3} href="#/"><i className="fa fa-2x fa-dashboard"></i> Project overview</NavItem>
+                    {/*<NavItem eventKey={3} href="#/"><i className="fa fa-2x fa-dashboard"></i> Project overview</NavItem>*/}
                     <NavItem eventKey={4} href="#/plan-project"><i className="fa fa-2x fa-puzzle-piece"></i> Plan project</NavItem>
                     <NavItem eventKey={2} href="#/manage-documents"><i className="fa fa-2x fa-file-text"></i> Manage documents</NavItem>
                     <NavItem eventKey={5} href="#/plan-sprint"><i className="fa fa-2x fa-coffee"></i> Plan sprint</NavItem>

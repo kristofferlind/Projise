@@ -35,7 +35,7 @@ var Routes = (
         <Route name="plan-project" handler={PlanProjectPage} />
         <Route name="plan-sprint" handler={PlanSprintPage} />
         <Route name="my-story" handler={MyStoryPage} />
-        <DefaultRoute handler={ProjectOverviewPage} />
+        <DefaultRoute handler={ManageProjectsPage} />
     </Route>
 );
 

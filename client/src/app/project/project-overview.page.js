@@ -1,10 +1,11 @@
 'use strict';
 
 var React = require('react/addons'),
-    RequireAuthentication = require('../require-authentication');
+    RequireAuthentication = require('../require-authentication'),
+    RequireActiveProject = require('./require-active-project');
 
 var ProjectOverviewPage = React.createClass({
-    mixins: [RequireAuthentication],
+    mixins: [RequireActiveProject],
     render: function() {
         return (
             <main>

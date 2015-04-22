@@ -22,11 +22,16 @@ var TeamToolbar = React.createClass({
     handleCreate: function() {
         this.toggleModal();
     },
+    filter: function() {
+        var filterText = this.refs.filter.getValue();
+
+        this.props.onFilter(filterText);
+    },
     render: function() {
         return (
             <div className="row">
                 <div className="col-md-9">
-                    <Input type="text" placeholder="Search for.." />
+                    <Input onChange={this.filter} value={this.props.filterText} ref='filter' type="text" placeholder="Search for.." />
                 </div>
                 <div className="col-md-3">
                     <Button onClick={this.handleCreate} bsStyle="success">

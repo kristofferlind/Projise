@@ -1,18 +1,19 @@
 'use strict';
 
 var React = require('react/addons'),
-    RequireAuthentication = require('../require-authentication'),
     SprintToolbar = require('../sprint/sprint-toolbar'),
     SprintList = require('../sprint/sprint-list'),
     SprintStore = require('../sprint/sprint.store'),
     SprintInteractions = require('../sprint/sprint.interactions'),
     StoryStore = require('../story/story.store'),
     StoryInteractions = require('../story/story.interactions'),
-    StoryBox = require('../story/story-box');
+    StoryBox = require('../story/story-box'),
+    RequireActiveProject = require('./require-active-project'),
+    SprintBox = require('../sprint/sprint-box');
 
 
 var PlanProjectPage = React.createClass({
-    mixins: [RequireAuthentication],
+    mixins: [RequireActiveProject],
     getInitialState: function() {
         return {
             sprints: SprintStore.getAll(),
@@ -48,8 +49,9 @@ var PlanProjectPage = React.createClass({
                 <div className="row">
                     <div className="col-md-4">
                         <h2>Sprints</h2>
-                        <SprintToolbar />
-                        <SprintList sprints={sprints} />
+                        {/*<SprintToolbar />
+                        <SprintList sprints={sprints} />*/}
+                        <SprintBox sprints={sprints} />
                     </div>
                     <div className="col-md-4">
                         <h2>Product backlog</h2>

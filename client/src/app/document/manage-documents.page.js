@@ -1,18 +1,17 @@
 'use strict';
 
 var React = require('react/addons'),
-    RequireAuthentication = require('../require-authentication'),
     DocumentInteractions = require('./document.interactions'),
     DocumentStore = require('./document.store'),
-    DocumentTable = require('./document-table'),
-    DocumentToolbar = require('./document-toolbar'),
+    DocumentBox = require('./document-box'),
     DocumentViewer = require('./document-viewer'),
-    DocumentEditor = require('./document-editor');
+    DocumentEditor = require('./document-editor'),
+    RequireActiveProject = require('../project/require-active-project');
 
 require('./document.scss');
 
 var ManageDocumentsPage = React.createClass({
-    mixins: [RequireAuthentication],
+    mixins: [RequireActiveProject],
     getInitialState: function() {
         return {
             documents: DocumentStore.getAll(),
@@ -46,8 +45,7 @@ var ManageDocumentsPage = React.createClass({
             } else {
                 return (
                     <div className='document-section'>
-                        <DocumentToolbar />
-                        <DocumentTable documents={component.state.documents} />
+                        <DocumentBox documents={component.state.documents} />
                     </div>
                 );
             }

@@ -7,7 +7,12 @@ var React = require('react/addons'),
     Glyphicon = require('react-bootstrap').Glyphicon,
     EditStoryModal = require('./edit-story-modal'),
     StoryInteractions = require('./story.interactions'),
-    Draggable = require('../../components/dragAndDrop/draggable');
+    Draggable = require('../../components/dragAndDrop/draggable'),
+    SprintStore = require('../sprint/sprint.store'),
+    Confirm = require('../../components/confirm/confirm-dialog'),
+    ModalTrigger = require('react-bootstrap').ModalTrigger,
+    OverlayTrigger = require('react-bootstrap').OverlayTrigger,
+    Tooltip = require('react-bootstrap').Tooltip;
 
 require('./story.scss');
 
@@ -33,6 +38,12 @@ var StoryItem = React.createClass({
         var component = this;
         var story = this.props.story;
         var statusClass = 'story-item ';
+
+        //Check if story is part of backlog and selected in active sprint
+        if (this.props.itemType === 'pb-story' && story.sprintId === SprintStore.getActiveSprintId()) {
+            statusClass += 'story-in-sprint ';
+        }
+
         switch (story.status) {
             case 'completed':
                 statusClass += 'bg-success';
@@ -50,12 +61,18 @@ var StoryItem = React.createClass({
             actions = (
                 <div className="pull-right">
                     <ButtonGroup>
-                        <Button onClick={component.handleEdit} bsSize="small" bsStyle="primary">
-                            <Glyphicon glyph="cog" />
-                        </Button>
-                        <Button onClick={component.handleDelete} bsSize="small" bsStyle="danger">
-                            <Glyphicon glyph="trash" />
-                        </Button>
+                    <OverlayTrigger placement='top' overlay={<Tooltip>Edit story</Tooltip>}>
+                            <Button onClick={this.handleEdit} bsSize="small" bsStyle="primary">
+                                <Glyphicon glyph="cog" />
+                            </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Delete story</Tooltip>}>
+                            <ModalTrigger modal={<Confirm bsStyle='danger' onConfirm={this.handleDelete} message='Are you sure you want to delete this story?' action='Delete' />}>
+                                <Button bsSize="small" bsStyle="danger">
+                                    <Glyphicon glyph="trash" />
+                                </Button>
+                            </ModalTrigger>
+                        </OverlayTrigger>
                     </ButtonGroup>
                 </div>
             );
@@ -71,7 +88,7 @@ var StoryItem = React.createClass({
                             {actions}
 
                             <h4>{story.name}</h4>
-                            <b>Description:</b> <span>{story.description}</span>
+                            <p>{story.description}</p>
                         </div>
 
                 </div>

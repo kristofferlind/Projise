@@ -7,13 +7,14 @@ var React = require('react/addons'),
     StoryStatus = require('../../config/config').StoryStatus;
 
 var filterStories = function(stories, filterText, filterOptions) {
-    filterText = filterText || filterText.toLowerCase();
+    filterText = filterText && filterText.toLowerCase();
 
     var filteredStories = stories.filter(function(story) {
         var optionsInclude = false;
-            optionsInclude = filterOptions.notStarted && story.status === StoryStatus.NOT_STARTED;
-            optionsInclude = optionsInclude || filterOptions.inProgress && story.status === StoryStatus.IN_PROGRESS;
-            optionsInclude = optionsInclude || filterOptions.completed && story.status === StoryStatus.COMPLETED;
+
+        optionsInclude = filterOptions.notStarted && story.status === StoryStatus.NOT_STARTED;
+        optionsInclude = optionsInclude || filterOptions.inProgress && story.status === StoryStatus.IN_PROGRESS;
+        optionsInclude = optionsInclude || filterOptions.completed && story.status === StoryStatus.COMPLETED;
 
         if (optionsInclude) {
             var textInclude = false;
@@ -31,13 +32,19 @@ var filterStories = function(stories, filterText, filterOptions) {
 
 var StoryBox = React.createClass({
     getInitialState: function() {
-        return {
-            filterText: '',
-            filterOptions: {
+        var filterOptions = {
                 completed: true,
                 inProgress: true,
                 notStarted: true
-            }
+            };
+
+        if (this.props.filterOptions) {
+            filterOptions = this.props.filterOptions;
+        }
+
+        return {
+            filterText: '',
+            filterOptions: filterOptions
         };
     },
     startStory: function(story) {

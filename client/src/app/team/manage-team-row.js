@@ -6,7 +6,11 @@ var React = require('react/addons'),
     Glyphicon = require('react-bootstrap').Glyphicon,
     TeamInteractions = require('./team.interactions'),
     OverlayMixin = require('react-bootstrap').OverlayMixin,
-    EditTeamModal = require('./edit-team-modal');
+    EditTeamModal = require('./edit-team-modal'),
+    Confirm = require('../../components/confirm/confirm-dialog'),
+    ModalTrigger = require('react-bootstrap').ModalTrigger,
+    OverlayTrigger = require('react-bootstrap').OverlayTrigger,
+    Tooltip = require('react-bootstrap').Tooltip;
 
 var TeamRow = React.createClass({
     mixins: [OverlayMixin],
@@ -38,15 +42,23 @@ var TeamRow = React.createClass({
             if (!isActive) {
                 return (
                     <ButtonGroup>
-                        <Button onClick={component.handleActivate} bsStyle="success">
-                            <Glyphicon glyph="ok" />
-                        </Button>
-                        <Button onClick={component.handleEdit} bsStyle="warning">
-                            <Glyphicon glyph="pencil" />
-                        </Button>
-                        <Button onClick={component.handleDelete} bsStyle="danger">
-                            <Glyphicon glyph="trash" />
-                        </Button>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Activate team</Tooltip>}>
+                            <Button onClick={component.handleActivate} bsStyle="success">
+                                <Glyphicon glyph="ok" />
+                            </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Edit team</Tooltip>}>
+                            <Button onClick={component.handleEdit} bsStyle="warning">
+                                <Glyphicon glyph="pencil" />
+                            </Button>
+                        </OverlayTrigger>
+                        <OverlayTrigger placement='top' overlay={<Tooltip>Delete team</Tooltip>}>
+                            <ModalTrigger modal={<Confirm bsStyle='danger' onConfirm={component.handleDelete} message='Are you sure you want to delete this team?' action='Delete team' />}>
+                                <Button bsStyle="danger">
+                                    <Glyphicon glyph="trash" />
+                                </Button>
+                            </ModalTrigger>
+                        </OverlayTrigger>
                     </ButtonGroup>
                 );
             }

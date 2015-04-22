@@ -24,7 +24,6 @@ var NotificationStore = assign({}, EventEmitter.prototype, {
 
 var emitChange = function(data) {
     NotificationStore.emit(NotificationActions.CHANGE);
-    console.log(_notifications.length);
 };
 
 var removeNotification = function(notification) {
