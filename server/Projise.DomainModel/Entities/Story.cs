@@ -27,5 +27,6 @@ namespace Projise.DomainModel.Entities
         public int Points { get; set; }
         [MaxLength(50)]
         public string Status { get; set; }
+        public List<Entities.Task> Tasks { get; set; }
     }
 }

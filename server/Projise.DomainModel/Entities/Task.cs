@@ -11,7 +11,7 @@ namespace Projise.DomainModel.Entities
     public class Task : IEntity
     {
         public ObjectId Id { get; set; }
-        public ObjectId StoryId { get; set; }
+        //public ObjectId StoryId { get; set; }
         [MaxLength(250)]
         public string Description { get; set; }
         public bool IsDone { get; set; }

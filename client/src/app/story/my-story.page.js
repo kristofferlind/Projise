@@ -11,8 +11,8 @@ var React = require('react/addons'),
     StoryItem = require('../story/story-item'),
     SessionStore = require('../account/session.store.js'),
     StoryBox = require('./story-box'),
-    RequireActiveSprint = require('../sprint/require-active-sprint');
-
+    RequireActiveSprint = require('../sprint/require-active-sprint'),
+    TaskBox = require('../task/task-box');
 
 var MyStoryPage = React.createClass({
     mixins: [RequireActiveSprint],
@@ -87,7 +87,8 @@ var MyStoryPage = React.createClass({
                         <h2>My story</h2>
                         <p className="form-control-static">Put story in dropzone below to start working.</p>
                         {myStory}
-                        <div>tasklist? if it should be here, put it on stories instead of an endpoint of its own.</div>
+                        <br />
+                        <TaskBox story={activeStory} />
                     </div>
                     <div className="col-md-4">
                         <h2>Completed stories</h2>

@@ -25,7 +25,8 @@ namespace Projise.DomainModel.Repositories
 
         public IEnumerable<Entities.Task> FindByStoryId(MongoDB.Bson.ObjectId storyId)
         {
-            return collection.FindAs<Entities.Task>(Query<Entities.Task>.Where(t => t.StoryId == storyId));
+            //return collection.FindAs<Entities.Task>(Query<Entities.Task>.Where(t => t.StoryId == storyId));
+            throw new NotImplementedException();
         }
     }
 }
