@@ -12,6 +12,7 @@ var React = require('react/addons'),
     Confirm = require('../../components/confirm/confirm-dialog'),
     ModalTrigger = require('react-bootstrap').ModalTrigger,
     OverlayTrigger = require('react-bootstrap').OverlayTrigger,
+    Dropzone = require('../../components/dragAndDrop/dropzone'),
     Tooltip = require('react-bootstrap').Tooltip;
 
 require('./story.scss');
@@ -33,6 +34,28 @@ var StoryItem = React.createClass({
     },
     handleDelete: function() {
         StoryInteractions.delete(this.props.story);
+    },
+    handleReprioritize: function(droppedStory) {
+        var story = this.props.story;
+
+        //Set new priority based on whether it was previously higher or lower
+        if (droppedStory.priority >= story.priority) {
+            droppedStory.priority = parseInt(story.priority, 10) - 1;
+        } else {
+            droppedStory.priority = parseInt(story.priority, 10) + 1;
+        }
+
+        //Make sure extremes aren't exceeded
+        if (droppedStory.priority > 100) {
+            droppedStory.priority = 100;
+        }
+
+        if (droppedStory.priority < 1) {
+            droppedStory.priority = 1;
+        }
+
+        //Update
+        StoryInteractions.update(droppedStory);
     },
     render: function() {
         var component = this;
@@ -79,20 +102,22 @@ var StoryItem = React.createClass({
         }
 
         return (
-            <Draggable itemType={this.props.itemType} itemData={story}>
-                <div className={statusClass}>
-                        <div className='story-item-points'>
-                            {story.points}
-                        </div>
-                        <div className='story-item-body'>
-                            {actions}
+            <Dropzone acceptType={this.props.itemType} onDrop={this.handleReprioritize}>
+                <Draggable itemType={this.props.itemType} itemData={story}>
+                    <div className={statusClass}>
+                            <div className='story-item-points'>
+                                {story.points}
+                            </div>
+                            <div className='story-item-body'>
+                                {actions}
 
-                            <h4>{story.name}</h4>
-                            <p>{story.description}</p>
-                        </div>
+                                <h4>{story.name}</h4>
+                                <p>{story.description}</p>
+                            </div>
 
-                </div>
-            </Draggable>
+                    </div>
+                </Draggable>
+            </Dropzone>
         );
     },
     renderOverlay: function() {
