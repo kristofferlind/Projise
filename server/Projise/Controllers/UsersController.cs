@@ -1,38 +1,28 @@
-﻿using Microsoft.AspNet.Identity;
-using AspNet.Identity.MongoDB;
-using Projise.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Security.Principal;
-using System.Web;
-using System.Web.Http;
-using System.Threading.Tasks;
-using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin.Security;
-using Projise.DomainModel.Entities;
+﻿using System.Web.Http;
+using Microsoft.AspNet.SignalR;
 using MongoDB.Bson;
 using Projise.App_Infrastructure;
+using Projise.DomainModel.Entities;
+using Projise.DomainModel.Events;
 using Projise.DomainModel.Repositories;
-using Microsoft.AspNet.SignalR;
 
 namespace Projise.Controllers
 {
     //[System.Web.Http.Authorize]
     public class UsersController : ApiControllerBase
     {
-        private UserRepository userRepository;
+        private readonly UserRepository _userRepository;
+
         public UsersController()
         {
-            userRepository = new UserRepository();
-            userRepository.OnChange += userRepository_OnChange;
+            _userRepository = new UserRepository();
+            _userRepository.OnChange += userRepository_OnChange;
         }
 
-        void userRepository_OnChange(object sender, DomainModel.Events.SyncEventArgs<UserWithSessionVars> e)
+        private void userRepository_OnChange(object sender, SyncEventArgs<UserWithSessionVars> e)
         {
-            GlobalHost.ConnectionManager.GetHubContext<ProjectHub>().Clients.All.onChange(e.Operation, "user", e.Item);     //type will be wrong here, setting manually to "user"
+            GlobalHost.ConnectionManager.GetHubContext<ProjectHub>().Clients.All.onChange(e.Operation, "user", e.Item);
+            //type will be wrong here, setting manually to "user"
         }
 
         [Route("api/users/me"), HttpGet]
@@ -48,7 +38,7 @@ namespace Projise.Controllers
         {
             var teamId = ObjectId.Parse(id);
             SessionUser.ActiveTeam = teamId;
-            return userRepository.Update(SessionUser);
+            return _userRepository.Update(SessionUser);
         }
 
         [HttpPut]
@@ -59,7 +49,7 @@ namespace Projise.Controllers
             var projectId = ObjectId.Parse(id);
             //TODO: check that user is part of project
             SessionUser.ActiveProject = projectId;
-            return userRepository.Update(SessionUser);
+            return _userRepository.Update(SessionUser);
         }
     }
 }

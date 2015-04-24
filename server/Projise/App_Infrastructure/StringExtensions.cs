@@ -1,4 +1,5 @@
 ﻿using System;
+
 namespace Projise.App_Infrastructure
 {
     public static class StringExtensions

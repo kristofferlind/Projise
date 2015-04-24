@@ -1,35 +1,34 @@
-﻿using MongoDB.Driver.Builders;
-using Projise.DomainModel.Entities;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using MongoDB.Bson;
+using MongoDB.Driver.Builders;
+using Projise.DomainModel.Entities;
 
 namespace Projise.DomainModel.Repositories
 {
     public class StoryRepository : RepositoryBase<Story>
     {
-        private UserWithSessionVars user;
+        private readonly UserWithSessionVars _user;
 
         public StoryRepository(UserWithSessionVars user)
         {
-            this.user = user;
+            _user = user;
         }
 
         public StoryRepository()
         {
-
         }
 
         protected override IQueryable<Story> CollectionItems()
         {
-            return collection.FindAs<Story>(Query<Story>.Where(s => s.ProjectId == user.ActiveProject)).AsQueryable<Story>();
+            return
+                Collection.FindAs<Story>(Query<Story>.Where(s => s.ProjectId == _user.ActiveProject))
+                    .AsQueryable<Story>();
         }
 
-        public IEnumerable<Story> FindByProjectId(MongoDB.Bson.ObjectId projectId)
+        public IEnumerable<Story> FindByProjectId(ObjectId projectId)
         {
-            return collection.FindAs<Story>(Query<Story>.Where(s => s.ProjectId == projectId));
+            return Collection.FindAs<Story>(Query<Story>.Where(s => s.ProjectId == projectId));
         }
     }
 }

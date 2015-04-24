@@ -1,10 +1,6 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using MongoDB.Bson;
 using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Projise.App_Infrastructure
 {
@@ -22,7 +18,8 @@ namespace Projise.App_Infrastructure
             }
         }
 
-        public override object ReadJson(JsonReader reader, Type objectType, object existingValue, JsonSerializer serializer)
+        public override object ReadJson(JsonReader reader, Type objectType, object existingValue,
+            JsonSerializer serializer)
         {
             //TODO: needs exception handling?
             return ObjectId.Parse(reader.Value.ToString());
@@ -30,7 +27,7 @@ namespace Projise.App_Infrastructure
 
         public override bool CanConvert(Type objectType)
         {
-            return typeof(ObjectId).IsAssignableFrom(objectType);
+            return typeof (ObjectId).IsAssignableFrom(objectType);
         }
     }
 }

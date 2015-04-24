@@ -1,9 +1,7 @@
-﻿using Projise.App_Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Web;
 using System.Web.Mvc;
+using Projise.App_Infrastructure;
 
 namespace Projise.Controllers
 {
@@ -21,7 +19,7 @@ namespace Projise.Controllers
             if (authCookie != null)
             {
                 var csrfToken = new CSRFToken().GenerateCsrfTokenFromAuthToken(authCookie.Value);
-                var csrfCookie = new HttpCookie("XSRF-TOKEN", csrfToken) { HttpOnly = false };
+                var csrfCookie = new HttpCookie("XSRF-TOKEN", csrfToken) {HttpOnly = false};
                 HttpContext.Response.Cookies.Add(csrfCookie);
             }
         }
@@ -44,7 +42,7 @@ namespace Projise.Controllers
         {
             return new ManifestResult("4")
             {
-                Cache = new List<string>()
+                Cache = new List<string>
                 {
                     //Url.Action("Index", "Home"),
                     //Url.Action("Index", "Dashboard", new {area = "Dashboard"}),
@@ -52,16 +50,12 @@ namespace Projise.Controllers
                     "http://fonts.gstatic.com/s/roboto/v14/fg2nPs59wPnJ0blURyMU3PesZW2xOQ-xsNqO47m55DA.woff2",
                     "http://netdna.bootstrapcdn.com/font-awesome/4.1.0/fonts/fontawesome-webfont.woff?v=4.1.0"
                 },
-                Network = new List<string>() 
+                Network = new List<string>
                 {
                     "*"
                 },
-                Fallback = new Dictionary<string, string>() 
-                {
-                    //Fallback needed, but all api requests fail when this is present..
-                    //{ Url.Action("Index", "Home"), Url.Action("Index", "Dashboard", new {area = "Dashboard"}) }
-                },
-                Bundles = new List<string>()
+                Fallback = new Dictionary<string, string>(),
+                Bundles = new List<string>
                 {
                     //"~/bundles/jquery",
                     //"~/bundles/jqueryval",
@@ -70,7 +64,7 @@ namespace Projise.Controllers
                     //"~/Content/css",
                     "~/bundles/app",
                     "~/bundles/style",
-                    "~/bundles/partials"    //only works in release mode
+                    "~/bundles/partials" //only works in release mode
                 }
             };
         }

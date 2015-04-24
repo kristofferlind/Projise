@@ -1,74 +1,71 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using System.Collections.Generic;
+using MongoDB.Bson;
 using Projise.DomainModel.Entities;
 using Projise.DomainModel.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Projise.DomainModel
 {
     public class ProjectService : IEntityService<Project>
     {
-        private ProjectRepository projectRepository;
-        private UserRepository userRepository;
-        private TeamRepository teamRepository;
+        private readonly ProjectRepository _projectRepository;
+        private readonly TeamRepository _teamRepository;
+        private readonly UserRepository _userRepository;
 
         public ProjectService(User user, ProjectRepository projectRepository)
         {
-            this.projectRepository = projectRepository;
-            userRepository = new UserRepository();
-            teamRepository = new TeamRepository(user);
+            _projectRepository = projectRepository;
+            _userRepository = new UserRepository();
+            _teamRepository = new TeamRepository(user);
         }
 
         public IEnumerable<Project> All()
         {
-            return projectRepository.All();
+            return _projectRepository.All();
         }
 
         public Project FindById(ObjectId id)
         {
-            return projectRepository.FindById(id);
+            return _projectRepository.FindById(id);
         }
 
         public Project Add(Project collectionItem, ObjectId parentId)
         {
-            return projectRepository.Add(collectionItem);
+            return _projectRepository.Add(collectionItem);
         }
 
         public void Remove(Project collectionItem)
         {
-            projectRepository.Remove(collectionItem);
+            _projectRepository.Remove(collectionItem);
         }
 
         public Project Update(Project collectionItem)
         {
-            return projectRepository.Update(collectionItem);
+            return _projectRepository.Update(collectionItem);
         }
 
         public Project AddUser(ObjectId projectId, string email)
         {
-            var user = userRepository.FindByEmail(email);
+            var user = _userRepository.FindByEmail(email);
 
             if (user == null)
             {
                 throw new ArgumentException("No such user found.");
             }
 
-            return projectRepository.AddUser(projectId, user);
+            return _projectRepository.AddUser(projectId, user);
         }
 
         public Project AddTeam(ObjectId projectId, ObjectId teamId)
         {
-            var team = teamRepository.FindById(teamId);
+            var team = _teamRepository.FindById(teamId);
 
-            return projectRepository.AddTeam(projectId, team);
+            return _projectRepository.AddTeam(projectId, team);
         }
 
         public Project RemoveUser(ObjectId projectId, ObjectId userId)
         {
-            return projectRepository.RemoveUser(projectId, userId);
+            return _projectRepository.RemoveUser(projectId, userId);
         }
     }
 }

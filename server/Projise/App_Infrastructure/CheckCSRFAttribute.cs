@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Linq;
 using System.Web;
 using System.Web.Http;
 using System.Web.Http.Controllers;
@@ -24,7 +22,7 @@ namespace Projise.App_Infrastructure
 
             // get csrf token from header
             var csrfToken = context.Request.Headers.GetValues("X-XSRF-TOKEN").FirstOrDefault();
-            if (String.IsNullOrEmpty(csrfToken))
+            if (string.IsNullOrEmpty(csrfToken))
             {
                 return false;
             }

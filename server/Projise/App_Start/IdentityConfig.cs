@@ -1,19 +1,18 @@
-﻿using System.Linq;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Diagnostics;
+using System.Linq;
+using System.Net;
+using System.Net.Mail;
 using System.Security.Claims;
+using System.Threading.Tasks;
+using AspNet.Identity.MongoDB;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
-using System.Web;
-using AspNet.Identity.MongoDB;
-using Projise.App_Infrastructure;
 using SendGrid;
-using System.Net;
-using System.Configuration;
-using System.Diagnostics;
 
 namespace Projise.Models
 {
@@ -26,9 +25,11 @@ namespace Projise.Models
         {
         }
 
-        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options, IOwinContext context)
+        public static ApplicationUserManager Create(IdentityFactoryOptions<ApplicationUserManager> options,
+            IOwinContext context)
         {
-            var manager = new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationIdentityContext>()));
+            var manager =
+                new ApplicationUserManager(new UserStore<ApplicationUser>(context.Get<ApplicationIdentityContext>()));
             // Configure validation logic for usernames
             manager.UserValidator = new UserValidator<ApplicationUser>(manager)
             {
@@ -42,7 +43,7 @@ namespace Projise.Models
                 RequireNonLetterOrDigit = true,
                 RequireDigit = true,
                 RequireLowercase = true,
-                RequireUppercase = true,
+                RequireUppercase = true
             };
             // Configure user lockout defaults
             manager.UserLockoutEnabledByDefault = true;
@@ -64,20 +65,21 @@ namespace Projise.Models
             var dataProtectionProvider = options.DataProtectionProvider;
             if (dataProtectionProvider != null)
             {
-                manager.UserTokenProvider = new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
+                manager.UserTokenProvider =
+                    new DataProtectorTokenProvider<ApplicationUser>(dataProtectionProvider.Create("ASP.NET Identity"));
             }
             return manager;
         }
 
         /// <summary>
-        /// Method to add user to multiple roles
+        ///     Method to add user to multiple roles
         /// </summary>
         /// <param name="userId">user id</param>
         /// <param name="roles">list of role names</param>
         /// <returns></returns>
         public virtual async Task<IdentityResult> AddUserToRolesAsync(string userId, IList<string> roles)
         {
-            var userRoleStore = (IUserRoleStore<ApplicationUser, string>)Store;
+            var userRoleStore = (IUserRoleStore<ApplicationUser, string>) Store;
 
             var user = await FindByIdAsync(userId).ConfigureAwait(false);
             if (user == null)
@@ -97,14 +99,14 @@ namespace Projise.Models
         }
 
         /// <summary>
-        /// Remove user from multiple roles
+        ///     Remove user from multiple roles
         /// </summary>
         /// <param name="userId">user id</param>
         /// <param name="roles">list of role names</param>
         /// <returns></returns>
         public virtual async Task<IdentityResult> RemoveUserFromRolesAsync(string userId, IList<string> roles)
         {
-            var userRoleStore = (IUserRoleStore<ApplicationUser, string>)Store;
+            var userRoleStore = (IUserRoleStore<ApplicationUser, string>) Store;
 
             var user = await FindByIdAsync(userId).ConfigureAwait(false);
             if (user == null)
@@ -132,9 +134,11 @@ namespace Projise.Models
         {
         }
 
-        public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options, IOwinContext context)
+        public static ApplicationRoleManager Create(IdentityFactoryOptions<ApplicationRoleManager> options,
+            IOwinContext context)
         {
-            var manager = new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationIdentityContext>()));
+            var manager =
+                new ApplicationRoleManager(new RoleStore<IdentityRole>(context.Get<ApplicationIdentityContext>()));
 
             return manager;
         }
@@ -145,24 +149,24 @@ namespace Projise.Models
     {
         public async Task SendAsync(IdentityMessage message)
         {
-            await configSendGridasync(message);
+            await ConfigSendGridasync(message);
         }
 
         // Use NuGet to install SendGrid (Basic C# client lib) 
-        private async Task configSendGridasync(IdentityMessage message)
+        private async Task ConfigSendGridasync(IdentityMessage message)
         {
             var myMessage = new SendGridMessage();
             myMessage.AddTo(message.Destination);
-            myMessage.From = new System.Net.Mail.MailAddress(
-                                "info@proji.se", "Projise");
+            myMessage.From = new MailAddress(
+                "info@proji.se", "Projise");
             myMessage.Subject = message.Subject;
             myMessage.Text = message.Body;
             myMessage.Html = message.Body;
 
             var credentials = new NetworkCredential(
-                       ConfigurationManager.AppSettings["mailAccount"],
-                       ConfigurationManager.AppSettings["mailPassword"]
-                       );
+                ConfigurationManager.AppSettings["mailAccount"],
+                ConfigurationManager.AppSettings["mailPassword"]
+                );
 
             // Create a Web transport for sending email.
             var transportWeb = new Web(credentials);
@@ -212,16 +216,18 @@ namespace Projise.Models
         public async Task SignInAsync(ApplicationUser user, bool isPersistent, bool rememberBrowser)
         {
             // Clear any partial cookies from external or two factor partial sign ins
-            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie, DefaultAuthenticationTypes.TwoFactorCookie);
+            AuthenticationManager.SignOut(DefaultAuthenticationTypes.ExternalCookie,
+                DefaultAuthenticationTypes.TwoFactorCookie);
             var userIdentity = await user.GenerateUserIdentityAsync(UserManager);
             if (rememberBrowser)
             {
                 var rememberBrowserIdentity = AuthenticationManager.CreateTwoFactorRememberBrowserIdentity(user.Id);
-                AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = isPersistent }, userIdentity, rememberBrowserIdentity);
+                AuthenticationManager.SignIn(new AuthenticationProperties {IsPersistent = isPersistent}, userIdentity,
+                    rememberBrowserIdentity);
             }
             else
             {
-                AuthenticationManager.SignIn(new AuthenticationProperties { IsPersistent = isPersistent }, userIdentity);
+                AuthenticationManager.SignIn(new AuthenticationProperties {IsPersistent = isPersistent}, userIdentity);
             }
         }
 
@@ -242,7 +248,7 @@ namespace Projise.Models
         public async Task<string> GetVerifiedUserIdAsync()
         {
             var result = await AuthenticationManager.AuthenticateAsync(DefaultAuthenticationTypes.TwoFactorCookie);
-            if (result != null && result.Identity != null && !String.IsNullOrEmpty(result.Identity.GetUserId()))
+            if (result != null && result.Identity != null && !string.IsNullOrEmpty(result.Identity.GetUserId()))
             {
                 return result.Identity.GetUserId();
             }
@@ -254,7 +260,8 @@ namespace Projise.Models
             return await GetVerifiedUserIdAsync() != null;
         }
 
-        public async Task<SignInStatus> TwoFactorSignIn(string provider, string code, bool isPersistent, bool rememberBrowser)
+        public async Task<SignInStatus> TwoFactorSignIn(string provider, string code, bool isPersistent,
+            bool rememberBrowser)
         {
             var userId = await GetVerifiedUserIdAsync();
             if (userId == null)
@@ -310,10 +317,10 @@ namespace Projise.Models
             await SignInAsync(user, isPersistent, false);
 
             return SignInStatus.Success;
-
         }
 
-        public async Task<SignInStatus> PasswordSignIn(string userName, string password, bool isPersistent, bool shouldLockout)
+        public async Task<SignInStatus> PasswordSignIn(string userName, string password, bool isPersistent,
+            bool shouldLockout)
         {
             var user = await UserManager.FindByNameAsync(userName);
             if (user == null)

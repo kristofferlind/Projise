@@ -1,36 +1,32 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 using Microsoft.AspNet.SignalR;
+using MongoDB.Bson;
 using Projise.DomainModel.Entities;
 using Projise.Models;
-using Microsoft.AspNet.Identity.Owin;
-using AspNet.Identity.MongoDB;
-using Microsoft.AspNet.Identity;
-using MongoDB.Bson;
+using Task = System.Threading.Tasks.Task;
 
 namespace Projise.App_Infrastructure
 {
     [Authorize]
     public class ProjectHub : Hub
     {
-        private UserWithSessionVars user;
+        private UserWithSessionVars _user;
 
         private UserWithSessionVars SessionUser
         {
             get
             {
-                if (user == null)
+                if (_user == null)
                 {
-
                     var context = HttpContext.Current.GetOwinContext();
-                    var userManager = OwinContextExtensions.GetUserManager<ApplicationUserManager>(context);
+                    var userManager = context.GetUserManager<ApplicationUserManager>();
 
                     var userId = Context.User.Identity.GetUserId(); // User.Identity.GetUserId();
                     var applicationUser = userManager.FindById(userId);
 
-                    user = new UserWithSessionVars
+                    _user = new UserWithSessionVars
                     {
                         Id = ObjectId.Parse(applicationUser.Id),
                         UserName = applicationUser.UserName,
@@ -41,11 +37,11 @@ namespace Projise.App_Infrastructure
                     };
                 }
 
-                return user;
+                return _user;
             }
         }
 
-        public override System.Threading.Tasks.Task OnConnected()
+        public override Task OnConnected()
         {
             Groups.Add(Context.ConnectionId, SessionUser.ActiveProject.ToString());
             return base.OnConnected();

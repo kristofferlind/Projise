@@ -1,27 +1,23 @@
-﻿using MongoDB.Bson;
-using MongoDB.Driver;
+﻿using System.Linq;
 using MongoDB.Driver.Builders;
 using Projise.DomainModel.Entities;
-using Projise.DomainModel.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Projise.DomainModel.Repositories
 {
     public class DocumentRepository : RepositoryBase<Document>
     {
-        private UserWithSessionVars user;
+        private readonly UserWithSessionVars _user;
 
         public DocumentRepository(UserWithSessionVars user)
         {
-            this.user = user;
+            _user = user;
         }
+
         protected override IQueryable<Document> CollectionItems()
         {
-            return collection.FindAs<Document>(Query<Document>.Where(d => d.ProjectId == user.ActiveProject)).AsQueryable<Document>();
+            return
+                Collection.FindAs<Document>(Query<Document>.Where(d => d.ProjectId == _user.ActiveProject))
+                    .AsQueryable<Document>();
         }
     }
 }

@@ -1,55 +1,51 @@
-﻿using Microsoft.AspNet.SignalR;
+﻿using System.Collections.Generic;
+using System.Web.Http;
 using MongoDB.Bson;
 using Projise.App_Infrastructure;
 using Projise.DomainModel.Entities;
 using Projise.DomainModel.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 
 namespace Projise.Controllers
 {
+    //TODO: not currently used, tasks have been moved to stories, might however be a good idea to manage them by themselves
+
     public class TasksController : ApiControllerBase
     {
-        private TaskRepository taskRepository;
+        private readonly TaskRepository _taskRepository;
 
         public TasksController()
         {
-            taskRepository = new TaskRepository(SessionUser);
-            taskRepository.OnChange += SyncManager.OnChange;
+            _taskRepository = new TaskRepository(SessionUser);
+            _taskRepository.OnChange += SyncManager.OnChange;
         }
-
 
         // GET: api/Tasks
         public IEnumerable<Task> Get(string id)
         {
             //return taskRepository.All();
             var storyId = ObjectId.Parse(id);
-            return taskRepository.FindByStoryId(storyId);
+            return _taskRepository.FindByStoryId(storyId);
         }
 
         // POST: api/Tasks
         [ValidateModel]
-        public Task Post([FromBody]Task task)
+        public Task Post([FromBody] Task task)
         {
-            return taskRepository.Add(task);
+            return _taskRepository.Add(task);
         }
 
         // PUT: api/Tasks/5
         [ValidateModel]
-        public Task Put([FromBody]Task task)
+        public Task Put([FromBody] Task task)
         {
-            return taskRepository.Update(task);
+            return _taskRepository.Update(task);
         }
 
         // DELETE: api/Tasks/5
         public void Delete(string id)
         {
             var taskId = ObjectId.Parse(id);
-            taskRepository.Remove(taskId);
+            _taskRepository.Remove(taskId);
         }
     }
 }

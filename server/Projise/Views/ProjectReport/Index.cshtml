@@ -14,23 +14,23 @@
 <div class="table-responsive">
     <table class="table table-hover">
         <thead>
-            <tr>
-                <td>Status</td>
-                <td>Name</td>
-                <td>Description</td>
-                <td>Points</td>
-                <td>Priority</td>
-            </tr>
+        <tr>
+            <td>Status</td>
+            <td>Name</td>
+            <td>Description</td>
+            <td>Points</td>
+            <td>Priority</td>
+        </tr>
         </thead>
         @foreach (var story in Model.Stories)
         {
             <tr class="@Model.GetClass(story.Status)">
                 <td>@story.Status</td>
-            <td>@story.Name</td>
-            <td>@story.Description</td>
-            <td>@story.Points</td>
-            <td>@story.Priority</td>
-        </tr>
+                <td>@story.Name</td>
+                <td>@story.Description</td>
+                <td>@story.Points</td>
+                <td>@story.Priority</td>
+            </tr>
         }
     </table>
 </div>

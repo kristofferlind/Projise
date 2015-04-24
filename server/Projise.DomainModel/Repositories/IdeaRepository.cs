@@ -1,35 +1,34 @@
-﻿using MongoDB.Bson;
+﻿using System.Linq;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Projise.DomainModel.Entities;
 using Projise.DomainModel.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Projise.DomainModel.Repositories
 {
     public class IdeaRepository : RepositoryBase<Idea>
     {
-        private UserWithSessionVars user;
+        private readonly UserWithSessionVars _user;
+
         public IdeaRepository(UserWithSessionVars user)
         {
-            this.user = user;
+            _user = user;
         }
+
         protected override IQueryable<Idea> CollectionItems()
         {
-            return collection.FindAs<Idea>(Query<Idea>.Where(i => i.ProjectId == user.ActiveProject)).AsQueryable<Idea>();
+            return
+                Collection.FindAs<Idea>(Query<Idea>.Where(i => i.ProjectId == _user.ActiveProject)).AsQueryable<Idea>();
         }
 
         public Idea VoteUp(ObjectId id, ObjectId userId)
         {
-            collection.FindAndModify(new FindAndModifyArgs
+            Collection.FindAndModify(new FindAndModifyArgs
             {
                 Query = Query<Idea>.Where(i => i.Id == id),
-                Update = Update<Idea>.AddToSet<ObjectId>(i => i.UsersUp, userId)
-                                     .Pull(i => i.UsersDown, userId)
+                Update = Update<Idea>.AddToSet(i => i.UsersUp, userId)
+                    .Pull(i => i.UsersDown, userId)
             });
             var idea = FindById(id);
             Sync(new SyncEventArgs<IEntity>("save", idea));
@@ -38,11 +37,11 @@ namespace Projise.DomainModel.Repositories
 
         public Idea VoteDown(ObjectId id, ObjectId userId)
         {
-            collection.FindAndModify(new FindAndModifyArgs
+            Collection.FindAndModify(new FindAndModifyArgs
             {
                 Query = Query<Idea>.Where(i => i.Id == id),
-                Update = Update<Idea>.AddToSet<ObjectId>(i => i.UsersDown, userId)
-                                     .Pull(i => i.UsersUp, userId)
+                Update = Update<Idea>.AddToSet(i => i.UsersDown, userId)
+                    .Pull(i => i.UsersUp, userId)
             });
             var idea = FindById(id);
             Sync(new SyncEventArgs<IEntity>("save", idea));

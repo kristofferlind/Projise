@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Configuration;
-using System.Linq;
 using System.Text;
 using System.Web;
 using System.Web.Mvc;
@@ -11,16 +10,17 @@ namespace Projise.App_Infrastructure
 {
     public class ManifestResult : FileResult
     {
-        public string Version { get; set; }
-        public IEnumerable<string> Cache { get; set; }
-        public IEnumerable<string> Network { get; set; }
-        public Dictionary<string, string> Fallback { get; set; }
-        public IEnumerable<string> Bundles { get; set; }
         public ManifestResult(string version)
             : base("text/cache-manifest")
         {
             Version = version;
         }
+
+        public string Version { get; set; }
+        public IEnumerable<string> Cache { get; set; }
+        public IEnumerable<string> Network { get; set; }
+        public Dictionary<string, string> Fallback { get; set; }
+        public IEnumerable<string> Bundles { get; set; }
 
         protected override void WriteFile(HttpResponseBase response)
         {
@@ -42,7 +42,6 @@ namespace Projise.App_Infrastructure
             {
                 if (!optimized)
                 {
-
                     foreach (var item in BundleResolver.Current.GetBundleContents(bundle))
                     {
                         manifest.AppendLine(Scripts.Url(item).ToString());
@@ -52,7 +51,6 @@ namespace Projise.App_Infrastructure
                 {
                     manifest.AppendLine(Scripts.Url(bundle).ToString());
                 }
-
             }
 
             manifest.AppendLine();
@@ -79,7 +77,7 @@ namespace Projise.App_Infrastructure
 
 #if DEBUG
             manifest.AppendLine();
-            manifest.AppendLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Substring(0,18));
+            manifest.AppendLine(DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss").Substring(0, 18));
 #endif
 
             response.Output.Write(manifest.ToString());

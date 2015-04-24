@@ -1,79 +1,70 @@
-﻿using Microsoft.AspNet.Identity.Owin;
-using Microsoft.AspNet.SignalR;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Http;
 using MongoDB.Bson;
 using Projise.App_Infrastructure;
+using Projise.DomainModel;
 using Projise.DomainModel.Entities;
 using Projise.DomainModel.Repositories;
-using Projise.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web;
-using System.Web.Http;
-using Microsoft.AspNet.Identity;
-using AspNet.Identity.MongoDB;
-using Projise.DomainModel;
 
 namespace Projise.Controllers
 {
     public class TeamsController : ApiControllerBase
     {
-        private TeamRepository teamRepository;
-        private TeamService teamService;
+        private readonly TeamRepository _teamRepository;
+        private readonly TeamService _teamService;
 
         public TeamsController()
         {
-            teamRepository = new TeamRepository(AppUser);
-            teamService = new TeamService(AppUser);
-            teamRepository.OnChange += SyncManager.OnChange;
-            teamService.OnChange += SyncManager.OnChange;
+            _teamRepository = new TeamRepository(AppUser);
+            _teamService = new TeamService(AppUser);
+            _teamRepository.OnChange += SyncManager.OnChange;
+            _teamService.OnChange += SyncManager.OnChange;
         }
 
         // GET: api/Team
         public IEnumerable<Team> Get()
         {
-            return teamRepository.All();
+            return _teamRepository.All();
         }
 
         // GET: api/Team/5
         public Team Get(string id)
         {
-            return teamRepository.FindById(ObjectId.Parse(id));
+            return _teamRepository.FindById(ObjectId.Parse(id));
         }
 
         // POST: api/Team
         [ValidateModel]
-        public Team Post([FromBody]Team team)
+        public Team Post([FromBody] Team team)
         {
-            return teamRepository.Add(team);
+            return _teamRepository.Add(team);
         }
 
         // PUT: api/Team/5
         [ValidateModel]
-        public Team Put(string id, [FromBody]Team team)
+        public Team Put(string id, [FromBody] Team team)
         {
-            return teamRepository.Update(team);
+            return _teamRepository.Update(team);
         }
 
         // DELETE: api/Team/5
         public void Delete(string id)
         {
-            var team = teamRepository.FindById(ObjectId.Parse(id));
-            teamRepository.Remove(team);
+            var team = _teamRepository.FindById(ObjectId.Parse(id));
+            _teamRepository.Remove(team);
         }
 
         [HttpPut]
         [Route("api/teams/users/")]
         [ValidateModel]
-        public Team AddUser([FromBody]User user)
+        public Team AddUser([FromBody] User user)
         {
             if (SessionUser.ActiveTeam == new ObjectId("000000000000000000000000"))
             {
-                throw new ArgumentNullException("Active team needed to add member.");
+                throw new ArgumentNullException("user", "Active team needed to add member.");
             }
-            return teamService.AddUser(SessionUser.ActiveTeam, user.Email);
+            return _teamService.AddUser(SessionUser.ActiveTeam, user.Email);
         }
 
         [HttpDelete]
@@ -81,7 +72,7 @@ namespace Projise.Controllers
         public Team RemoveUser(string id)
         {
             var userId = ObjectId.Parse(id);
-            return teamService.RemoveUser(SessionUser.ActiveTeam, userId);
+            return _teamService.RemoveUser(SessionUser.ActiveTeam, userId);
         }
     }
 }

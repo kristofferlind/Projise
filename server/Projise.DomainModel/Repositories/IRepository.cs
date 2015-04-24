@@ -1,11 +1,8 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using System.Collections.Generic;
+using MongoDB.Bson;
 using Projise.DomainModel.Entities;
 using Projise.DomainModel.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Projise.DomainModel.Repositories
 {

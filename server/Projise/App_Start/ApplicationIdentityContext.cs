@@ -1,33 +1,33 @@
-﻿namespace Projise
+﻿using System;
+using System.Configuration;
+using AspNet.Identity.MongoDB;
+using MongoDB.Driver;
+
+namespace Projise
 {
-	using System;
-	using AspNet.Identity.MongoDB;
-	using MongoDB.Driver;
-    using System.Configuration;
+    public class ApplicationIdentityContext : IdentityContext, IDisposable
+    {
+        public ApplicationIdentityContext(MongoCollection users, MongoCollection roles) : base(users, roles)
+        {
+        }
 
-	public class ApplicationIdentityContext : IdentityContext, IDisposable
-	{
-		public ApplicationIdentityContext(MongoCollection users, MongoCollection roles) : base(users, roles)
-		{
-		}
+        public void Dispose()
+        {
+        }
 
-		public static ApplicationIdentityContext Create()
-		{
+        public static ApplicationIdentityContext Create()
+        {
             var client = new MongoClient(GetMongoDbConnectionString());
             var database = client.GetServer().GetDatabase(ConfigurationManager.AppSettings.Get("mongoDatabaseName"));
             var users = database.GetCollection<IdentityUser>("users");
-			var roles = database.GetCollection<IdentityRole>("roles");
-			return new ApplicationIdentityContext(users, roles);
-		}
-
-		public void Dispose()
-		{
-		}
+            var roles = database.GetCollection<IdentityRole>("roles");
+            return new ApplicationIdentityContext(users, roles);
+        }
 
         private static string GetMongoDbConnectionString()
         {
             return ConfigurationManager.AppSettings.Get("MONGOLAB_URI") ??
-                System.Configuration.ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString;
+                   ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString;
         }
-	}
+    }
 }

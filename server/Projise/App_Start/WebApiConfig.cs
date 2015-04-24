@@ -1,11 +1,7 @@
-﻿using Microsoft.Owin.Security.OAuth;
+﻿using System.Web.Http;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Serialization;
 using Projise.App_Infrastructure;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web.Http;
 
 namespace Projise
 {
@@ -17,7 +13,8 @@ namespace Projise
             //config.Filters.Add(new HostAuthenticationFilter(OAuthDefaults.AuthenticationType));
 
             // Web API configuration and services
-            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver = new CamelCasePropertyNamesContractResolver();
+            config.Formatters.JsonFormatter.SerializerSettings.ContractResolver =
+                new CamelCasePropertyNamesContractResolver();
 
             config.Formatters.JsonFormatter.SerializerSettings.Converters.Add(new ObjectIdConverter());
 
@@ -28,11 +25,8 @@ namespace Projise
             // Web API routes
             config.MapHttpAttributeRoutes();
 
-            config.Routes.MapHttpRoute(
-                name: "DefaultApi",
-                routeTemplate: "api/{controller}/{id}",
-                defaults: new { id = RouteParameter.Optional }
-            );
+            config.Routes.MapHttpRoute("DefaultApi", "api/{controller}/{id}", new {id = RouteParameter.Optional}
+                );
         }
     }
 }

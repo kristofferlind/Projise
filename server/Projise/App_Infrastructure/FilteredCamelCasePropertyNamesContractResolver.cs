@@ -13,6 +13,7 @@ namespace Projise.App_Infrastructure
             AssembliesToInclude = new HashSet<Assembly>();
             TypesToInclude = new HashSet<Type>();
         }
+
         public HashSet<Assembly> AssembliesToInclude { get; set; } // Identifies assemblies to include from camel-casing
         public HashSet<Type> TypesToInclude { get; set; } // Identifies types to include from camel-casing
 
@@ -20,10 +21,10 @@ namespace Projise.App_Infrastructure
         {
             var jsonProperty = base.CreateProperty(member, memberSerialization);
 
-            Type declaringType = member.DeclaringType;
+            var declaringType = member.DeclaringType;
             if (
-                TypesToInclude.Contains(declaringType)
-                || AssembliesToInclude.Contains(declaringType.Assembly))
+                declaringType != null && (TypesToInclude.Contains(declaringType)
+                                          || AssembliesToInclude.Contains(declaringType.Assembly)))
             {
                 jsonProperty.PropertyName = jsonProperty.PropertyName.ToCamelCase();
             }

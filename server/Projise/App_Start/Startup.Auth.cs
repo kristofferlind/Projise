@@ -1,17 +1,11 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.AspNet.Identity.Owin;
+﻿using System;
+using Microsoft.AspNet.Identity;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Projise.Models;
-using Owin;
-using System;
-using Microsoft.Owin.Security.Google;
-using Microsoft.Owin.Security;
-using Google.Apis.Calendar.v3;
-using System.Security.Claims;
 using Microsoft.Owin.Security.OAuth;
+using Owin;
+using Projise.Models;
 using Projise.Providers;
-using System.Configuration;
 
 namespace Projise
 {
@@ -19,9 +13,7 @@ namespace Projise
     {
         public static OAuthAuthorizationServerOptions OAuthServerOptions { get; private set; }
         public static OAuthBearerAuthenticationOptions OAuthOptions { get; private set; }
-
         public static string PublicClientId { get; private set; }
-
         // For more information on configuring authentication, please visit http://go.microsoft.com/fwlink/?LinkId=301864
         public void ConfigureAuth(IAppBuilder app)
         {
@@ -51,7 +43,7 @@ namespace Projise
                 AllowInsecureHttp = true
             };
 
-            OAuthOptions = new OAuthBearerAuthenticationOptions()
+            OAuthOptions = new OAuthBearerAuthenticationOptions
             {
                 Provider = new QueryStringOAuthBearerProvider()
             };

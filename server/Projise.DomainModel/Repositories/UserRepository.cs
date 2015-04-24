@@ -1,32 +1,30 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using System.Configuration;
+using System.Linq;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Projise.DomainModel.Entities;
 using Projise.DomainModel.Events;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Projise.DomainModel.Repositories
 {
     public class UserRepository
     {
-        protected MongoDatabase database;
-        protected MongoCollection collection;
+        protected MongoCollection Collection;
+        protected MongoDatabase Database;
 
         public UserRepository()
         {
-            var client = new MongoClient(System.Configuration.ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString);
-            database = client.GetServer().GetDatabase("NETProjise");
-            collection = database.GetCollection<User>("users");
+            var client = new MongoClient(ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString);
+            Database = client.GetServer().GetDatabase("NETProjise");
+            Collection = Database.GetCollection<User>("users");
         }
 
         public event EventHandler<SyncEventArgs<UserWithSessionVars>> OnChange;
+
         protected virtual void Sync(SyncEventArgs<UserWithSessionVars> e)
         {
-            EventHandler<SyncEventArgs<UserWithSessionVars>> handler = OnChange;
+            var handler = OnChange;
             if (handler != null)
             {
                 handler(this, e);
@@ -35,12 +33,12 @@ namespace Projise.DomainModel.Repositories
 
         public UserWithSessionVars Update(UserWithSessionVars user)
         {
-            collection.FindAndModify(new FindAndModifyArgs
+            Collection.FindAndModify(new FindAndModifyArgs
             {
                 Query = Query<UserWithSessionVars>.EQ(e => e.Id, user.Id),
                 Update = Update<UserWithSessionVars>.Set(e => e.ActiveProject, user.ActiveProject)
-                                                    .Set(e => e.ActiveTeam, user.ActiveTeam)
-                                                    .Set(e => e.GoogleAccessToken, user.GoogleAccessToken)
+                    .Set(e => e.ActiveTeam, user.ActiveTeam)
+                    .Set(e => e.GoogleAccessToken, user.GoogleAccessToken)
             });
             Sync(new SyncEventArgs<UserWithSessionVars>("save", user));
             return user;
@@ -48,7 +46,7 @@ namespace Projise.DomainModel.Repositories
 
         public UserWithSessionVars SetGoogleToken(UserWithSessionVars user)
         {
-            collection.FindAndModify(new FindAndModifyArgs
+            Collection.FindAndModify(new FindAndModifyArgs
             {
                 Query = Query<UserWithSessionVars>.EQ(e => e.Id, user.Id),
                 Update = Update<UserWithSessionVars>.Set(e => e.GoogleAccessToken, user.GoogleAccessToken)
@@ -56,9 +54,9 @@ namespace Projise.DomainModel.Repositories
             return user;
         }
 
-        public User FindByEmail(string email)   //internal?
+        public User FindByEmail(string email) //internal?
         {
-            return collection.FindAs<User>(Query<User>.Where(u => u.Email == email)).SingleOrDefault();
+            return Collection.FindAs<User>(Query<User>.Where(u => u.Email == email)).SingleOrDefault();
         }
     }
 }

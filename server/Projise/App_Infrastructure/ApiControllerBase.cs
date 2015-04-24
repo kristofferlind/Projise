@@ -1,31 +1,31 @@
-﻿using Projise.DomainModel.Entities;
-using Projise.DomainModel.Repositories;
-using Projise.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Http;
 using Microsoft.AspNet.Identity;
-using AspNet.Identity.MongoDB;
-using MongoDB.Bson;
 using Microsoft.AspNet.Identity.Owin;
-using Microsoft.Owin;
-using Microsoft.AspNet.SignalR;
+using MongoDB.Bson;
+using Projise.DomainModel.Entities;
+using Projise.DomainModel.Events;
+using Projise.Models;
 
 namespace Projise.App_Infrastructure
 {
-
-    [System.Web.Http.Authorize]
+    [Authorize]
     //[CheckCSRF] - cant do it this way, was a rather bad solution anyway, figure out something better
     public class ApiControllerBase : ApiController
     {
-        private ApplicationUserManager userManager;
-        private UserWithSessionVars user;
-        private IOwinContext context;
+        private readonly ApplicationUserManager _userManager;
+        private UserWithSessionVars _user;
         protected SyncManager SyncManager;
 
-        public User AppUser {
+        public ApiControllerBase()
+        {
+            var context = HttpContext.Current.GetOwinContext();
+            _userManager = context.GetUserManager<ApplicationUserManager>();
+            SyncManager = new SyncManager(SessionUser);
+        }
+
+        public User AppUser
+        {
             get
             {
                 var applicationUser = SessionUser;
@@ -36,25 +36,25 @@ namespace Projise.App_Infrastructure
                     UserName = applicationUser.UserName,
                     Email = applicationUser.Email
                 };
-                
             }
         }
 
-        public UserWithSessionVars SessionUser {
+        public UserWithSessionVars SessionUser
+        {
             get
             {
-                if (user == null)
+                if (_user == null)
                 {
                     var userId = User.Identity.GetUserId();
-                    var applicationUser = userManager.FindById(userId);
+                    var applicationUser = _userManager.FindById(userId);
 
-                    user = new UserWithSessionVars
+                    _user = new UserWithSessionVars
                     {
                         Id = ObjectId.Parse(applicationUser.Id),
                         UserName = applicationUser.UserName,
                         Email = applicationUser.Email,
                         ActiveProject = applicationUser.ActiveProject,
-                        ActiveTeam = applicationUser.ActiveTeam,
+                        ActiveTeam = applicationUser.ActiveTeam
                         //AccessToken = context.Request.Cookies.Where(c => c.Key == ".AspNet.ApplicationCookie").SingleOrDefault().Value,
                         //GoogleProviderKey = applicationUser.Logins.Where(l => l.LoginProvider == "Google").SingleOrDefault().ProviderKey
                         //GoogleAccessToken = applicationUser.Claims.FirstOrDefault(c => c.Type == "urn:tokens:googleplus:accesstoken").Value
@@ -62,18 +62,11 @@ namespace Projise.App_Infrastructure
                     };
                 }
 
-                return user;
+                return _user;
             }
         }
 
-        public ApiControllerBase()
-        {
-            context = HttpContext.Current.GetOwinContext();
-            userManager = OwinContextExtensions.GetUserManager<ApplicationUserManager>(context);
-            SyncManager = new SyncManager(SessionUser);
-        }
-
-        protected virtual void repository_OnChange(object sender, DomainModel.Events.SyncEventArgs<IEntity> e)
+        protected virtual void repository_OnChange(object sender, SyncEventArgs<IEntity> e)
         {
             SyncManager.OnChange(sender, e);
         }

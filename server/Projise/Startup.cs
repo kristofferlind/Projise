@@ -1,13 +1,17 @@
-﻿using Microsoft.AspNet.SignalR;
+﻿using System;
+using Microsoft.AspNet.SignalR;
 using Microsoft.Owin;
 using Microsoft.Owin.Cors;
 using Newtonsoft.Json;
 using Owin;
+using Projise;
 using Projise.App_Infrastructure;
-using System;
+using Projise.DomainModel.Entities;
+
 //using Signalr.MongoDb;
 
-[assembly: OwinStartupAttribute(typeof(Projise.Startup))]
+[assembly: OwinStartup(typeof (Startup))]
+
 namespace Projise
 {
     public partial class Startup
@@ -24,8 +28,8 @@ namespace Projise
                     AssembliesToInclude =
                     {
                         typeof (Startup).Assembly,
-                        typeof(Projise.DomainModel.Entities.IEntity).Assembly
-                    },
+                        typeof (IEntity).Assembly
+                    }
 
                     // 2) Register individual types:
                     //TypesToInclude =
@@ -40,14 +44,13 @@ namespace Projise
             return jsonSerializer;
         }
 
-
         public void Configuration(IAppBuilder app)
         {
             //TODO: make this a bit more strict for production..
             app.UseCors(CorsOptions.AllowAll);
             ConfigureAuth(app);
             app.MapSignalR();
-            GlobalHost.DependencyResolver.Register(typeof(JsonSerializer), () => JsonSerializerFactory.Value);
+            GlobalHost.DependencyResolver.Register(typeof (JsonSerializer), () => JsonSerializerFactory.Value);
 
 
             //config for mongodb backplane, should probably use redis instead though

@@ -1,60 +1,55 @@
-﻿using Microsoft.AspNet.SignalR;
+﻿using System.Collections.Generic;
+using System.Web.Http;
 using MongoDB.Bson;
 using Projise.App_Infrastructure;
 using Projise.DomainModel.Entities;
 using Projise.DomainModel.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 
 namespace Projise.Controllers
 {
     public class StoriesController : ApiControllerBase
     {
-        private StoryRepository storyRepository;
+        private readonly StoryRepository _storyRepository;
 
         public StoriesController()
         {
-            storyRepository = new StoryRepository(SessionUser);
-            storyRepository.OnChange += SyncManager.OnChange;
+            _storyRepository = new StoryRepository(SessionUser);
+            _storyRepository.OnChange += SyncManager.OnChange;
         }
 
         // GET: api/Stories
         public IEnumerable<Story> Get()
         {
-            return storyRepository.All();
+            return _storyRepository.All();
         }
 
         // GET: api/Stories/5
         public Story Get(string id)
         {
             var storyId = ObjectId.Parse(id);
-            return storyRepository.FindById(storyId);
+            return _storyRepository.FindById(storyId);
         }
 
         // POST: api/Stories
         [ValidateModel]
-        public Story Post([FromBody]Story story)
+        public Story Post([FromBody] Story story)
         {
             story.ProjectId = SessionUser.ActiveProject;
-            return storyRepository.Add(story);
+            return _storyRepository.Add(story);
         }
 
         // PUT: api/Stories/5
         [ValidateModel]
-        public Story Put([FromBody]Story story)
+        public Story Put([FromBody] Story story)
         {
-            return storyRepository.Update(story);
+            return _storyRepository.Update(story);
         }
 
         // DELETE: api/Stories/5
         public void Delete(string id)
         {
             var storyId = ObjectId.Parse(id);
-            storyRepository.Remove(storyId);
+            _storyRepository.Remove(storyId);
         }
     }
 }

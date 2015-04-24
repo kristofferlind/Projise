@@ -1,9 +1,5 @@
-﻿using Microsoft.Owin.Security.OAuth;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using System.Web;
+﻿using System.Threading.Tasks;
+using Microsoft.Owin.Security.OAuth;
 
 namespace Projise.Providers
 {
@@ -11,11 +7,11 @@ namespace Projise.Providers
     {
         public override Task RequestToken(OAuthRequestTokenContext context)
         {
-            var value = context.Request.Headers.Get("Authorization"); 
+            var value = context.Request.Headers.Get("Authorization");
 
             if (string.IsNullOrEmpty(value))
             {
-                value = context.Request.Query.Get("token");                
+                value = context.Request.Query.Get("token");
             }
 
             if (!string.IsNullOrEmpty(value))

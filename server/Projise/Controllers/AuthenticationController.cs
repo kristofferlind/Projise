@@ -1,20 +1,17 @@
-﻿using Microsoft.AspNet.Identity;
-using Microsoft.Owin.Security;
-using Projise.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Net.Http;
-using System.Web.Http;
-using AspNet.Identity.MongoDB;
 using System.Security.Claims;
-using Microsoft.Owin.Security.Cookies;
-using Microsoft.AspNet.Identity.Owin;
 using System.Security.Cryptography;
-using System.Web;
 using System.Threading.Tasks;
+using System.Web;
+using System.Web.Http;
+using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
+using Microsoft.Owin.Security;
+using Microsoft.Owin.Security.Cookies;
 using Microsoft.Owin.Security.OAuth;
+using Projise.Models;
 using Projise.Providers;
 using Projise.Results;
 
@@ -22,7 +19,7 @@ namespace Projise.Controllers
 {
     [Authorize]
     public class AuthenticationController : ApiController
-   {
+    {
         private const string LocalLoginProvider = "Local";
         private ApplicationUserManager _userManager;
 
@@ -39,18 +36,11 @@ namespace Projise.Controllers
 
         public ApplicationUserManager UserManager
         {
-            get
-            {
-                return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>();
-            }
-            private set
-            {
-                _userManager = value;
-            }
+            get { return _userManager ?? Request.GetOwinContext().GetUserManager<ApplicationUserManager>(); }
+            private set { _userManager = value; }
         }
 
         public ISecureDataFormat<AuthenticationTicket> AccessTokenFormat { get; private set; }
-
         // GET api/Account/UserInfo
         //[HostAuthentication(DefaultAuthenticationTypes.ExternalBearer)]
         //[Route("UserInfo")]
@@ -125,7 +115,7 @@ namespace Projise.Controllers
 
         //    IdentityResult result = await UserManager.ChangePasswordAsync(User.Identity.GetUserId(), model.OldPassword,
         //        model.NewPassword);
-            
+
         //    if (!result.Succeeded)
         //    {
         //        return GetErrorResult(result);
@@ -237,7 +227,7 @@ namespace Projise.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            ExternalLoginData externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
+            var externalLogin = ExternalLoginData.FromIdentity(User.Identity as ClaimsIdentity);
 
             if (externalLogin == null)
             {
@@ -250,27 +240,27 @@ namespace Projise.Controllers
                 return new ChallengeResult(provider, this);
             }
 
-            ApplicationUser user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
+            var user = await UserManager.FindAsync(new UserLoginInfo(externalLogin.LoginProvider,
                 externalLogin.ProviderKey));
 
-            bool hasRegistered = user != null;
+            var hasRegistered = user != null;
 
             if (hasRegistered)
             {
                 Authentication.SignOut(DefaultAuthenticationTypes.ExternalCookie);
-                
-                 ClaimsIdentity oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
+
+                var oAuthIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     OAuthDefaults.AuthenticationType);
-                ClaimsIdentity cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
+                var cookieIdentity = await user.GenerateUserIdentityAsync(UserManager,
                     CookieAuthenticationDefaults.AuthenticationType);
 
-                AuthenticationProperties properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
+                var properties = ApplicationOAuthProvider.CreateProperties(user.UserName);
                 Authentication.SignIn(properties, oAuthIdentity, cookieIdentity);
             }
             else
             {
                 IEnumerable<Claim> claims = externalLogin.GetClaims();
-                ClaimsIdentity identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
+                var identity = new ClaimsIdentity(claims, OAuthDefaults.AuthenticationType);
                 Authentication.SignIn(identity);
             }
 
@@ -328,9 +318,9 @@ namespace Projise.Controllers
                 return BadRequest(ModelState);
             }
 
-            var user = new ApplicationUser() { UserName = model.Email, Email = model.Email };
+            var user = new ApplicationUser {UserName = model.Email, Email = model.Email};
 
-            IdentityResult result = await UserManager.CreateAsync(user, model.Password);
+            var result = await UserManager.CreateAsync(user, model.Password);
 
             if (!result.Succeeded)
             {
@@ -402,7 +392,7 @@ namespace Projise.Controllers
             {
                 if (result.Errors != null)
                 {
-                    foreach (string error in result.Errors)
+                    foreach (var error in result.Errors)
                     {
                         ModelState.AddModelError("", error);
                     }
@@ -422,9 +412,9 @@ namespace Projise.Controllers
 
         private class ExternalLoginData
         {
-            public string LoginProvider { get; set; }
-            public string ProviderKey { get; set; }
-            public string UserName { get; set; }
+            public string LoginProvider { get; private set; }
+            public string ProviderKey { get; private set; }
+            private string UserName { get; set; }
 
             public IList<Claim> GetClaims()
             {
@@ -446,10 +436,10 @@ namespace Projise.Controllers
                     return null;
                 }
 
-                Claim providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
+                var providerKeyClaim = identity.FindFirst(ClaimTypes.NameIdentifier);
 
-                if (providerKeyClaim == null || String.IsNullOrEmpty(providerKeyClaim.Issuer)
-                    || String.IsNullOrEmpty(providerKeyClaim.Value))
+                if (providerKeyClaim == null || string.IsNullOrEmpty(providerKeyClaim.Issuer)
+                    || string.IsNullOrEmpty(providerKeyClaim.Value))
                 {
                     return null;
                 }
@@ -470,21 +460,21 @@ namespace Projise.Controllers
 
         private static class RandomOAuthStateGenerator
         {
-            private static RandomNumberGenerator _random = new RNGCryptoServiceProvider();
+            private static readonly RandomNumberGenerator Random = new RNGCryptoServiceProvider();
 
             public static string Generate(int strengthInBits)
             {
                 const int bitsPerByte = 8;
 
-                if (strengthInBits % bitsPerByte != 0)
+                if (strengthInBits%bitsPerByte != 0)
                 {
                     throw new ArgumentException("strengthInBits must be evenly divisible by 8.", "strengthInBits");
                 }
 
-                int strengthInBytes = strengthInBits / bitsPerByte;
+                var strengthInBytes = strengthInBits/bitsPerByte;
 
-                byte[] data = new byte[strengthInBytes];
-                _random.GetBytes(data);
+                var data = new byte[strengthInBytes];
+                Random.GetBytes(data);
                 return HttpServerUtility.UrlTokenEncode(data);
             }
         }

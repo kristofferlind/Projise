@@ -1,40 +1,36 @@
-﻿using Microsoft.AspNet.SignalR;
+﻿using System;
+using System.Collections.Generic;
+using System.Web.Http;
 using Projise.App_Infrastructure;
 using Projise.DomainModel.Entities;
 using Projise.DomainModel.Repositories;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
-using System.Net.Http;
-using System.Web.Http;
 
 namespace Projise.Controllers
 {
     public class MessagesController : ApiControllerBase
     {
-        private MessageRepository messageRepository;
+        private readonly MessageRepository _messageRepository;
 
         public MessagesController()
         {
-            messageRepository = new MessageRepository(SessionUser);
-            messageRepository.OnChange += SyncManager.OnChange;
+            _messageRepository = new MessageRepository(SessionUser);
+            _messageRepository.OnChange += SyncManager.OnChange;
         }
 
         // GET: api/Message
         public IEnumerable<Message> Get()
         {
-            return messageRepository.All();
+            return _messageRepository.All();
         }
 
         // POST: api/Message
         [ValidateModel]
-        public Message Post([FromBody]Message message)
+        public Message Post([FromBody] Message message)
         {
             message.ProjectId = SessionUser.ActiveProject;
             message.User = AppUser;
             message.Date = DateTime.Now;
-            return messageRepository.Add(message);
+            return _messageRepository.Add(message);
         }
     }
 }

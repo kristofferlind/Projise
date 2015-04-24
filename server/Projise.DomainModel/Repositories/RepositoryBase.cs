@@ -1,34 +1,68 @@
-﻿using MongoDB.Bson;
+﻿using System;
+using System.Collections.Generic;
+using System.Configuration;
+using System.Linq;
+using MongoDB.Bson;
 using MongoDB.Driver;
 using MongoDB.Driver.Builders;
 using Projise.DomainModel.Entities;
 using Projise.DomainModel.Events;
-using System;
-using System.Collections.Generic;
-using System.Configuration;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Projise.DomainModel.Repositories
 {
     public abstract class RepositoryBase<T> : IRepository<T> where T : IEntity
     {
-        protected MongoDatabase database;
-        protected MongoCollection collection;
+        protected MongoCollection Collection;
+        protected MongoDatabase Database;
 
-        public RepositoryBase()
+        protected RepositoryBase()
         {
             var client = new MongoClient(GetMongoDbConnectionString());
-            database = client.GetServer().GetDatabase(ConfigurationManager.AppSettings.Get("mongoDatabaseName"));
-            var collectionName = typeof(T).Name.ToLower() + "s";
-            collection = database.GetCollection<T>(collectionName);
+            Database = client.GetServer().GetDatabase(ConfigurationManager.AppSettings.Get("mongoDatabaseName"));
+            var collectionName = typeof (T).Name.ToLower() + "s";
+            Collection = Database.GetCollection<T>(collectionName);
         }
 
         public virtual event EventHandler<SyncEventArgs<IEntity>> OnChange;
+
+        public IEnumerable<T> All()
+        {
+            return CollectionItems().AsEnumerable();
+        }
+
+        public virtual T FindById(ObjectId id)
+        {
+            return Collection.FindOneByIdAs<T>(id);
+        }
+
+        public virtual T Add(T collectionItem)
+        {
+            Collection.Insert(collectionItem);
+            Sync(new SyncEventArgs<IEntity>("save", collectionItem));
+            return collectionItem;
+        }
+
+        //Ta bort?
+        public virtual void Remove(T collectionItem)
+        {
+            Collection.Remove(Query<T>.Where(t => t.Id == collectionItem.Id));
+            Sync(new SyncEventArgs<IEntity>("remove", collectionItem));
+        }
+
+        public virtual T Update(T collectionItem)
+        {
+            Collection.FindAndModify(new FindAndModifyArgs
+            {
+                Query = Query<T>.Where(e => e.Id == collectionItem.Id),
+                Update = Update<T>.Replace(collectionItem)
+            });
+            Sync(new SyncEventArgs<IEntity>("save", collectionItem));
+            return collectionItem;
+        }
+
         protected virtual void Sync(SyncEventArgs<IEntity> e)
         {
-            EventHandler<SyncEventArgs<IEntity>> handler = OnChange;
+            var handler = OnChange;
             if (handler != null)
             {
                 handler(this, e);
@@ -37,51 +71,17 @@ namespace Projise.DomainModel.Repositories
 
         protected abstract IQueryable<T> CollectionItems();
 
-        public IEnumerable<T> All()
-        {
-            return CollectionItems().AsEnumerable<T>();
-        }
-
-        public virtual T FindById(ObjectId id)
-        {
-            return collection.FindOneByIdAs<T>(id);
-        }
-
-        public virtual T Add(T collectionItem)
-        {
-            collection.Insert<T>(collectionItem);
-            Sync(new SyncEventArgs<IEntity>("save", collectionItem));
-            return collectionItem;
-        }
-
-        //Ta bort?
-        public virtual void Remove(T collectionItem)
-        {
-            collection.Remove(Query<T>.Where(t => t.Id == collectionItem.Id));
-            Sync(new SyncEventArgs<IEntity>("remove", collectionItem));
-        }
-
         public virtual void Remove(ObjectId collectionId)
         {
             var collectionItem = FindById(collectionId);
-            collection.Remove(Query<T>.Where(t => t.Id == collectionItem.Id));
+            Collection.Remove(Query<T>.Where(t => t.Id == collectionItem.Id));
             Sync(new SyncEventArgs<IEntity>("remove", collectionItem));
         }
 
-        public virtual T Update(T collectionItem)
-        {
-            collection.FindAndModify(new FindAndModifyArgs
-            {
-                Query = Query<T>.Where(e => e.Id == collectionItem.Id),
-                Update = Update<T>.Replace(collectionItem)
-            });
-            Sync(new SyncEventArgs<IEntity>("save", collectionItem));
-            return collectionItem;
-        }
         private string GetMongoDbConnectionString()
         {
             return ConfigurationManager.AppSettings.Get("MONGOLAB_URI") ??
-                ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString;
+                   ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString;
         }
     }
 }

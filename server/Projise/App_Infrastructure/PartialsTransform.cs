@@ -1,19 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Web;
 using System.Web.Optimization;
 
 namespace Projise.App_Infrastructure
 {
-
     //Based on http://www.scottlogic.com/blog/2014/08/18/asp-angular-optimisation.html
     public class PartialsTransform : IBundleTransform
     {
         private readonly string _moduleName;
+
         public PartialsTransform(string moduleName)
         {
             _moduleName = moduleName;
@@ -47,7 +43,7 @@ namespace Projise.App_Infrastructure
             }
             strBundleResponse.Append(@"}]);");
 
-            response.Files = new BundleFile[] { };
+            response.Files = new BundleFile[] {};
             response.Content = strBundleResponse.ToString();
             response.ContentType = "text/javascript";
         }
@@ -56,7 +52,7 @@ namespace Projise.App_Infrastructure
     public class PartialsBundle : Bundle
     {
         public PartialsBundle(string moduleName, string virtualPath)
-            : base(virtualPath, new[] { new PartialsTransform(moduleName) })
+            : base(virtualPath, new PartialsTransform(moduleName))
         {
         }
     }
