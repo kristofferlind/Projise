@@ -2,6 +2,7 @@
 
 // var server = 'http://projise.apphb.com',
 var server = 'http://localhost:48272',
+// var server = 'http://192.168.56.101',
     api = server + '/api';
 
 var config = {
