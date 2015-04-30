@@ -15,8 +15,8 @@ namespace Projise.DomainModel.Repositories
 
         public UserRepository()
         {
-            var client = new MongoClient(ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString);
-            Database = client.GetServer().GetDatabase("NETProjise");
+            var client = new MongoClient(GetMongoDbConnectionString());
+            Database = client.GetServer().GetDatabase(ConfigurationManager.AppSettings.Get("mongoDatabaseName"));
             Collection = Database.GetCollection<User>("users");
         }
 
@@ -57,6 +57,12 @@ namespace Projise.DomainModel.Repositories
         public User FindByEmail(string email) //internal?
         {
             return Collection.FindAs<User>(Query<User>.Where(u => u.Email == email)).SingleOrDefault();
+        }
+
+        private string GetMongoDbConnectionString()
+        {
+            return ConfigurationManager.AppSettings.Get("MONGOLAB_URI") ??
+                   ConfigurationManager.ConnectionStrings["Mongo"].ConnectionString;
         }
     }
 }
