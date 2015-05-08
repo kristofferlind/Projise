@@ -42,6 +42,7 @@ var APIService = {
     login: function(username, password, callback) {
         //endpoint doesn't support json, need to do a form post
         request.post(APIEndpoints.LOGIN)
+            .set('Accept', 'application/json')
             .type('form')
             .send({grant_type: 'password'})
             .send({username: username})
@@ -58,6 +59,7 @@ var APIService = {
     //TODO: make this a common post
     register: function(email, password, confirmPassword, callback) {
         request.post(APIEndpoints.REGISTER)
+            .set('Accept', 'application/json')
             .send({Email: email, Password: password, ConfirmPassword: confirmPassword})
             .end(function(error, response) {
                 if (error || response.error) {
@@ -70,6 +72,7 @@ var APIService = {
     },
     getCurrentUser: function(callback) {
         request.get(APIEndpoints.ME)
+            .set('Accept', 'application/json')
             .set('Authorization', 'Bearer ' + TokenService.getToken())
             .end(function(error, response) {
                 if (error || response.error) {
@@ -82,6 +85,7 @@ var APIService = {
     //Common requests
     get: function(url, callback) {
         request.get(url)
+            .set('Accept', 'application/json')
             .set('Authorization', 'Bearer ' + TokenService.getToken())
             .end(function(error, response) {
                 if (error || response.error) {
@@ -93,6 +97,7 @@ var APIService = {
     },
     post: function(url, item, callback) {
         request.post(url)
+            .set('Accept', 'application/json')
             .send(item)
             .set('Authorization', 'Bearer ' + TokenService.getToken())
             .end(function(error, response) {
@@ -105,6 +110,7 @@ var APIService = {
     },
     put: function(url, item, callback) {
         request.put(url)
+            .set('Accept', 'application/json')
             .send(item)
             .set('Authorization', 'Bearer ' + TokenService.getToken())
             .end(function(error, response) {
@@ -117,6 +123,7 @@ var APIService = {
     },
     delete: function(url, item, callback) {
         request.del(url)
+            .set('Accept', 'application/json')
             .send(item)
             .set('Authorization', 'Bearer ' + TokenService.getToken())
             .end(function(error, response) {
