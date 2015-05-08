@@ -16,14 +16,14 @@ namespace Projise.Controllers
         public UsersController()
         {
             _userRepository = new UserRepository();
-            _userRepository.OnChange += userRepository_OnChange;
+            //_userRepository.OnChange += userRepository_OnChange;
         }
 
-        private void userRepository_OnChange(object sender, SyncEventArgs<UserWithSessionVars> e)
-        {
-            GlobalHost.ConnectionManager.GetHubContext<ProjectHub>().Clients.All.onChange(e.Operation, "user", e.Item);
-            //type will be wrong here, setting manually to "user"
-        }
+        //private void userRepository_OnChange(object sender, SyncEventArgs<UserWithSessionVars> e)
+        //{
+        //    GlobalHost.ConnectionManager.GetHubContext<ProjectHub>().Clients.All.onChange(e.Operation, "user", e.Item);
+        //    //type will be wrong here, setting manually to "user"
+        //}
 
         [Route("api/users/me"), HttpGet]
         public UserWithSessionVars Me()

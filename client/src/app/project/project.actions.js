@@ -2,7 +2,8 @@
 
 var AppDispatcher = require('../app-dispatcher'),
     config = require('./project.config'),
-    Actions = config.Actions;
+    Actions = config.Actions,
+    UserActions = require('../../config/config').Actions;
 
 var dispatch = function(eventName, data) {
     AppDispatcher.dispatch({
@@ -24,8 +25,8 @@ var ProjectActions = {
     deleted: function(project) {
         dispatch(Actions.PROJECT_REMOVED, project);
     },
-    activated: function(project) {
-        dispatch(Actions.PROJECT_ACTIVATED, project);
+    activated: function(user) {
+        dispatch(UserActions.USER_SAVED, user);
     },
     invitedUser: function(project) {
         dispatch(Actions.PROJECT_SAVED, project);
