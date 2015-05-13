@@ -63,6 +63,10 @@ var setTeams = function(teams) {
     if (!teams) {
         return;
     }
+
+    //Clear to make sure no old stuff stays
+    _teams = [];
+
     teams.forEach(function(team) {
         _teams[team._id] = team;
     });

@@ -108,6 +108,10 @@ var setSprints = function(sprints) {
     if (!sprints) {
         return;
     }
+
+    //Clear to make sure no old stuff stays
+    _sprints = [];
+
     sprints.forEach(function(sprint) {
         _sprints[sprint._id] = sprint;
     });

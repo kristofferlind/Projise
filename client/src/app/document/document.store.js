@@ -72,6 +72,10 @@ var setDocuments = function(documents) {
     if (!documents) {
         return;
     }
+
+    //Clear to make sure no old stuff stays
+    _documents = [];
+
     documents.forEach(function(document) {
         _documents[document._id] = document;
     });

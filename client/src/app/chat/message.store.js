@@ -59,6 +59,10 @@ var setMessages = function(messages) {
     if (!messages) {
         return;
     }
+
+    //Clear to make sure no old stuff stays
+    _messages = [];
+
     messages.forEach(function(message) {
         _messages[message._id] = message;
     });

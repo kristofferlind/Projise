@@ -80,6 +80,10 @@ var setStories = function(stories) {
     if (!stories) {
         return;
     }
+
+    //Clear to make sure no old stuff stays
+    _stories = [];
+
     stories.forEach(function(story) {
         _stories[story._id] = story;
     });

@@ -70,6 +70,10 @@ var setProjects = function(projects) {
     if (!projects) {
         return;
     }
+
+    //Clear to make sure no old stuff stays
+    _projects = [];
+
     projects.forEach(function(project) {
         _projects[project._id] = project;
     });
