@@ -6,10 +6,16 @@ module.exports = function (config) {
         frameworks: ['jasmine'],
         files: [
             'test/helpers/**/*.js',
-            'test/spec/components/**/*.js'
+            'src/app/**/*.spec.js',
+            'src/app/*.spec.js',
+            'src/components/**/*.spec.js',
+            'src/components/*.spec.js'
         ],
         preprocessors: {
-            'test/spec/components/**/*.js': ['webpack']
+            'src/app/**/*.spec.js': ['webpack'],
+            'src/app/*.spec.js': ['webpack'],
+            'src/components/**/*.spec.js': ['webpack'],
+            'src/components/*.spec.js': ['webpack']
         },
         webpack: {
             cache: true,
@@ -32,6 +38,12 @@ module.exports = function (config) {
                 }, {
                     test: /\.css$/,
                     loader: 'style-loader!css-loader'
+                }],
+                postLoaders: [{
+                    test: /\.js$/,
+                    // exclude: /(test|node_modules|bower_components){0,1}\/(spec.js){0,1}$/,
+                    exclude: /(test|node_modules|bower_components|spec.js)/,
+                    loader: 'istanbul-instrumenter'
                 }]
             },
             resolve: {
@@ -44,13 +56,14 @@ module.exports = function (config) {
         webpackServer: {
             stats: {
                 colors: true
-            }
+            },
+            quiet: true
         },
         exclude: [],
         port: 8080,
         logLevel: config.LOG_INFO,
         colors: true,
-        autoWatch: false,
+        autoWatch: true,
         // Start these browsers, currently available:
         // - Chrome
         // - ChromeCanary
@@ -60,8 +73,8 @@ module.exports = function (config) {
         // - PhantomJS
         // - IE (only Windows)
         browsers: ['PhantomJS'],
-        reporters: ['progress'],
+        reporters: ['progress', 'html', 'coverage'],
         captureTimeout: 60000,
-        singleRun: true
+        singleRun: false
     });
 };

@@ -23,3 +23,10 @@ It's also possible to use an online backend, switch in client/config/config.js
 
 ###ModalTrigger
 custom-ModalTrigger is a bugfix for react-bootstrap, will fork and use an own repo if it's not resolved. For now this change has to be done manually.
+
+
+##Testing and reports
+`karma start` starts testrunner
+Testrunner generates coverage report in client/coverage and test report in client/karma_html
+
+*.spec.js <-tests
