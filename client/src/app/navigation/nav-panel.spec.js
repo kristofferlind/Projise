@@ -1,7 +1,7 @@
 'use strict';
 
-describe('Component: userInvite', function () {
-    var UserInvite, component,
+describe('Component: navPanel', function () {
+    var navPanel, component,
         React = require('react/addons'),
         TestUtils = React.addons.TestUtils;
 
@@ -11,19 +11,19 @@ describe('Component: userInvite', function () {
         container.id = 'content';
         document.body.appendChild(container);
 
-        UserInvite = require('./user-invite.js');
-        component = React.createElement(UserInvite);
+        navPanel = require('./nav-panel.js');
+        component = React.createElement(navPanel);
     });
 
-    it('should create a new instance of <userInvite />', function () {
+    it('should create a new instance of <navPanel />', function () {
         expect(component).toBeDefined();
     });
+
 
     it('should render without crashing', function() {
         TestUtils.renderIntoDocument(component);
     });
 
-    it('should invite user on submit');
-    it('should invite user on button click');
-    it('should be disabled if field is empty or invalid');
+    it('should be marked active when open');
+    it('should not be marked active when closed');
 });

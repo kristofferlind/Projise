@@ -13,7 +13,7 @@ var DocumentEditor = React.createClass({
     },
     handleEdit: function() {
         var document = this.props.document;
-        document.data = this.refs.document.getDOMNode().value; //React.findDOMNode(this.refs.documentData).value;
+        document.data = this.refs.document.getDOMNode().value;
         DocumentInteractions.update(this.props.document);
     },
     render: function() {

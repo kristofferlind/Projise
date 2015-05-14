@@ -6,12 +6,14 @@ module.exports = function (config) {
         frameworks: ['jasmine'],
         files: [
             'test/helpers/**/*.js',
+            'src/vendor/*.js',
             'src/app/**/*.spec.js',
             'src/app/*.spec.js',
             'src/components/**/*.spec.js',
             'src/components/*.spec.js'
         ],
         preprocessors: {
+            'test/helpers/router-stub.js': ['webpack'],
             'src/app/**/*.spec.js': ['webpack'],
             'src/app/*.spec.js': ['webpack'],
             'src/components/**/*.spec.js': ['webpack'],
@@ -41,8 +43,7 @@ module.exports = function (config) {
                 }],
                 postLoaders: [{
                     test: /\.js$/,
-                    // exclude: /(test|node_modules|bower_components){0,1}\/(spec.js){0,1}$/,
-                    exclude: /(test|node_modules|bower_components|spec.js)/,
+                    exclude: /(test|node_modules|bower_components|spec.js|stub.js)/,
                     loader: 'istanbul-instrumenter'
                 }]
             },

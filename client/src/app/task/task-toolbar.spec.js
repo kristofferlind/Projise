@@ -1,7 +1,7 @@
 'use strict';
 
-describe('Component: userInvite', function () {
-    var UserInvite, component,
+describe('Component: taskToolbar', function () {
+    var taskToolbar, component,
         React = require('react/addons'),
         TestUtils = React.addons.TestUtils;
 
@@ -11,11 +11,11 @@ describe('Component: userInvite', function () {
         container.id = 'content';
         document.body.appendChild(container);
 
-        UserInvite = require('./user-invite.js');
-        component = React.createElement(UserInvite);
+        taskToolbar = require('./task-toolbar.js');
+        component = React.createElement(taskToolbar);
     });
 
-    it('should create a new instance of <userInvite />', function () {
+    it('should create a new instance of <taskToolbar />', function () {
         expect(component).toBeDefined();
     });
 
@@ -23,7 +23,7 @@ describe('Component: userInvite', function () {
         TestUtils.renderIntoDocument(component);
     });
 
-    it('should invite user on submit');
-    it('should invite user on button click');
-    it('should be disabled if field is empty or invalid');
+    it('should disable submit when field is empty');
+    it('should disable submit when field is invalid');
+    it('should add task to story on submit');
 });

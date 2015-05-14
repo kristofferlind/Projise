@@ -1,7 +1,7 @@
 'use strict';
 
-describe('Component: userInvite', function () {
-    var UserInvite, component,
+describe('Component: notification', function () {
+    var notification, component,
         React = require('react/addons'),
         TestUtils = React.addons.TestUtils;
 
@@ -11,11 +11,11 @@ describe('Component: userInvite', function () {
         container.id = 'content';
         document.body.appendChild(container);
 
-        UserInvite = require('./user-invite.js');
-        component = React.createElement(UserInvite);
+        notification = require('./notification.js');
+        component = React.createElement(notification, {notification: {type: 'success', text: 'test'}});
     });
 
-    it('should create a new instance of <userInvite />', function () {
+    it('should create a new instance of <notification />', function () {
         expect(component).toBeDefined();
     });
 
@@ -23,7 +23,5 @@ describe('Component: userInvite', function () {
         TestUtils.renderIntoDocument(component);
     });
 
-    it('should invite user on submit');
-    it('should invite user on button click');
-    it('should be disabled if field is empty or invalid');
+    it('should remove notification on dismiss');
 });

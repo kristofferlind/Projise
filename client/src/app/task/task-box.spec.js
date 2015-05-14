@@ -1,7 +1,7 @@
 'use strict';
 
-describe('Component: userInvite', function () {
-    var UserInvite, component,
+describe('Component: taskBox', function () {
+    var taskBox, component,
         React = require('react/addons'),
         TestUtils = React.addons.TestUtils;
 
@@ -11,19 +11,15 @@ describe('Component: userInvite', function () {
         container.id = 'content';
         document.body.appendChild(container);
 
-        UserInvite = require('./user-invite.js');
-        component = React.createElement(UserInvite);
+        taskBox = require('./task-box.js');
+        component = React.createElement(taskBox);
     });
 
-    it('should create a new instance of <userInvite />', function () {
+    it('should create a new instance of <taskBox />', function () {
         expect(component).toBeDefined();
     });
 
     it('should render without crashing', function() {
         TestUtils.renderIntoDocument(component);
     });
-
-    it('should invite user on submit');
-    it('should invite user on button click');
-    it('should be disabled if field is empty or invalid');
 });

@@ -1,9 +1,16 @@
 'use strict';
 
-describe('Component: userInvite', function () {
-    var UserInvite, component,
+describe('Component: manageTeamTable', function () {
+    var manageTeamTable, component,
         React = require('react/addons'),
         TestUtils = React.addons.TestUtils;
+
+    var testTeam = {
+        name: 'name',
+        description: 'description',
+    };
+
+    var testTeams = [testTeam, testTeam];
 
     beforeEach(function () {
         var container = document.createElement('div');
@@ -11,19 +18,15 @@ describe('Component: userInvite', function () {
         container.id = 'content';
         document.body.appendChild(container);
 
-        UserInvite = require('./user-invite.js');
-        component = React.createElement(UserInvite);
+        manageTeamTable = require('./manage-team-table.js');
+        component = React.createElement(manageTeamTable, {teams: testTeams});
     });
 
-    it('should create a new instance of <userInvite />', function () {
+    it('should create a new instance of <manageTeamTable />', function () {
         expect(component).toBeDefined();
     });
 
     it('should render without crashing', function() {
         TestUtils.renderIntoDocument(component);
     });
-
-    it('should invite user on submit');
-    it('should invite user on button click');
-    it('should be disabled if field is empty or invalid');
 });

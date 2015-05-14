@@ -1,7 +1,7 @@
 'use strict';
 
-describe('Component: userInvite', function () {
-    var UserInvite, component,
+describe('Component: sprintToolbar', function () {
+    var sprintToolbar, component,
         React = require('react/addons'),
         TestUtils = React.addons.TestUtils;
 
@@ -11,11 +11,11 @@ describe('Component: userInvite', function () {
         container.id = 'content';
         document.body.appendChild(container);
 
-        UserInvite = require('./user-invite.js');
-        component = React.createElement(UserInvite);
+        sprintToolbar = require('./sprint-toolbar.js');
+        component = React.createElement(sprintToolbar);
     });
 
-    it('should create a new instance of <userInvite />', function () {
+    it('should create a new instance of <sprintToolbar />', function () {
         expect(component).toBeDefined();
     });
 
@@ -23,7 +23,5 @@ describe('Component: userInvite', function () {
         TestUtils.renderIntoDocument(component);
     });
 
-    it('should invite user on submit');
-    it('should invite user on button click');
-    it('should be disabled if field is empty or invalid');
+    it('should open create sprint modal on create');
 });

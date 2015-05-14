@@ -49,8 +49,6 @@ var PlanProjectPage = React.createClass({
                 <div className="row">
                     <div className="col-md-4">
                         <h2>Sprints</h2>
-                        {/*<SprintToolbar />
-                        <SprintList sprints={sprints} />*/}
                         <SprintBox sprints={sprints} />
                     </div>
                     <div className="col-md-4">

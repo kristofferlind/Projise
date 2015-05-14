@@ -8,7 +8,6 @@ var DocumentTable = React.createClass({
     render: function() {
         var component = this;
         var documents = this.props.documents.map(function(document) {
-            // var isActiveDocument = component.props.activeDocument === document;
             return (
                 <DocumentRow key={document._id} document={document} />
             );
