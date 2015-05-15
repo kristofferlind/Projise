@@ -1,0 +1,15 @@
+.toolbar {
+    position: relative;
+    display: table;
+    width: 100%;
+    margin-bottom: 15px;
+}
+
+.toolbar div {
+    display: table-cell;
+    width: 50%;
+}
+
+.toolbar div:nth-child(2) {
+    text-align: right;
+}

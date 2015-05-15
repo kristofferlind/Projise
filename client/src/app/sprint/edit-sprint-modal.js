@@ -31,7 +31,7 @@ var EditSprintModal = React.createClass({
                         <Input type="textarea" placeholder="Goal" defaultValue={sprint.goal} ref="goal" label="Goal" />
                         <Input type="date" ref="start" label="Start" defaultValue={start} />
                         <Input type="date" ref="end" label="End" defaultValue={end} />
-                        <Input type="submit" value="Edit" />
+                        <Input type="submit" value="Edit" className="btn-primary" />
                     </form>
                 </div>
             </Modal>

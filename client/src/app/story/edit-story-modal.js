@@ -29,7 +29,7 @@ var EditStoryModal = React.createClass({
                         <Input type="textarea" defaultValue={story.description} placeholder="Description" ref="description" label="Description" />
                         <Input type="range" defaultValue={story.points} min="1" max="100" ref="points" label="Points" />
                         <Input type="range" defaultValue={story.priority} min="1" max="100" ref="priority" label="Priority" />
-                        <Input type="submit" value="Edit" />
+                        <Input type="submit" value="Edit" className="btn-primary" />
                     </form>
                 </div>
             </Modal>

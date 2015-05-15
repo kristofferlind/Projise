@@ -50,3 +50,25 @@
     border-left: 1px dashed #000;
     border-right: 1px dashed #000;
 }
+
+
+/*bg-<status> from bootstrap */
+.story-filter-buttons button.completed {
+    background-color: #dff0d8;
+}
+
+.story-filter-buttons button.in-progress {
+    background-color: #d9edf7;
+}
+
+.story-filter-buttons button.not-started {
+    background-color: #f2dede;
+}
+
+button.show-all {
+    background-color: #fff;
+}
+
+.story-filter-buttons button.active, .story-filter-buttons button:active {
+    box-shadow: inset 0 3px 5px rgba(0,0,0,.250);
+}

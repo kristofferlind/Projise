@@ -26,7 +26,7 @@ var EditProjectModal = React.createClass({
                     <form onSubmit={this.updateProject}>
                         <Input type="text" placeholder="Name" defaultValue={project.name} ref="name" label="Name" autoFocus />
                         <Input type="textarea" placeholder="Description" defaultValue={project.description} ref="description" label="Description" />
-                        <Input type="submit" value="Edit" />
+                        <Input type="submit" value="Edit" className="btn-primary" />
                     </form>
                 </div>
             </Modal>

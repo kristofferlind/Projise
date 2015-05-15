@@ -52,7 +52,8 @@ module.exports = function (config) {
                     'styles': './src/styles',
                     'components': './src/scripts/components/'
                 }
-            }
+            },
+            watch: true
         },
         webpackServer: {
             stats: {

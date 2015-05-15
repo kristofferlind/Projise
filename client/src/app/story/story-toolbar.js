@@ -78,28 +78,29 @@ var StoryToolbar = React.createClass({
                     <Input type='text' onChange={this.filterText} value={this.props.filterText} placeholder='Search for..' ref="filter" />
                 </div>
                 <div>
-                    <ButtonGroup>
+                    <ButtonGroup className='story-filter-buttons'>
                         <OverlayTrigger placement='top' overlay={<Tooltip>Toggle completed</Tooltip>}>
-                            <Button bsSize='small' active={isActive('completed')} onClick={this.showCompleted} bsStyle="success">
+                            <Button bsSize='small' active={isActive('completed')} onClick={this.showCompleted} className='completed'>
                                 <i className="fa fa-check"></i>
                             </Button>
                         </OverlayTrigger>
                         <OverlayTrigger placement='top' overlay={<Tooltip>Toggle in progress</Tooltip>}>
-                            <Button bsSize='small' active={isActive('inProgress')} onClick={this.showInProgress} bsStyle="info">
+                            <Button bsSize='small' active={isActive('inProgress')} onClick={this.showInProgress} className='in-progress'>
                                 <i className="fa fa-cogs"></i>
                             </Button>
                         </OverlayTrigger>
                         <OverlayTrigger placement='top' overlay={<Tooltip>Toggle not started</Tooltip>}>
-                            <Button bsSize='small' active={isActive('notStarted')} onClick={this.showNotStarted} bsStyle="danger">
+                            <Button bsSize='small' active={isActive('notStarted')} onClick={this.showNotStarted} className='not-started'>
                                 <i className="fa fa-ban"></i>
                             </Button>
                         </OverlayTrigger>
-                        <OverlayTrigger placement='top' overlay={<Tooltip>Show all</Tooltip>}>
-                           <Button bsSize='small' onClick={this.showAll} bsStyle="primary">
-                                <i className="fa fa-asterisk"></i>
-                            </Button>
-                        </OverlayTrigger>
                     </ButtonGroup>
+                    &nbsp;
+                    <OverlayTrigger placement='top' overlay={<Tooltip>Show all</Tooltip>}>
+                       <Button bsSize='small' onClick={this.showAll} className='show-all'>
+                            <i className="fa fa-asterisk"></i>
+                        </Button>
+                    </OverlayTrigger>
                 </div>
                 {showCreate()}
             </div>

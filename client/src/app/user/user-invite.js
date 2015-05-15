@@ -11,17 +11,14 @@ var UserInvite = React.createClass({
         this.props.invite(email);
     },
     render: function() {
+        var inviteButton = (
+            <Button onClick={this.handleInvite} bsStyle="primary">
+                Invite
+            </Button>
+        );
+
         return (
-            <div className="row">
-                <div className="col-md-9">
-                    <Input type="email" placeholder="test@test.com" ref="email" />
-                </div>
-                <div className="col-md-3">
-                    <Button onClick={this.handleInvite} bsStyle="success">
-                        <Glyphicon glyph="plus" /> Invite
-                    </Button>
-                </div>
-            </div>
+            <Input type="email" placeholder="test@test.com" ref="email" buttonAfter={inviteButton} />
         );
     }
 });

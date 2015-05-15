@@ -23,7 +23,7 @@ var CreateDocumentModal = React.createClass({
                     <form onSubmit={this.createDocument}>
                         <Input type="text" placeholder="Name" ref="name" label="Name" autoFocus />
                         <Input type="textarea" placeholder="Description" ref="description" label="Description" />
-                        <Input type="submit" value="Create" />
+                        <Input type="submit" value="Create" className="btn-primary" />
                     </form>
                 </div>
             </Modal>

@@ -28,7 +28,7 @@ var CreateStoryModal = React.createClass({
                         <Input type="textarea" placeholder="Description" ref="description" label="Description" />
                         <Input type="range" defaultValue="5" min="1" max="100" ref="points" label="Points" />
                         <Input type="range" defaultValue="5" min="1" max="100" ref="priority" label="Priority" />
-                        <Input type="submit" value="Create" />
+                        <Input type="submit" value="Create" className="btn-primary" />
                     </form>
                 </div>
             </Modal>

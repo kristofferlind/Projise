@@ -7,6 +7,8 @@ var React = require('react/addons'),
     OverlayMixin = require('react-bootstrap').OverlayMixin,
     CreateProjectModal = require('./create-project-modal');
 
+require('./project.scss');
+
 var ProjectToolbar = React.createClass({
     mixins: [OverlayMixin],
     getInitialState: function() {
@@ -29,11 +31,11 @@ var ProjectToolbar = React.createClass({
     },
     render: function() {
         return (
-            <div className="row">
-                <div className="col-md-9">
+            <div className="toolbar">
+                <div>
                     <Input onChange={this.filter} value={this.props.filterText} ref='filter' type="text" placeholder="Search for.." />
                 </div>
-                <div className="col-md-3">
+                <div>
                     <Button onClick={this.handleCreate} bsStyle="success">
                         <Glyphicon glyph="plus" /> Create
                     </Button>

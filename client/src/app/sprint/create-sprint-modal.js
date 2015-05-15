@@ -27,7 +27,7 @@ var CreateSprintModal = React.createClass({
                         <Input type="textarea" placeholder="Goal" ref="goal" label="Goal" />
                         <Input type="date" ref="start" label="Start" />
                         <Input type="date" ref="end" label="End" />
-                        <Input type="submit" value="Create" />
+                        <Input type="submit" value="Create" className="btn-primary" />
                     </form>
                 </div>
             </Modal>

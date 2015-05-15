@@ -26,7 +26,7 @@ var EditTeamModal = React.createClass({
                     <form onSubmit={this.updateTeam}>
                         <Input type="text" placeholder="Name" defaultValue={team.name} ref="name" label="Name" autoFocus />
                         <Input type="textarea" placeholder="Description" defaultValue={team.description} ref="description" label="Description" />
-                        <Input type="submit" value="Edit" />
+                        <Input type="submit" value="Edit" className="btn-primary" />
                     </form>
                 </div>
             </Modal>

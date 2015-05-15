@@ -23,19 +23,15 @@ var TaskToolbar = React.createClass({
         this.refs.task.getInputDOMNode().select();
     },
     render: function() {
+        var addTaskButton = (
+            <Button onClick={this.addTask} bsStyle="primary">
+                <Glyphicon glyph="plus" /> Add task
+            </Button>
+        );
         return (
-            <div className="row">
-                <form onSubmit={this.addTask} >
-                    <div className="col-md-9">
-                        <Input type="text" placeholder="Build unit tests" ref="task" />
-                    </div>
-                    <div className="col-md-3">
-                        <Button onClick={this.addTask} bsStyle="success">
-                            <Glyphicon glyph="plus" /> Add task
-                        </Button>
-                    </div>
-                </form>
-            </div>
+            <form onSubmit={this.addTask} >
+                <Input type="text" placeholder="Build unit tests" ref="task" buttonAfter={addTaskButton} />
+            </form>
         );
     }
 });
