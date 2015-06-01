@@ -2,7 +2,8 @@
 
 var AppDispatcher = require('../app-dispatcher'),
     config = require('./team.config'),
-    Actions = config.Actions;
+    Actions = config.Actions,
+    UserActions = require('../../config/config').Actions;
 
 var dispatch = function(eventName, data) {
     AppDispatcher.dispatch({
@@ -24,8 +25,8 @@ var TeamActions = {
     deleted: function(team) {
         dispatch(Actions.TEAM_REMOVED, team);
     },
-    activated: function(team) {
-        dispatch(Actions.TEAM_ACTIVATED, team);
+    activated: function(user) {
+        dispatch(UserActions.USER_SAVED, user);
     },
     invitedUser: function(team) {
         dispatch(Actions.TEAM_SAVED, team);
